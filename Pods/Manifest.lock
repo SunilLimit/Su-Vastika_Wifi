@@ -1,0 +1,74 @@
+PODS:
+  - Alamofire (4.9.1)
+  - AMPopTip (4.6.1)
+  - CocoaAsyncSocket (7.6.5)
+  - CocoaMQTT (2.0.2):
+    - CocoaMQTT/Core (= 2.0.2)
+  - CocoaMQTT/Core (2.0.2):
+    - CocoaAsyncSocket (~> 7.6.5)
+  - IQKeyboardManagerSwift (6.5.9)
+  - JTAppleCalendar (7.1.8)
+  - Kingfisher (5.13.4):
+    - Kingfisher/Core (= 5.13.4)
+  - Kingfisher/Core (5.13.4)
+  - ListPlaceholder (1.5)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
+  - RAMAnimatedTabBarController (5.1.0)
+  - SkeletonView (1.29.2)
+  - SkyFloatingLabelTextField (3.8.0)
+  - SwiftyJSON (5.0.1)
+  - SwipeMenuViewController (4.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - AMPopTip
+  - CocoaMQTT
+  - IQKeyboardManagerSwift
+  - JTAppleCalendar (~> 7.0)
+  - Kingfisher (~> 5.13.0)
+  - ListPlaceholder
+  - NVActivityIndicatorView (~> 4.8.0)
+  - RAMAnimatedTabBarController (~> 5.1.0)
+  - SkeletonView
+  - SkyFloatingLabelTextField (~> 3.8.0)
+  - SwiftyJSON
+  - SwipeMenuViewController
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AMPopTip
+    - CocoaAsyncSocket
+    - CocoaMQTT
+    - IQKeyboardManagerSwift
+    - JTAppleCalendar
+    - Kingfisher
+    - ListPlaceholder
+    - NVActivityIndicatorView
+    - RAMAnimatedTabBarController
+    - SkeletonView
+    - SkyFloatingLabelTextField
+    - SwiftyJSON
+    - SwipeMenuViewController
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AMPopTip: a9384bcc42013831dcce185d8687b0abf946496b
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  CocoaMQTT: 2cab338fe04820d1e32aa20809e4d141a4118f0a
+  IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
+  JTAppleCalendar: b7fb40852f5f319fe55c8ec3861f1de0edc99cc8
+  Kingfisher: d2279a7abece3c7f25a80cd2b7f363ca5cf3f44c
+  ListPlaceholder: 2d7950014852ee5613d636cf14fd1bb93419e330
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  RAMAnimatedTabBarController: b5c821298071fded801532216ad8a24394f89859
+  SkeletonView: 915a80ecc2b6421ab7ac0f0212321c0cc1406472
+  SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+  SwipeMenuViewController: 94fac81cc192d9f08f218fe4c0c853569b735e1f
+
+PODFILE CHECKSUM: 970c9e4d70ae06fdd4ccaec862d135dcf18742c6
+
+COCOAPODS: 1.11.3
