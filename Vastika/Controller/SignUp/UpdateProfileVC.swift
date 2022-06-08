@@ -12,17 +12,12 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
     @IBOutlet weak var scrlHeight: NSLayoutConstraint!
     @IBOutlet weak var scrlViewe: UIScrollView!
     @IBOutlet weak var txtFieldName: UITextField!
-    @IBOutlet weak var txtFieldEmail: UITextField!
-    @IBOutlet weak var txtFieldConfirmEmail: UITextField!
-    @IBOutlet weak var txtFieldPassword: UITextField!
-    @IBOutlet weak var txtFieldConfirmPass: UITextField!
     @IBOutlet weak var txtFieldCountry: UITextField!
     @IBOutlet weak var txtFIeldState: UITextField!
     @IBOutlet weak var txtFieldCity: UITextField!
     @IBOutlet weak var txtFieldMobile: UITextField!
     @IBOutlet weak var lblPrefix: UILabel!
     @IBOutlet weak var btnSkip: UIButton!
-    @IBOutlet weak var lblTitle: UILabel!
     
     @IBOutlet weak var btnSignUp: UIButton!
     @IBOutlet weak var bottomVie: UIView!
@@ -47,6 +42,7 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
         self.btnSignUp.clipsToBounds = true
         self.setupDelegate()
         self.setUpPicker()
+
         self.callServiceForCountry()
         if self.isFrom == "Mob"
         {
@@ -56,14 +52,12 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
             self.txtFieldMobile.text = mob!
             self.bottomVie.isHidden = true
             self.txtFieldMobile.isUserInteractionEnabled = false
-            self.lblTitle.text = "Update Profile"
             self.btnSignUp.setTitle("Update", for: .normal)
         }
         else
         {
             self.bottomVie.isHidden = false
             self.btnSkip.isHidden = true
-            self.lblTitle.text = "SIGN UP"
             self.btnSignUp.setTitle("SIGN UP", for: .normal)
 
         }
@@ -81,12 +75,8 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
         self.txtFieldCountry.delegate = self
         self.txtFIeldState.delegate = self
         self.txtFieldName.delegate = self
-        self.txtFieldEmail.delegate = self
-        self.txtFieldConfirmEmail.delegate = self
         self.txtFieldName.delegate = self
         self.txtFieldMobile.delegate = self
-        self.txtFieldPassword.delegate = self
-        self.txtFieldConfirmPass.delegate = self
     }
     
     // MARK:- Setup Picker ---------
@@ -209,89 +199,6 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
             self.present(alert, animated: true, completion: nil)
             return false
         }
-        else if (self.txtFieldEmail.text?.isEmpty ?? true)
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Please enter email-Id .", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if !self.isValidEmailId(emailId: self.txtFieldEmail.text!)
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Please enter valid email-Id .", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if (self.txtFieldConfirmEmail.text?.isEmpty ?? true)
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Please enter confirm email-Id .", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        
-        else if self.txtFieldEmail.text != self.txtFieldConfirmEmail.text
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Email and Confirm email address must be same.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if (self.txtFieldPassword.text?.isEmpty ?? true)
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Please enter password.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        
-        else if (self.txtFieldConfirmPass.text?.isEmpty ?? true)
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Please enter confirm password.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if self.txtFieldPassword.text != self.txtFieldConfirmPass.text
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Password and confirm password must be same.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if self.txtFieldPassword.text!.count < 8
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Password must be contain one small,one capital,one number and one special character. And also password must be contains 8 character long.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if !(self.txtFieldPassword.text?.isValidPassword())!
-        {
-            let alert = UIAlertController(title: webServices.AppName, message: "Password must be contain one small,one capital,one number and one special character. And also password must be contains 8 character long.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-               
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
         else if (self.txtFieldCountry.text?.isEmpty ?? true)
         {
             let alert = UIAlertController(title: webServices.AppName, message: "Please select country.", preferredStyle: UIAlertController.Style.alert)
@@ -357,10 +264,10 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
         if !self.checkValidation(){return}
         
         let dict = ["name"  : self.txtFieldName.text!,
-                           "email" : self.txtFieldEmail.text!,
-                           "confirm_email" : self.txtFieldEmail.text!,
-                            "password"      : self.txtFieldPassword.text!,
-                            "confirm_password" : self.txtFieldConfirmPass.text!,
+                           "email" : "",
+                           "confirm_email" : "",
+                            "password"      : "",
+                            "confirm_password" : "",
                            "country_id" : String(self.countryId),
                            "state_id" : String(self.stateId),
                            "city_id" : String(self.cityId),
@@ -435,7 +342,7 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if self.txtFieldName == textField || self.txtFieldEmail == textField || self.txtFieldConfirmEmail == textField
+        if self.txtFieldName == textField
         {
             let maxLength = 50
             let currentString: NSString = (textField.text ?? "") as NSString

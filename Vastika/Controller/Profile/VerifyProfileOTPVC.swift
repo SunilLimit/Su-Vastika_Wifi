@@ -1,5 +1,5 @@
 //
-//  ForgotPasswordOTPVC.swift
+//  VerifyProfileOTPVC.swift
 //  Vastika
 //
 //  Created by Sanjeev on 08/06/22.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class ForgotPasswordOTPVC: UIViewController {
-   
+class VerifyProfileOTPVC: UIViewController {
+    
     
     
     @IBOutlet weak var headingTitleLbl: UILabel!
@@ -19,6 +19,7 @@ class ForgotPasswordOTPVC: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var lblMsg: UILabel!
     var viewModel = RegisterViewModel()
+    
     var isOtpEntered:Bool = false
     var enteredOtp:String = ""
     var isOTPVerfiyType = "phone"
@@ -31,7 +32,7 @@ class ForgotPasswordOTPVC: UIViewController {
     @IBOutlet weak var innerView: UIView!
     private var timer:Timer?
     var isFrom = String()
-    
+    var updateStr = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +53,7 @@ class ForgotPasswordOTPVC: UIViewController {
         }
         else
         {
-            self.lblMsg.text = "Please type the verification code which sent to your Mobile Number or Email. \n In case of OTP is not recived , please check if you have entered the correct email ID or phone number while signing up."
+            self.lblMsg.text = "Please type the verification code which sent to your Email-Id. \n In case of OTP is not recived , please check if you have entered the correct email ID or phone number while signing up."
         }
 
     }
@@ -101,7 +102,6 @@ class ForgotPasswordOTPVC: UIViewController {
     }
     
     @IBAction func tapResendOTP(_ sender: Any) {
-        let param = ["token" : self.verifyKey]
    
         if !Reachability.isConnectedToNetwork()
         {
@@ -113,24 +113,25 @@ class ForgotPasswordOTPVC: UIViewController {
             return
         }
         
-        if self.isFrom == "mob"{
-            self.viewModel.callResendOTPForForgot(deetails: param as NSDictionary, viewController: self, isLoaderRequired: true) { status, msg in
-                if status == "Success"
-                {
-                    let alert = UIAlertController(title: webServices.AppName, message: msg, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                        self.resetTimer()
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
-                else
-                {
-                    let alert = UIAlertController(title: webServices.AppName, message: msg, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                       
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
+        let dict = ["update_type"  : self.verifyKey,
+                    "email_or_mobile_number" : self.email
+                    ]
+        self.viewModel.updateMobileAndEmailNumber(deetails: dict as NSDictionary, viewController: self, isLoaderRequired: true) { errorString, obj, email in
+            if errorString == "Success"
+            {
+                let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                  
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else
+            {
+                let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                   
+                }))
+                self.present(alert, animated: true, completion: nil)
             }
         }
         
@@ -148,15 +149,11 @@ class ForgotPasswordOTPVC: UIViewController {
                 return
             }
             
-                let param = ["token" : self.verifyKey,"otp": self.enteredOtp]
-                self.viewModel.verifyOTPForForgotPassword(deetails: param as NSDictionary, viewController: self, isLoaderRequired: true) { status, msg , token in
+        let param = ["update_type" : self.verifyKey,"email_or_mobile_number": self.email,"otp": self.enteredOtp]
+                self.viewModel.verifyOTPForVerifyProfile(deetails: param as NSDictionary, viewController: self, isLoaderRequired: true) { status, msg , token in
                     if status == "Success"
                     {
-                        // move to update password
-                        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "NewPasswordVC") as? NewPasswordVC{
-                            vcToPresent.token = token
-                            self.navigationController?.pushViewController(vcToPresent, animated: true)
-                        }
+                        self.navigationController?.popViewController(animated: true)
                     }
                     else
                     {
@@ -180,7 +177,7 @@ class ForgotPasswordOTPVC: UIViewController {
 
 
 
-extension ForgotPasswordOTPVC: VPMOTPViewDelegate {
+extension VerifyProfileOTPVC: VPMOTPViewDelegate {
     func hasEnteredAllOTP(hasEntered: Bool) -> Bool {
         print("Has entered all OTP? \(hasEntered)")
         self.isOtpEntered = hasEntered;

@@ -38,8 +38,10 @@ class loginViewModel{
                 let name = output["data"]["name"].stringValue
                 let token = output["data"]["token"].stringValue
                 let tokenType = output["data"]["token_type"].stringValue
+                let profileCreated = output["data"]["is_profile_created"].intValue
+
                 webServices.token = token
-                let dict = ["email":email,"countryId" : countryId,"cityId" : cityId,"stateId" : stateId,"mobile":mobile,"mobilprefix" : mobilePrefix,"date" : loginDate,"name" : name,"token" : token,"tokeenPrexfix" : tokenType] as [String : Any]
+                let dict = ["email":email,"countryId" : countryId,"cityId" : cityId,"stateId" : stateId,"mobile":mobile,"mobilprefix" : mobilePrefix,"date" : loginDate,"name" : name,"token" : token,"tokeenPrexfix" : tokenType,"created" : profileCreated] as [String : Any]
                 UserDefaults.standard.setValue(true, forKey: "isLogin")
                 UserDefaults.standard.setValue(dict, forKey: "user")
                 UserDefaults.standard.synchronize()

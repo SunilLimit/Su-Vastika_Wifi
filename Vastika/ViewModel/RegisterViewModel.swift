@@ -315,8 +315,10 @@ class RegisterViewModel: NSObject{
                 let name = output["data"]["name"].stringValue
                 let token = output["data"]["token"].stringValue
                 let tokenType = output["data"]["token_type"].stringValue
+                let profileCreated = output["data"]["is_profile_created"].intValue
+
                 webServices.token = token
-                let dict = ["email":email,"countryId" : countryId,"cityId" : cityId,"stateId" : stateId,"mobile":mobile,"mobilprefix" : mobilePrefix,"date" : loginDate,"name" : name,"token" : token,"tokeenPrexfix" : tokenType] as [String : Any]
+                let dict = ["email":email,"countryId" : countryId,"cityId" : cityId,"stateId" : stateId,"mobile":mobile,"mobilprefix" : mobilePrefix,"date" : loginDate,"name" : name,"token" : token,"tokeenPrexfix" : tokenType,"created" : profileCreated] as [String : Any]
                 UserDefaults.standard.setValue(true, forKey: "isLogin")
                 UserDefaults.standard.setValue(dict, forKey: "user")
                 UserDefaults.standard.synchronize()
@@ -354,6 +356,48 @@ class RegisterViewModel: NSObject{
         }
     }
     
+    func verifyOTPForVerifyProfile(deetails : NSDictionary ,viewController:UIViewController, isLoaderRequired:Bool ,completion: @escaping (_ errorString: String?,_ obj:String, _ email : String) -> Void) {
+        
+        let requestP = webServices.verifyProfileOTP
+        let paramT = deetails
+        if(isLoaderRequired){
+            loaderManager.sharedInstance.startLoading();
+        }
+        let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary
+        let token = dict?.object(forKey: "token") as? String
+        webServices.token = token!
+        
+        webServiceExecuter.sharedInstance.executeRequest(webServices.baseUrl+requestP, param: paramT as! [String : AnyObject], serviceType: "post", header: webServices.headers, withVC: viewController) { (res) in
+
+            if(isLoaderRequired){
+                loaderManager.sharedInstance.stopLoading();
+            }
+
+            let output = JSON(res);
+            print(output);
+            if(output["isError"].boolValue == false){
+                let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary
+                let mutDict = NSMutableDictionary()
+                let email = output["data"]["email"].stringValue
+                let mobile = output["data"]["mobile_number"].stringValue
+                
+                mutDict.addEntries(from: dict as! [AnyHashable : Any])
+                mutDict.setValue(email, forKey: "email")
+                mutDict.setValue(mobile, forKey: "mobile")
+                
+                UserDefaults.standard.setValue(mutDict, forKey: "user")
+                UserDefaults.standard.synchronize()
+                completion("Success", output["message"].stringValue,output["data"]["token"].stringValue)
+            }else{
+                print("error completion called");
+                completion(output["errorMessage"].stringValue,output["message"].stringValue,"");
+            }
+
+        }
+    }
+    
+    
+    
     func updateProfile(deetails : NSDictionary ,viewController:UIViewController, isLoaderRequired:Bool ,completion: @escaping (_ errorString: String?,_ obj:String, _ email : String) -> Void) {
         
         let requestP = webServices.updateProfile
@@ -384,6 +428,8 @@ class RegisterViewModel: NSObject{
                 let name = output["data"]["name"].stringValue
                 var token = output["data"]["token"].stringValue
                 let tokenType = output["data"]["token_type"].stringValue
+                let profileCreated = output["data"]["is_profile_created"].intValue
+
                 if token.count == 0
                 {
                     let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary
@@ -391,7 +437,7 @@ class RegisterViewModel: NSObject{
                 }
                 
                 webServices.token = token
-                let dict = ["email":email,"countryId" : countryId,"cityId" : cityId,"stateId" : stateId,"mobile":mobile,"mobilprefix" : mobilePrefix,"date" : loginDate,"name" : name,"token" : token,"tokeenPrexfix" : tokenType] as [String : Any]
+                let dict = ["email":email,"countryId" : countryId,"cityId" : cityId,"stateId" : stateId,"mobile":mobile,"mobilprefix" : mobilePrefix,"date" : loginDate,"name" : name,"token" : token,"tokeenPrexfix" : tokenType,"created" : profileCreated] as [String : Any]
                 UserDefaults.standard.setValue(true, forKey: "isLogin")
                 UserDefaults.standard.setValue(dict, forKey: "user")
                 UserDefaults.standard.synchronize()

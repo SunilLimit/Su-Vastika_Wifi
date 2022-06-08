@@ -49,7 +49,8 @@ class webServices{
     static let newPassword = "api/consumer/reset-password"
     static let updatedRegister = "api/consumer/signup"
     static let updateEmailAndMobil = "api/consumer/email-or-mobile-update-otp"
-    
+    static let verifyProfileOTP = "api/consumer/email-or-mobile-update-otp-verify"
+
     class var sharedInstance:webServices{
         struct sharedInstanceStruct{
             static let instance = webServices()

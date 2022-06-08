@@ -24,6 +24,7 @@
 		0484555428505417004D9A85 /* NewSignUPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484555328505417004D9A85 /* NewSignUPVC.swift */; };
 		04845556285062E8004D9A85 /* ForgotPasswordOTPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04845555285062E8004D9A85 /* ForgotPasswordOTPVC.swift */; };
 		0484555828506A84004D9A85 /* NewPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484555728506A84004D9A85 /* NewPasswordVC.swift */; };
+		0484555A285085DC004D9A85 /* VerifyProfileOTPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04845559285085DC004D9A85 /* VerifyProfileOTPVC.swift */; };
 		049AD17626F0B00300EC38F5 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD17526F0B00300EC38F5 /* SignUpVC.swift */; };
 		049AD17826F0B7C600EC38F5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD17726F0B7C600EC38F5 /* LoginViewModel.swift */; };
 		049AD17A26F0BA5A00EC38F5 /* Reeachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD17926F0BA5A00EC38F5 /* Reeachability.swift */; };
@@ -113,6 +114,7 @@
 		0484555328505417004D9A85 /* NewSignUPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignUPVC.swift; sourceTree = "<group>"; };
 		04845555285062E8004D9A85 /* ForgotPasswordOTPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordOTPVC.swift; sourceTree = "<group>"; };
 		0484555728506A84004D9A85 /* NewPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordVC.swift; sourceTree = "<group>"; };
+		04845559285085DC004D9A85 /* VerifyProfileOTPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyProfileOTPVC.swift; sourceTree = "<group>"; };
 		049AD17526F0B00300EC38F5 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		049AD17726F0B7C600EC38F5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		049AD17926F0BA5A00EC38F5 /* Reeachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reeachability.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				049AD19826F2141900EC38F5 /* ProfileVC.swift */,
+				04845559285085DC004D9A85 /* VerifyProfileOTPVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				04DE750C26EF6EB100956103 /* Messages.swift in Sources */,
 				04C78E162701819F0055E6EC /* CellThree.swift in Sources */,
 				049AD17C26F1C4E600EC38F5 /* RegisterViewModel.swift in Sources */,
+				0484555A285085DC004D9A85 /* VerifyProfileOTPVC.swift in Sources */,
 				04DE750626EF6EB100956103 /* GenericAlertView.swift in Sources */,
 				04DE750326EF6EB100956103 /* webServiceExecuter.swift in Sources */,
 				04DE750426EF6EB100956103 /* WebServices.swift in Sources */,

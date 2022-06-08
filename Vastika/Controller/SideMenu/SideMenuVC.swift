@@ -136,8 +136,8 @@ class SideMenuVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             break
         case "My Profile":
             let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary//setValue(dict, forKey: "user")
-            let email = dict?.object(forKey: "email") as? String
-            if email?.count == 0 || email == ""
+            let email = dict?.object(forKey: "created") as? Int
+            if email == 0
             {
                 if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "UpdateProfileVC") as? UpdateProfileVC{
                     vcToPresent.isFrom = "Mob"

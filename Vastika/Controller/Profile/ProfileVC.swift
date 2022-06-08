@@ -35,11 +35,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary
-        let name = dict?.object(forKey: "name") as? String
-        let email = dict?.object(forKey: "email") as? String
-        let mob = dict?.object(forKey: "mobile") as? String
-        let preix = dict?.object(forKey: "mobilprefix") as? String
+       
         self.setupDelegate()
         self.setUpPicker()
         self.detailsViewe.layer.cornerRadius = 5.0
@@ -47,36 +43,36 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
         self.detailsViewe.layer.borderColor = UIColor.gray.cgColor
         self.detailsViewe.clipsToBounds = true
         
-        if email?.count == 0
-        {
-            
-        }
-        else
-        {
-            let strDetails = "Name : " + name!
-//            strDetails = strDetails + "Email : " + email! + "\n"
-//            strDetails = strDetails + "Mobile Number : " + preix! + " " + mob!
-            let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary//setValue(dict, forKey: "user")
-            self.countryId = (dict?.object(forKey: "countryId") as? Int)!
-            self.stateId = (dict?.object(forKey: "stateId") as? Int)!
-            self.cityId = (dict?.object(forKey: "cityId") as? Int)!
-            self.lblDetails.text = strDetails
-            let emailDetails = "Email : " + email!
-            self.lblEmail.text = emailDetails
-            let mobile = "Mobile Number : " + preix! + " " + mob!
-            self.lblMob.text = mobile
-            self.callServiceForCountry()
-            self.callServiceForState()
-            self.callServiceForCity()
-            self.txtFieldName.text = name!
-            self.email = email!
-            self.mobile = mob!
-        }
-       
-
-        
        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary
+        let name = dict?.object(forKey: "name") as? String
+        let email = dict?.object(forKey: "email") as? String
+        let mob = dict?.object(forKey: "mobile") as? String
+        let preix = dict?.object(forKey: "mobilprefix") as? String
+        let strDetails = "Name : " + name!
+        self.countryId = (dict?.object(forKey: "countryId") as? Int)!
+        self.stateId = (dict?.object(forKey: "stateId") as? Int)!
+        self.cityId = (dict?.object(forKey: "cityId") as? Int)!
+        self.lblDetails.text = strDetails
+        let emailDetails = "Email : " + email!
+        self.lblEmail.text = emailDetails
+        let mobile = "Mobile Number : " + preix! + " " + mob!
+        self.lblMob.text = mobile
+        self.callServiceForCountry()
+        self.callServiceForState()
+        self.callServiceForCity()
+        self.txtFieldName.text = name!
+        self.email = email!
+        self.mobile = mob!
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+      
+        
     }
     
     @IBAction func tapClose(_ sender: Any) {
@@ -108,8 +104,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
         self.alertView.isHidden = false
         let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary
         let mob = dict?.object(forKey: "mobile") as? String
-        let preix = dict?.object(forKey: "mobilprefix") as? String
-        let mobile = "Mobile Number : " + preix! + " " + mob!
+        let mobile = mob!
         
         self.lblTitle.text = "Mobile"
         self.txtFieldDetails.delegate = self
@@ -123,7 +118,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     }
     
     @IBAction func tapUpdateDetails(_ sender: Any) {
-        if ((self.txtFieldDetails.text?.isNumeric) != nil)
+        if self.txtFieldDetails.text!.isNumeric
         {
             let mobCheck =  self.txtFieldDetails.text?.first
             if mobCheck == "0"
@@ -161,11 +156,12 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
             self.viewModel.updateMobileAndEmailNumber(deetails: dict as NSDictionary, viewController: self, isLoaderRequired: true) { errorString, obj, email in
                 if errorString == "Success"
                 {
-                    let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                       
-                    }))
-                    self.present(alert, animated: true, completion: nil)
+                    self.alertView.isHidden = true
+                    if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "VerifyProfileOTPVC") as? VerifyProfileOTPVC{
+                        vcToPresent.email = self.txtFieldDetails.text!
+                        vcToPresent.verifyKey = "mobile"
+                        self.navigationController?.pushViewController(vcToPresent, animated: true);
+                    }
                 }
                 else
                 {
@@ -214,11 +210,12 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
             self.viewModel.updateMobileAndEmailNumber(deetails: dict as NSDictionary, viewController: self, isLoaderRequired: true) { errorString, obj, email in
                 if errorString == "Success"
                 {
-                    let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                        
-                    }))
-                    self.present(alert, animated: true, completion: nil)
+                    self.alertView.isHidden = true
+                    if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "VerifyProfileOTPVC") as? VerifyProfileOTPVC{
+                        vcToPresent.email = self.txtFieldDetails.text!
+                        vcToPresent.verifyKey = "email"
+                        self.navigationController?.pushViewController(vcToPresent, animated: true);
+                    }
                 }
                 else
                 {
