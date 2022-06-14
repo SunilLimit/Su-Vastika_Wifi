@@ -30,7 +30,8 @@ class VerifyOTPViewController: UIViewController {
     @IBOutlet weak var innerView: UIView!
     private var timer:Timer?
     var isFrom = String()
-    
+    var mobViewModel = loginViewModel()
+    var phoneNo = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,7 +105,7 @@ class VerifyOTPViewController: UIViewController {
         if(isOTPVerfiyType=="phone"){
             if !Reachability.isConnectedToNetwork()
             {
-                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                    
                 }))
@@ -113,18 +114,22 @@ class VerifyOTPViewController: UIViewController {
             }
             
             if self.isFrom == "mob"{
-                self.viewModel.callResendOTP(deetails: param as NSDictionary, viewController: self, isLoaderRequired: true) { status, msg in
-                    if status == "Success"
+                
+                self.mobViewModel.reequestMobileLoginOTP(mob: self.phoneNo, viewController: self, isLoaderRequired: true) { errorString, obj, key in
+                    
+                    if errorString == "Success"
                     {
-                        let alert = UIAlertController(title: webServices.AppName, message: msg, preferredStyle: UIAlertController.Style.alert)
+                        let alert = UIAlertController(title: webServices.AppName, message: "OTP send successfully.", preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.verifyKey = key
                             self.resetTimer()
+                            
                         }))
                         self.present(alert, animated: true, completion: nil)
                     }
                     else
                     {
-                        let alert = UIAlertController(title: webServices.AppName, message: msg, preferredStyle: UIAlertController.Style.alert)
+                        let alert = UIAlertController(title: webServices.AppName, message: "Some issues occurred.", preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                            
                         }))
@@ -164,7 +169,7 @@ class VerifyOTPViewController: UIViewController {
         if(isOTPVerfiyType=="phone"){
             if !Reachability.isConnectedToNetwork()
             {
-                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                    
                 }))
@@ -177,7 +182,7 @@ class VerifyOTPViewController: UIViewController {
                 self.viewModel.registerUserVerifyMob(deetails: param as NSDictionary, viewController: self, isLoaderRequired: true) { status, msg , email in
                     if status == "Success"
                     {
-                        if email == "" || email.count == 0{
+                        if email != "1" {
                             if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "UpdateProfileVC") as? UpdateProfileVC{
                                 vcToPresent.isFrom = "Mob"
                                 self.navigationController?.pushViewController(vcToPresent, animated: true);

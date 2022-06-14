@@ -18,7 +18,7 @@ class webServices{
     
 /// Base Url
     static let productionUrlMysql = "http://52.66.155.48/portal/"
-   // static let productionUrlMysql =   "https://suvastika.staging.zoneonedigital.com/"
+    //static let productionUrlMysql =   "https://suvastika.staging.zoneonedigital.com/"
     static var baseUrl = webServices.productionUrlMysql;
 
     static let AppName = "Su-Vastika"

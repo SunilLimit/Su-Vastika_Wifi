@@ -54,7 +54,7 @@ class AddDeviceVC: UIViewController,UITextFieldDelegate {
     @IBAction func tapAdd(_ sender: Any) {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))

@@ -322,7 +322,7 @@ class RegisterViewModel: NSObject{
                 UserDefaults.standard.setValue(true, forKey: "isLogin")
                 UserDefaults.standard.setValue(dict, forKey: "user")
                 UserDefaults.standard.synchronize()
-                completion("Success", output["message"].stringValue,email)
+                completion("Success", output["message"].stringValue,String(profileCreated))
             }else{
                 print("error completion called");
                 completion(output["errorMessage"].stringValue,output["message"].stringValue,"");

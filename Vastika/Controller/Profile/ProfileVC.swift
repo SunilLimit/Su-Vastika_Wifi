@@ -21,6 +21,8 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     @IBOutlet weak var alertView: UIView!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var txtFieldDetails: UITextField!
+    @IBOutlet weak var lblemailHeight: NSLayoutConstraint!
+    @IBOutlet weak var btnemailHeight: NSLayoutConstraint!
     var pickerView = UIPickerView()
     var toolBar = UIToolbar()
     var arrayOfCountry = [Country]()
@@ -32,6 +34,9 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     var countryId : Int = 0
     var stateId : Int = 0
     var cityId : Int = 0
+    var changeFrom = String()
+    @IBOutlet weak var btnEmail: UIButton!
+    @IBOutlet weak var btnMob: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,12 +73,23 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
         self.txtFieldName.text = name!
         self.email = email!
         self.mobile = mob!
+        if (email!.isEmpty ?? true)
+        {
+            self.lblEmail.isHidden = true
+            self.btnEmail.isHidden = true
+            self.lblemailHeight.constant = 0
+            self.btnemailHeight.constant = 0
+        }
+        else if (mob!.isEmpty ?? true)
+        {
+            self.lblMob.isHidden = true
+            self.btnMob.isHidden = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-      
-        
     }
+    
     
     @IBAction func tapClose(_ sender: Any) {
         self.alertView.isHidden = true
@@ -97,7 +113,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
         self.txtFieldDetails.delegate = self
         self.txtFieldDetails.placeholder = "Enter email Id"
         self.txtFieldDetails.text = email
-        
+        self.changeFrom = "email"
     }
     
     @IBAction func tapEditMob(_ sender: Any) {
@@ -110,6 +126,8 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
         self.txtFieldDetails.delegate = self
         self.txtFieldDetails.placeholder = "Enter Mobile Number "
         self.txtFieldDetails.text = mobile
+        self.changeFrom = "mob"
+
     }
     
     
@@ -118,62 +136,8 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     }
     
     @IBAction func tapUpdateDetails(_ sender: Any) {
-        if self.txtFieldDetails.text!.isNumeric
-        {
-            let mobCheck =  self.txtFieldDetails.text?.first
-            if mobCheck == "0"
-            {
-                let alert = UIAlertController(title: webServices.AppName, message: "Mobile number does not started with 0 .", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                   
-                }))
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
-            else if !self.isValidMobileNumber(PhoneNumber: self.txtFieldDetails.text!)
-            {
-                let alert = UIAlertController(title: webServices.AppName, message: "Please enter valid Mobile Number.", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                   
-                }))
-                self.present(alert, animated: true, completion: nil)
-                return 
-            }
-            // call service
-            if !Reachability.isConnectedToNetwork()
-            {
-                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                   
-                }))
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
-            
-            let dict = ["update_type"  : "mobile",
-                        "email_or_mobile_number" : self.txtFieldDetails.text!
-                        ]
-            self.viewModel.updateMobileAndEmailNumber(deetails: dict as NSDictionary, viewController: self, isLoaderRequired: true) { errorString, obj, email in
-                if errorString == "Success"
-                {
-                    self.alertView.isHidden = true
-                    if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "VerifyProfileOTPVC") as? VerifyProfileOTPVC{
-                        vcToPresent.email = self.txtFieldDetails.text!
-                        vcToPresent.verifyKey = "mobile"
-                        self.navigationController?.pushViewController(vcToPresent, animated: true);
-                    }
-                }
-                else
-                {
-                    let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                       
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
-        }
-        else
+        
+        if self.changeFrom == "email"
         {
             if (self.txtFieldDetails.text?.isEmpty ?? true)
             {
@@ -196,7 +160,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
             // call service
             if !Reachability.isConnectedToNetwork()
             {
-                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                    
                 }))
@@ -226,10 +190,75 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
                     self.present(alert, animated: true, completion: nil)
                 }
             }
+        
         }
-        
-        
-        
+        else if self.changeFrom == "mob"
+        {
+            if (self.txtFieldDetails.text?.isEmpty ?? true)
+            {
+                let alert = UIAlertController(title: webServices.AppName, message: "Please enter mobile number.", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                   
+                }))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            else if self.txtFieldDetails.text!.isNumeric
+            {
+                let mobCheck =  self.txtFieldDetails.text?.first
+                if mobCheck == "0"
+                {
+                    let alert = UIAlertController(title: webServices.AppName, message: "Mobile number does not started with 0 .", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                       
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                else if !self.isValidMobileNumber(PhoneNumber: self.txtFieldDetails.text!)
+                {
+                    let alert = UIAlertController(title: webServices.AppName, message: "Please enter valid Mobile Number.", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                       
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                // call service
+                if !Reachability.isConnectedToNetwork()
+                {
+                    let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                       
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                let dict = ["update_type"  : "mobile",
+                            "email_or_mobile_number" : self.txtFieldDetails.text!
+                            ]
+                self.viewModel.updateMobileAndEmailNumber(deetails: dict as NSDictionary, viewController: self, isLoaderRequired: true) { errorString, obj, email in
+                    if errorString == "Success"
+                    {
+                        self.alertView.isHidden = true
+                        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "VerifyProfileOTPVC") as? VerifyProfileOTPVC{
+                            vcToPresent.email = self.txtFieldDetails.text!
+                            vcToPresent.verifyKey = "mobile"
+                            self.navigationController?.pushViewController(vcToPresent, animated: true);
+                        }
+                    }
+                    else
+                    {
+                        let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                           
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
     }
     
     func isValidEmailId(emailId email:String) -> Bool{
@@ -260,7 +289,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     @IBAction func tapSubmit(_ sender: Any) {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -364,7 +393,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -396,7 +425,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -426,7 +455,7 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -535,7 +564,23 @@ class ProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPic
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if self.txtFieldName == textField
         {
-            let maxLength = 50
+            let maxLength = 30
+            let currentString: NSString = (textField.text ?? "") as NSString
+            let newString: NSString =
+                currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= maxLength
+        }
+        else if self.changeFrom == "email"
+        {
+            let maxLength = 30
+            let currentString: NSString = (textField.text ?? "") as NSString
+            let newString: NSString =
+                currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= maxLength
+        }
+        else if self.changeFrom == "mob"
+        {
+            let maxLength = 10
             let currentString: NSString = (textField.text ?? "") as NSString
             let newString: NSString =
                 currentString.replacingCharacters(in: range, with: string) as NSString

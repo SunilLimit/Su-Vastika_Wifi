@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChangePasswordVC: UIViewController {
+class ChangePasswordVC: UIViewController,UITextFieldDelegate {
 
     @IBOutlet weak var txtFieldOldPassword: UITextField!
     @IBOutlet weak var txtFieldConfirmPassword: UITextField!
@@ -23,12 +23,27 @@ class ChangePasswordVC: UIViewController {
         self.txtFieldOldPassword.enablePasswordToggle()
         self.txtFieldConfirmPassword.enablePasswordToggle()
         self.txtFieldNewPassword.enablePasswordToggle()
-
+        self.txtFieldNewPassword.delegate = self
+        self.txtFieldOldPassword.delegate = self
+        self.txtFieldConfirmPassword.delegate = self
         // Do any additional setup after loading the view.
     }
     
     @IBAction func tapBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        self.view?.resignFirstResponder()
+        self.txtFieldOldPassword.resignFirstResponder()
+        self.txtFieldNewPassword.resignFirstResponder()
+        self.txtFieldConfirmPassword.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
     }
     
     func chekValidation()-> Bool
@@ -84,9 +99,12 @@ class ChangePasswordVC: UIViewController {
     
     
     @IBAction func tapSubmit(_ sender: Any) {
+        self.txtFieldOldPassword.resignFirstResponder()
+        self.txtFieldNewPassword.resignFirstResponder()
+        self.txtFieldConfirmPassword.resignFirstResponder()
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))

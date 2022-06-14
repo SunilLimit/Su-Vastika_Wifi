@@ -18,7 +18,12 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
     @IBOutlet weak var txtFieldMobile: UITextField!
     @IBOutlet weak var lblPrefix: UILabel!
     @IBOutlet weak var btnSkip: UIButton!
+    @IBOutlet weak var txtFieldEmail: UITextField!
+    @IBOutlet weak var lblEmailLine: UILabel!
     
+    @IBOutlet weak var mobLine: UILabel!
+    @IBOutlet weak var countryTopCon: NSLayoutConstraint!
+    @IBOutlet weak var emailHeight: NSLayoutConstraint!
     @IBOutlet weak var btnSignUp: UIButton!
     @IBOutlet weak var bottomVie: UIView!
     var pickerView = UIPickerView()
@@ -61,7 +66,30 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
             self.btnSignUp.setTitle("SIGN UP", for: .normal)
 
         }
-        
+        let dict = UserDefaults.standard.object(forKey: "user") as? NSDictionary
+        let email = dict?.object(forKey: "email") as? String
+        if (email!.isEmpty ?? true)
+        {
+            self.lblEmailLine.isHidden = true
+            self.txtFieldEmail.isHidden = true
+            self.countryTopCon.constant = -8
+            self.emailHeight.constant = 0
+            self.txtFieldMobile.isHidden = false
+            self.mobLine.isHidden = false
+            self.lblPrefix.isHidden = false
+        }
+        else
+        {
+            self.lblEmailLine.isHidden = false
+            self.txtFieldEmail.isHidden = false
+            self.countryTopCon.constant = 8
+            self.emailHeight.constant = 34
+            self.txtFieldMobile.isHidden = true
+            self.mobLine.isHidden = true
+            self.lblPrefix.isHidden = true
+            self.txtFieldEmail.text = email!
+        }
+       
         
         
         // Do any additional setup after loading the view.
@@ -130,7 +158,7 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
     {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -150,7 +178,7 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
     {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -170,7 +198,7 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
     {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -253,7 +281,7 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
     @IBAction func tapSignup(_ sender: Any) {
         if !Reachability.isConnectedToNetwork()
         {
-            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not availbale. Please check your intertnet.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                
             }))
@@ -279,7 +307,8 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
                    {
                        let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                           self.navigationController?.popViewController(animated: true)
+                           let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                           appDelegate.setHomeVieew()
                        }))
                        self.present(alert, animated: true, completion: nil)
                    }
@@ -419,6 +448,8 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
             let preFix = self.arrayOfCountry[row].mob_prefix
             self.lblPrefix.text = preFix
             self.countryId = id!
+            self.txtFIeldState.text = ""
+            self.txtFieldCity.text = ""
         }
         else if self.pickerView.tag == 2
         {
@@ -426,6 +457,8 @@ class UpdateProfileVC: UIViewController,UITextFieldDelegate,UIPickerViewDelegate
             self.txtFIeldState.text = value
             let id = self.arrayOfState[row].id
             self.stateId = id!
+            self.txtFieldCity.text = ""
+
         }
         else if self.pickerView.tag == 3
         {
