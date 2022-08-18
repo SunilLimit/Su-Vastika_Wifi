@@ -625,6 +625,12 @@ class DetailsPageVC: UIViewController {
         }
     }
     
+    @IBAction func tapTotalSaving(_ sender: Any) {
+        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "PriceVC") as? PriceVC{
+            vcToPresent.deviceId = self.deviceId
+            self.navigationController?.pushViewController(vcToPresent, animated: true)
+        }
+    }
     @IBAction func tapDiagnose(_ sender: Any) {
         if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "DeviceDiagonsisVC") as? DeviceDiagonsisVC{
             self.navigationController?.pushViewController(vcToPresent, animated: true)

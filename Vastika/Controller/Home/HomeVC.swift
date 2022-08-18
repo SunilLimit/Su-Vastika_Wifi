@@ -159,8 +159,10 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     @objc func tapViewDetails(button : UIButton)
     {
         let indexPath = self.getIndexPathFor(view: button, tableView: self.tblView)
-        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "DemoVC") as? DemoVC{
-            vcToPresent.deviceid = String(self.arrayList[indexPath!.row].device_id)
+        
+        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "AddDeviceVC") as? AddDeviceVC{
+            vcToPresent.isFrom = "Edit"
+            vcToPresent.homeMoel = self.arrayList[indexPath!.row]
             self.navigationController?.pushViewController(vcToPresent, animated: true)
         }
     }
@@ -218,6 +220,5 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             vcToPresent.deviceid = String(self.arrayList[indexPath.row].device_id)
             self.navigationController?.pushViewController(vcToPresent, animated: true)
         }
-       
     }
 }

@@ -13,12 +13,76 @@ class AddDeviceVC: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var txtFieldDeviceName: UITextField!
     @IBOutlet weak var txtFieldSerialNumbeer: UITextField!
     var viewModel = HomeViewModel()
-
+    @IBOutlet weak var txtFieldCharge: UITextField!
+    var toolBar = UIToolbar()
+    var isFrom = String()
+    var homeMoel : HomeModel!
+    @IBOutlet weak var lblTitle: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.txtFieldDeviceName.delegate = self
         self.txtFieldSerialNumbeer.delegate = self
+        self.txtFieldCharge.delegate = self
+        self.setUpPicker()
+        if self.isFrom == "Edit"
+        {
+            print(homeMoel.device_name)
+            self.txtFieldCharge.text = homeMoel.electricity_unit_charge
+            self.txtFieldDeviceName.text = homeMoel.device_name
+            self.txtFieldSerialNumbeer.text = homeMoel.serial_number
+            self.btnAdd.setTitle("Update", for: .normal)
+            self.lblTitle.text = "Update Device"
+            self.txtFieldSerialNumbeer.isUserInteractionEnabled = false
+        }
+        else
+        {
+            self.txtFieldCharge.text = ""
+            self.txtFieldDeviceName.text = ""
+            self.txtFieldSerialNumbeer.text = ""
+            self.btnAdd.setTitle("Submit", for: .normal)
+            self.lblTitle.text = "Add Device"
+            self.txtFieldSerialNumbeer.isUserInteractionEnabled = true
+        }
         // Do any additional setup after loading the view.
+    }
+    
+    
+    func setUpPicker()
+    {
+       
+
+       toolBar.barStyle = UIBarStyle.default
+       toolBar.isTranslucent = true
+       toolBar.tintColor = UIColor.init(red: 103/255, green: 48/255, blue: 197/255, alpha: 1)
+       toolBar.sizeToFit()
+       
+       let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: #selector(donePicker))
+       
+       let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+       
+       let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelPicker))
+       
+       toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+       toolBar.isUserInteractionEnabled = true
+               
+        self.txtFieldCharge.inputAccessoryView = toolBar
+       
+
+}
+    
+    @objc func donePicker() {
+        self.txtFieldCharge.resignFirstResponder()
+        self.txtFieldDeviceName.resignFirstResponder()
+        self.txtFieldSerialNumbeer.resignFirstResponder()
+
+    }
+            
+    @objc func cancelPicker()
+    {
+        self.txtFieldCharge.resignFirstResponder()
+        self.txtFieldDeviceName.resignFirstResponder()
+        self.txtFieldSerialNumbeer.resignFirstResponder()
     }
     
     // MARK:- Set Validation -------------
@@ -63,7 +127,7 @@ class AddDeviceVC: UIViewController,UITextFieldDelegate {
         }
         
         if !self.setValidationForDevice() {return}
-        self.viewModel.addDevice(srialNumber: self.txtFieldSerialNumbeer.text!, deviceName: self.txtFieldDeviceName.text!, viewController: self, isLoaderRequired: true) { status, msg in
+        self.viewModel.addDevice(srialNumber: self.txtFieldSerialNumbeer.text!, deviceName: self.txtFieldDeviceName.text!, charge: self.txtFieldCharge.text!,type:self.isFrom,viewController: self, isLoaderRequired: true) { status, msg in
             if status == "Success"
             {
                 let alert = UIAlertController(title: webServices.AppName, message: msg, preferredStyle: UIAlertController.Style.alert)
@@ -97,6 +161,14 @@ class AddDeviceVC: UIViewController,UITextFieldDelegate {
         if self.txtFieldDeviceName == textField || self.txtFieldSerialNumbeer == textField
         {
             let maxLength = 50
+            let currentString: NSString = (textField.text ?? "") as NSString
+            let newString: NSString =
+                currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= maxLength
+        }
+        if self.txtFieldCharge == textField
+        {
+            let maxLength = 4
             let currentString: NSString = (textField.text ?? "") as NSString
             let newString: NSString =
                 currentString.replacingCharacters(in: range, with: string) as NSString

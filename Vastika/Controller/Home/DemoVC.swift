@@ -20,6 +20,7 @@ class DemoVC: UIViewController {
     @IBOutlet weak var btnAlert: UIButton!
     @IBOutlet weak var btnSetting: UIButton!
     @IBOutlet weak var btnDiagones: UIButton!
+    @IBOutlet weak var btnSaving: UIButton!
     
     
     override func viewDidLoad() {
@@ -36,6 +37,9 @@ class DemoVC: UIViewController {
 
         self.btnAlert.layer.cornerRadius = self.btnAlert.frame.size.height/2
         self.btnAlert.clipsToBounds = true
+        
+        self.btnSaving.layer.cornerRadius = self.btnSaving.frame.size.height/2
+        self.btnSaving.clipsToBounds = true
         
         self.btnSetting.layer.cornerRadius = self.btnSetting.frame.size.height/2
         self.btnSetting.clipsToBounds = true
@@ -132,4 +136,10 @@ class DemoVC: UIViewController {
         }
     }
     
+    @IBAction func tapTotalSaving(_ sender: Any) {
+        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "PriceVC") as? PriceVC{
+            vcToPresent.deviceId = self.deviceid
+            self.navigationController?.pushViewController(vcToPresent, animated: true)
+        }
+    }
 }

@@ -25,6 +25,17 @@
 		04845556285062E8004D9A85 /* ForgotPasswordOTPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04845555285062E8004D9A85 /* ForgotPasswordOTPVC.swift */; };
 		0484555828506A84004D9A85 /* NewPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484555728506A84004D9A85 /* NewPasswordVC.swift */; };
 		0484555A285085DC004D9A85 /* VerifyProfileOTPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04845559285085DC004D9A85 /* VerifyProfileOTPVC.swift */; };
+		048FCA4328AE0F670002F3E6 /* CustomSegments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3828AE0F670002F3E6 /* CustomSegments.swift */; };
+		048FCA4428AE0F670002F3E6 /* CALayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3928AE0F670002F3E6 /* CALayerExtension.swift */; };
+		048FCA4528AE0F670002F3E6 /* BasicBarChartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3A28AE0F670002F3E6 /* BasicBarChartPresenter.swift */; };
+		048FCA4628AE0F670002F3E6 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3B28AE0F670002F3E6 /* UIBezierPathExtension.swift */; };
+		048FCA4728AE0F670002F3E6 /* BasicBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3C28AE0F670002F3E6 /* BasicBarChart.swift */; };
+		048FCA4828AE0F670002F3E6 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3D28AE0F670002F3E6 /* ArrayExtension.swift */; };
+		048FCA4928AE0F670002F3E6 /* DataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3E28AE0F670002F3E6 /* DataEntry.swift */; };
+		048FCA4A28AE0F670002F3E6 /* BeautifulBarEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA3F28AE0F670002F3E6 /* BeautifulBarEntry.swift */; };
+		048FCA4B28AE0F670002F3E6 /* BeautifulBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA4028AE0F670002F3E6 /* BeautifulBarChart.swift */; };
+		048FCA4C28AE0F670002F3E6 /* BasicBarEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA4128AE0F670002F3E6 /* BasicBarEntry.swift */; };
+		048FCA4D28AE0F670002F3E6 /* BeautifulBarChartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FCA4228AE0F670002F3E6 /* BeautifulBarChartPresenter.swift */; };
 		049AD17626F0B00300EC38F5 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD17526F0B00300EC38F5 /* SignUpVC.swift */; };
 		049AD17826F0B7C600EC38F5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD17726F0B7C600EC38F5 /* LoginViewModel.swift */; };
 		049AD17A26F0BA5A00EC38F5 /* Reeachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD17926F0BA5A00EC38F5 /* Reeachability.swift */; };
@@ -49,6 +60,8 @@
 		049AD1A826F852B100EC38F5 /* MainLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD1A726F852B100EC38F5 /* MainLoad.swift */; };
 		049AD1AA26F852C600EC38F5 /* UPSMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD1A926F852C600EC38F5 /* UPSMode.swift */; };
 		049AD1AC26F852D200EC38F5 /* SolarMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AD1AB26F852D200EC38F5 /* SolarMode.swift */; };
+		04C1FB1928ACC1A1007484A7 /* PriceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1FB1828ACC1A1007484A7 /* PriceVC.swift */; };
+		04C1FB1B28ACC7FF007484A7 /* PriceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1FB1A28ACC7FF007484A7 /* PriceModel.swift */; };
 		04C25D2D26FB2675001A0610 /* AddDeviceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C25D2C26FB2675001A0610 /* AddDeviceVC.swift */; };
 		04C78E0A27017DAF0055E6EC /* NewDeviceDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C78E0927017DAF0055E6EC /* NewDeviceDetailsVC.swift */; };
 		04C78E0E27017EE70055E6EC /* cellOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C78E0C27017EE70055E6EC /* cellOne.swift */; };
@@ -115,6 +128,22 @@
 		04845555285062E8004D9A85 /* ForgotPasswordOTPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordOTPVC.swift; sourceTree = "<group>"; };
 		0484555728506A84004D9A85 /* NewPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordVC.swift; sourceTree = "<group>"; };
 		04845559285085DC004D9A85 /* VerifyProfileOTPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyProfileOTPVC.swift; sourceTree = "<group>"; };
+		048FCA3128AE0C7C0002F3E6 /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
+		048FCA3228AE0C7C0002F3E6 /* StackViewBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewBarChart.swift; sourceTree = "<group>"; };
+		048FCA3428AE0C7C0002F3E6 /* UIColor+Percentage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Percentage.swift"; sourceTree = "<group>"; };
+		048FCA3528AE0C7C0002F3E6 /* UIColor+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
+		048FCA3628AE0C7C0002F3E6 /* LayoutUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutUtility.swift; sourceTree = "<group>"; };
+		048FCA3828AE0F670002F3E6 /* CustomSegments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegments.swift; sourceTree = "<group>"; };
+		048FCA3928AE0F670002F3E6 /* CALayerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayerExtension.swift; sourceTree = "<group>"; };
+		048FCA3A28AE0F670002F3E6 /* BasicBarChartPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicBarChartPresenter.swift; sourceTree = "<group>"; };
+		048FCA3B28AE0F670002F3E6 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
+		048FCA3C28AE0F670002F3E6 /* BasicBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicBarChart.swift; sourceTree = "<group>"; };
+		048FCA3D28AE0F670002F3E6 /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		048FCA3E28AE0F670002F3E6 /* DataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataEntry.swift; sourceTree = "<group>"; };
+		048FCA3F28AE0F670002F3E6 /* BeautifulBarEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeautifulBarEntry.swift; sourceTree = "<group>"; };
+		048FCA4028AE0F670002F3E6 /* BeautifulBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeautifulBarChart.swift; sourceTree = "<group>"; };
+		048FCA4128AE0F670002F3E6 /* BasicBarEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicBarEntry.swift; sourceTree = "<group>"; };
+		048FCA4228AE0F670002F3E6 /* BeautifulBarChartPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeautifulBarChartPresenter.swift; sourceTree = "<group>"; };
 		049AD17526F0B00300EC38F5 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		049AD17726F0B7C600EC38F5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		049AD17926F0BA5A00EC38F5 /* Reeachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reeachability.swift; sourceTree = "<group>"; };
@@ -139,6 +168,8 @@
 		049AD1A726F852B100EC38F5 /* MainLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLoad.swift; sourceTree = "<group>"; };
 		049AD1A926F852C600EC38F5 /* UPSMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPSMode.swift; sourceTree = "<group>"; };
 		049AD1AB26F852D200EC38F5 /* SolarMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarMode.swift; sourceTree = "<group>"; };
+		04C1FB1828ACC1A1007484A7 /* PriceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceVC.swift; sourceTree = "<group>"; };
+		04C1FB1A28ACC7FF007484A7 /* PriceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceModel.swift; sourceTree = "<group>"; };
 		04C25D2C26FB2675001A0610 /* AddDeviceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceVC.swift; sourceTree = "<group>"; };
 		04C78E0927017DAF0055E6EC /* NewDeviceDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDeviceDetailsVC.swift; sourceTree = "<group>"; };
 		04C78E0C27017EE70055E6EC /* cellOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cellOne.swift; sourceTree = "<group>"; };
@@ -238,6 +269,45 @@
 			path = Feedback;
 			sourceTree = "<group>";
 		};
+		048FCA3028AE0C7C0002F3E6 /* StackViewBarChart */ = {
+			isa = PBXGroup;
+			children = (
+				048FCA3128AE0C7C0002F3E6 /* BarView.swift */,
+				048FCA3228AE0C7C0002F3E6 /* StackViewBarChart.swift */,
+				048FCA3328AE0C7C0002F3E6 /* Helper */,
+			);
+			name = StackViewBarChart;
+			path = Vastika/Sources/StackViewBarChart;
+			sourceTree = "<group>";
+		};
+		048FCA3328AE0C7C0002F3E6 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				048FCA3428AE0C7C0002F3E6 /* UIColor+Percentage.swift */,
+				048FCA3528AE0C7C0002F3E6 /* UIColor+Helper.swift */,
+				048FCA3628AE0C7C0002F3E6 /* LayoutUtility.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		048FCA3728AE0F670002F3E6 /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				048FCA3828AE0F670002F3E6 /* CustomSegments.swift */,
+				048FCA3928AE0F670002F3E6 /* CALayerExtension.swift */,
+				048FCA3A28AE0F670002F3E6 /* BasicBarChartPresenter.swift */,
+				048FCA3B28AE0F670002F3E6 /* UIBezierPathExtension.swift */,
+				048FCA3C28AE0F670002F3E6 /* BasicBarChart.swift */,
+				048FCA3D28AE0F670002F3E6 /* ArrayExtension.swift */,
+				048FCA3E28AE0F670002F3E6 /* DataEntry.swift */,
+				048FCA3F28AE0F670002F3E6 /* BeautifulBarEntry.swift */,
+				048FCA4028AE0F670002F3E6 /* BeautifulBarChart.swift */,
+				048FCA4128AE0F670002F3E6 /* BasicBarEntry.swift */,
+				048FCA4228AE0F670002F3E6 /* BeautifulBarChartPresenter.swift */,
+			);
+			path = Chart;
+			sourceTree = "<group>";
+		};
 		049AD17426F0AFF100EC38F5 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +324,7 @@
 				049AD18426F1FC4400EC38F5 /* HomeVC.swift */,
 				0430CB8526FB4733000FF57E /* AlertVC.swift */,
 				04C25D2C26FB2675001A0610 /* AddDeviceVC.swift */,
+				04C1FB1828ACC1A1007484A7 /* PriceVC.swift */,
 				0430CB7C26FB2FBC000FF57E /* DeviceDiagonsisVC.swift */,
 				0430CB7E26FB3C98000FF57E /* SettingVC.swift */,
 				049AD19D26F2F98D00EC38F5 /* DetailsPageVC.swift */,
@@ -386,6 +457,7 @@
 				049AD18126F1CF6300EC38F5 /* CityModel.swift */,
 				049AD18D26F204E800EC38F5 /* HomeModel.swift */,
 				049AD1A326F4681700EC38F5 /* DeviceDetailsModel.swift */,
+				04C1FB1A28ACC7FF007484A7 /* PriceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -465,6 +537,7 @@
 		04DE74E026EF6EB100956103 /* CommonFunction */ = {
 			isa = PBXGroup;
 			children = (
+				048FCA3728AE0F670002F3E6 /* Chart */,
 				049AD17926F0BA5A00EC38F5 /* Reeachability.swift */,
 				04DE74E126EF6EB100956103 /* Messages.swift */,
 				04DE74E226EF6EB100956103 /* textFieldValidator.swift */,
@@ -526,6 +599,7 @@
 		937C8EA2AFF9102DA38940C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				048FCA3028AE0C7C0002F3E6 /* StackViewBarChart */,
 				B47D49309A62EF3887294747 /* Pods_Vastika.framework */,
 			);
 			name = Frameworks;
@@ -670,8 +744,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				048FCA4828AE0F670002F3E6 /* ArrayExtension.swift in Sources */,
 				049AD19E26F2F98D00EC38F5 /* DetailsPageVC.swift in Sources */,
+				048FCA4928AE0F670002F3E6 /* DataEntry.swift in Sources */,
 				04DE750526EF6EB100956103 /* LoaderManager.swift in Sources */,
+				048FCA4B28AE0F670002F3E6 /* BeautifulBarChart.swift in Sources */,
+				048FCA4328AE0F670002F3E6 /* CustomSegments.swift in Sources */,
 				04DE751726EF6EB100956103 /* CommonFunctions.swift in Sources */,
 				0430CB7F26FB3C98000FF57E /* SettingVC.swift in Sources */,
 				049AD18E26F204E800EC38F5 /* HomeModel.swift in Sources */,
@@ -696,7 +774,9 @@
 				04DE751926EF6EB100956103 /* CustomFont.swift in Sources */,
 				04DE751226EF6EB100956103 /* NavigationHeader.swift in Sources */,
 				0430CB8326FB430E000FF57E /* alertCell.swift in Sources */,
+				048FCA4C28AE0F670002F3E6 /* BasicBarEntry.swift in Sources */,
 				04DE751426EF6EB100956103 /* extensions.swift in Sources */,
+				048FCA4428AE0F670002F3E6 /* CALayerExtension.swift in Sources */,
 				049AD19926F2141900EC38F5 /* ProfileVC.swift in Sources */,
 				049AD19526F20AB300EC38F5 /* sideMenuCell.swift in Sources */,
 				04DE751126EF6EB100956103 /* StarRatingView.swift in Sources */,
@@ -711,7 +791,10 @@
 				04DE750D26EF6EB100956103 /* textFieldValidator.swift in Sources */,
 				0484555428505417004D9A85 /* NewSignUPVC.swift in Sources */,
 				04DE752826EF6EB100956103 /* Color.swift in Sources */,
+				04C1FB1B28ACC7FF007484A7 /* PriceModel.swift in Sources */,
+				048FCA4A28AE0F670002F3E6 /* BeautifulBarEntry.swift in Sources */,
 				9A27E50A2803EEED0023E26A /* LogiWithOtpVC.swift in Sources */,
+				048FCA4728AE0F670002F3E6 /* BasicBarChart.swift in Sources */,
 				049AD18926F1FF6C00EC38F5 /* HomeCell.swift in Sources */,
 				049AD19C26F2179700EC38F5 /* ChangePasswordVC.swift in Sources */,
 				04C78E222701903E0055E6EC /* CellFive.swift in Sources */,
@@ -720,14 +803,18 @@
 				0471356226FD8371007D30E7 /* FeedbackVC.swift in Sources */,
 				04DE74B626EF6CD000956103 /* AppDelegate.swift in Sources */,
 				046C15412702E0710000A96A /* VerifyOTPViewController.swift in Sources */,
+				048FCA4628AE0F670002F3E6 /* UIBezierPathExtension.swift in Sources */,
 				049AD18026F1CD4400EC38F5 /* StateModee.swift in Sources */,
 				04DE751326EF6EB100956103 /* LogUtils.swift in Sources */,
+				04C1FB1928ACC1A1007484A7 /* PriceVC.swift in Sources */,
+				048FCA4528AE0F670002F3E6 /* BasicBarChartPresenter.swift in Sources */,
 				049AD1A026F35BEA00EC38F5 /* collDeviceCell.swift in Sources */,
 				049AD1A426F4681800EC38F5 /* DeviceDetailsModel.swift in Sources */,
 				049AD18526F1FC4400EC38F5 /* HomeVC.swift in Sources */,
 				04C78E0A27017DAF0055E6EC /* NewDeviceDetailsVC.swift in Sources */,
 				049AD17626F0B00300EC38F5 /* SignUpVC.swift in Sources */,
 				0430CB8626FB4733000FF57E /* AlertVC.swift in Sources */,
+				048FCA4D28AE0F670002F3E6 /* BeautifulBarChartPresenter.swift in Sources */,
 				04DE751626EF6EB100956103 /* AppUtils.swift in Sources */,
 				04DE750C26EF6EB100956103 /* Messages.swift in Sources */,
 				04C78E162701819F0055E6EC /* CellThree.swift in Sources */,
@@ -886,6 +973,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 5M3D6657R9;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Vastika/Info.plist;
@@ -894,7 +982,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.suvastika;
+				MARKETING_VERSION = 2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.su-vastikaSmart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -910,6 +999,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 5M3D6657R9;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Vastika/Info.plist;
@@ -918,7 +1008,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.suvastika;
+				MARKETING_VERSION = 2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.su-vastikaSmart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

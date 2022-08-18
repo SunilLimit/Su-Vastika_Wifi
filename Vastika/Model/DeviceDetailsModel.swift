@@ -60,8 +60,10 @@ class DeviceDetailsModel:NSObject,Codable{
     var setting_low_voltage_cut_is : Int!
     var setting_buzzer : Int!
     var setting_resource_priority : Int!
-
+    var solar_electricity_savings : PriceModel!
+    var electricity_unit_charge : String!
     var timestamp : String!
+    var device_function_type : String!
     
     // * Instantiate the instance using the passed json values to set the properties values
     // */
@@ -83,7 +85,8 @@ class DeviceDetailsModel:NSObject,Codable{
         id = json["id"].intValue
         bw = json["bw"].intValue
         device_type = json["device_type"].stringValue
-        
+        device_function_type = json["device_function_type"].stringValue
+
         load_wattage = json["load_wattage"].intValue
         load_sharing_1 = json["load_sharing_1"].intValue
         mipv = json["mipv"].intValue
@@ -128,8 +131,9 @@ class DeviceDetailsModel:NSObject,Codable{
 
         setting_ups_type = json["setting_ups_type"].stringValue
         timestamp = json["timestamp"].stringValue
-        
-        
+        solar_electricity_savings = PriceModel(fromJson: json["solar_electricity_savings"])
+        electricity_unit_charge = json["electricity_unit_charge"].stringValue
+
     }
     
     /**
@@ -164,6 +168,10 @@ class DeviceDetailsModel:NSObject,Codable{
         }
         if setting_resource_priority != nil{
             dictionary["setting_resource_priority"] = setting_resource_priority
+        }
+        
+        if device_function_type != nil{
+            dictionary["device_function_type"] = device_function_type
         }
         
         if syscap != nil{
@@ -303,6 +311,14 @@ class DeviceDetailsModel:NSObject,Codable{
             dictionary["timestamp"] = timestamp
         }
         
+        if solar_electricity_savings != nil{
+            dictionary["solar_electricity_savings"] = solar_electricity_savings
+        }
+        
+        if electricity_unit_charge != nil{
+            dictionary["electricity_unit_charge"] = electricity_unit_charge
+        }
+        
         return dictionary
     }
     
@@ -326,6 +342,8 @@ class DeviceDetailsModel:NSObject,Codable{
         id = (aDecoder.decodeObject(forKey: "id") as? Int)!
         bw = (aDecoder.decodeObject(forKey: "bw") as? Int)!
         device_type = (aDecoder.decodeObject(forKey: "device_type") as? String)!
+        device_function_type = (aDecoder.decodeObject(forKey: "device_function_type") as? String)!
+
         
         load_wattage = aDecoder.decodeObject(forKey: "load_wattage") as? Int
         load_sharing_1 = aDecoder.decodeObject(forKey: "load_sharing_1") as? Int
@@ -372,6 +390,8 @@ class DeviceDetailsModel:NSObject,Codable{
         setting_ups_type = aDecoder.decodeObject(forKey: "setting_ups_type") as? String
         timestamp = aDecoder.decodeObject(forKey: "timestamp") as? String
        
+        electricity_unit_charge = aDecoder.decodeObject(forKey: "electricity_unit_charge") as? String
+        solar_electricity_savings = aDecoder.decodeObject(forKey: "solar_electricity_savings") as? PriceModel
         
     }
 
@@ -383,6 +403,9 @@ class DeviceDetailsModel:NSObject,Codable{
     {
         if status_mains != nil{
             aCoder.encode(status_mains, forKey: "status_mains")
+        }
+        if device_function_type != nil{
+            aCoder.encode(device_function_type, forKey: "device_function_type")
         }
         if load_percent != nil{
             aCoder.encode(load_percent, forKey: "load_percent")
@@ -546,6 +569,13 @@ class DeviceDetailsModel:NSObject,Codable{
         }
         if timestamp != nil{
             aCoder.encode(timestamp, forKey: "timestamp")
+        }
+        
+        if solar_electricity_savings != nil{
+            aCoder.encode(solar_electricity_savings, forKey: "solar_electricity_savings")
+        }
+        if electricity_unit_charge != nil{
+            aCoder.encode(electricity_unit_charge, forKey: "electricity_unit_charge")
         }
         
     }

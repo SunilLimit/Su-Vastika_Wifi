@@ -35,6 +35,7 @@ class webServices{
     static let deviceDetails = "api/consumer/device/detail/"
     static let deleteDevice = "api/consumer/device/delete/"
     static let addDevicec = "api/consumer/device/add"
+    static let updateDevice = "api/consumer/device/edit"
     static let deviceAlert = "api/consumer/device/alertlog/"
     static let logout = "api/consumer/logout"
     static let feedback = "api/consumer/feedback/add"

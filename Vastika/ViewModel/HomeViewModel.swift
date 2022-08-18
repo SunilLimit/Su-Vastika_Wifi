@@ -180,10 +180,19 @@ class HomeViewModel: NSObject{
         }
     }
     
-    func addDevice(srialNumber:String,deviceName : String,viewController:UIViewController, isLoaderRequired:Bool ,completion: @escaping (_ errorString: String?,_ obj:String) -> Void) {
+    func addDevice(srialNumber:String,deviceName : String,charge : String,type : String,viewController:UIViewController, isLoaderRequired:Bool ,completion: @escaping (_ errorString: String?,_ obj:String) -> Void) {
         
-        let requestP = webServices.addDevicec
-        let paramT = ["device_name" : deviceName,"serial_number" : srialNumber]
+        var requestP = String()
+        if type == "Edit"
+        {
+            requestP = webServices.updateDevice
+        }
+        else
+        {
+            requestP = webServices.addDevicec
+        }
+        
+        let paramT = ["device_name" : deviceName,"serial_number" : srialNumber,"electricity_unit_charge" : charge]
         if(isLoaderRequired){
             loaderManager.sharedInstance.startLoading();
         }

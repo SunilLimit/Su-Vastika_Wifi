@@ -16,7 +16,7 @@ class HomeModel:NSObject,Codable{
     var device_name : String!
     var device_type : String!
     var serial_number : String!
-
+    var electricity_unit_charge : String!
     /**
      * Instantiate the instance using the passed json values to set the properties values
      */
@@ -29,7 +29,9 @@ class HomeModel:NSObject,Codable{
         added_on = json["added_on"].stringValue
         device_name = json["device_name"].stringValue
         device_type = json["device_type"].stringValue
-        serial_number = json["image_path"].stringValue
+        serial_number = json["serial_number"].stringValue
+        electricity_unit_charge = json["electricity_unit_charge"].stringValue
+
     }
     
     /**
@@ -57,6 +59,9 @@ class HomeModel:NSObject,Codable{
         if serial_number != nil{
             dictionary["serial_number"] = serial_number
         }
+        if electricity_unit_charge != nil{
+            dictionary["electricity_unit_charge"] = electricity_unit_charge
+        }
         return dictionary
     }
     
@@ -72,6 +77,7 @@ class HomeModel:NSObject,Codable{
         device_name = (aDecoder.decodeObject(forKey: "device_name") as? String)!
         device_type = (aDecoder.decodeObject(forKey: "device_type") as? String)!
         serial_number = (aDecoder.decodeObject(forKey: "serial_number") as? String)!
+        electricity_unit_charge = (aDecoder.decodeObject(forKey: "electricity_unit_charge") as? String)!
 
         
     }
@@ -100,6 +106,9 @@ class HomeModel:NSObject,Codable{
         }
         if serial_number != nil{
             aCoder.encode(serial_number, forKey: "serial_number")
+        }
+        if electricity_unit_charge != nil{
+            aCoder.encode(electricity_unit_charge, forKey: "electricity_unit_charge")
         }
     }
 }

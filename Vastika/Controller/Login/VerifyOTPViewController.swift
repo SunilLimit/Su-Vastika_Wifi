@@ -182,17 +182,18 @@ class VerifyOTPViewController: UIViewController {
                 self.viewModel.registerUserVerifyMob(deetails: param as NSDictionary, viewController: self, isLoaderRequired: true) { status, msg , email in
                     if status == "Success"
                     {
-                        if email != "1" {
-                            if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "UpdateProfileVC") as? UpdateProfileVC{
-                                vcToPresent.isFrom = "Mob"
-                                self.navigationController?.pushViewController(vcToPresent, animated: true);
-                            }
-                        }
-                        else
-                        {
-                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            appDelegate.setHomeVieew()
-                        }
+//                        if email != "1" {
+//                            if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "UpdateProfileVC") as? UpdateProfileVC{
+//                                vcToPresent.isFrom = "Mob"
+//                                self.navigationController?.pushViewController(vcToPresent, animated: true);
+//                            }
+//                        }
+//                        else
+//                        {
+//
+//                        }
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.setHomeVieew()
                     }
                     else
                     {
