@@ -11,24 +11,55 @@ class PriceVC: UIViewController {
 
     
     @IBOutlet weak var lblSavingInMonth: UILabel!
-  
+    @IBOutlet weak var monthlyView: UIView!
+    @IBOutlet weak var firstView: UIView!
+    @IBOutlet weak var secView: UIView!
+    @IBOutlet weak var lblThisWeek: UILabel!
+    @IBOutlet weak var lblSecWeek: UILabel!
+    @IBOutlet weak var lblThrdWeek: UILabel!
+    @IBOutlet weak var lblFourthWeek: UILabel!
+    
     var deviceId = String()
     @IBOutlet weak var lblTitle: UILabel!
     var viewModel = DeviceDetailsViewModel()
-    private let numEntry = 4
+   // private let numEntry = 4
     
-    @IBOutlet weak var barChartView: BasicBarChart!
+   // @IBOutlet weak var barChartView: BasicBarChart!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getDeviceDeetails()
-        
-        let dataEntries = generateEmptyDataEntries()
-        self.barChartView.updateDataEntries(dataEntries: dataEntries, animated: false)
+        self.makeCurve(lbl: self.lblThisWeek)
+        self.makeCurve(lbl: self.lblSecWeek)
+        self.makeCurve(lbl: self.lblThrdWeek)
+        self.makeCurve(lbl: self.lblFourthWeek)
+        self.makeShadowBorder(yourView: self.monthlyView)
+        self.makeShadowBorder(yourView: self.firstView)
+        self.makeShadowBorder(yourView: self.secView)
+
+//        let dataEntries = generateEmptyDataEntries()
+//        self.barChartView.updateDataEntries(dataEntries: dataEntries, animated: false)
         // Do any additional setup after loading the view.
     }
     
+    func makeCurve(lbl : UILabel)
+    {
+        lbl.layer.cornerRadius = 10
+        lbl.clipsToBounds = true
+    }
    
+    func makeShadowBorder(yourView : UIView)
+    {
+        yourView.layer.masksToBounds = false
+        yourView.layer.shadowColor = UIColor.lightGray.cgColor
+        yourView.layer.shadowOffset =  CGSize.zero
+        yourView.layer.shadowOpacity = 0.5
+        yourView.layer.shadowRadius = 4
+        yourView.layer.cornerRadius = 10
+
+    }
+        
+
 
     @IBAction func tapBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -60,54 +91,58 @@ class PriceVC: UIViewController {
     func setupDetails(obj : DeviceDetailsModel)
     {
         self.lblSavingInMonth.text = obj.solar_electricity_savings.days30_kwg + "\n" + obj.solar_electricity_savings.days30_saving
-        let arrayOftext = ["This Week","Week-2","Week-3","Week-4"]
-        let arrayOfValue = NSMutableArray()
+//        let arrayOftext = ["This Week","Week-2","Week-3","Week-4"]
+//        let arrayOfValue = NSMutableArray()
         let wek1 =  obj.solar_electricity_savings.week1_kwg + "\n" + obj.solar_electricity_savings.week1_saving
         let wek2 = obj.solar_electricity_savings.week2_kwg + "\n" + obj.solar_electricity_savings.week2_saving
         let wek3 =  obj.solar_electricity_savings.week3_kwg + "\n" +  obj.solar_electricity_savings.week3_saving
         let wek4 =  obj.solar_electricity_savings.week4_kwg + "\n" +  obj.solar_electricity_savings.week4_saving
-
-        var dict = ["name" : wek1,"value" : obj.solar_electricity_savings.week1_saving]
-        arrayOfValue.add(dict)
-        dict = ["name" : wek2,"value" : obj.solar_electricity_savings.week2_saving]
-        arrayOfValue.add(dict)
-        dict = ["name" : wek3,"value" : obj.solar_electricity_savings.week3_saving]
-        arrayOfValue.add(dict)
-        dict = ["name" : wek4,"value" : obj.solar_electricity_savings.week4_saving]
-        arrayOfValue.add(dict)
+        self.lblThisWeek.text = wek1
+        self.lblSecWeek.text = wek2
+        self.lblThrdWeek.text = wek3
+        self.lblFourthWeek.text = wek4
         
-        let dataEntries = self.generateRandomDataEntries(obj: obj,arrayValue: arrayOfValue,arrayText: arrayOftext as NSArray)
-        for data in dataEntries
-        {
-            print(data.height)
-            print(data.textValue)
-            print(data.title)
-            print(data.color)
-        }
-        self.barChartView.updateDataEntries(dataEntries: dataEntries, animated: true)
+//        var dict = ["name" : wek1,"value" : obj.solar_electricity_savings.week1_saving]
+//        arrayOfValue.add(dict)
+//        dict = ["name" : wek2,"value" : obj.solar_electricity_savings.week2_saving]
+//        arrayOfValue.add(dict)
+//        dict = ["name" : wek3,"value" : obj.solar_electricity_savings.week3_saving]
+//        arrayOfValue.add(dict)
+//        dict = ["name" : wek4,"value" : obj.solar_electricity_savings.week4_saving]
+//        arrayOfValue.add(dict)
+//
+//        let dataEntries = self.generateRandomDataEntries(obj: obj,arrayValue: arrayOfValue,arrayText: arrayOftext as NSArray)
+//        for data in dataEntries
+//        {
+//            print(data.height)
+//            print(data.textValue)
+//            print(data.title)
+//            print(data.color)
+//        }
+//        self.barChartView.updateDataEntries(dataEntries: dataEntries, animated: true)
     }
 
-    func generateEmptyDataEntries() -> [DataEntry] {
-        var result: [DataEntry] = []
-        Array(0..<numEntry).forEach {_ in
-            result.append(DataEntry(color: UIColor.clear, height: 0, textValue: "0", title: ""))
-        }
-        return result
-    }
-    
-    func generateRandomDataEntries(obj : DeviceDetailsModel,arrayValue : NSMutableArray,arrayText : NSArray) -> [DataEntry] {
-        let colors = [#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)]
-        var result: [DataEntry] = []
-        for i in 0..<numEntry {
-            let strText = arrayText[i] as? String
-            let dict = arrayValue[i] as? NSDictionary
-            let valuePrint = dict?.object(forKey: "name") as? String
-            let valueActual = dict?.object(forKey: "value") as? String
-            let height: Float = Float(valueActual!.floatValue) / obj.solar_electricity_savings.days30_saving.floatValue
-            result.append(DataEntry(color: colors[i % colors.count], height: height, textValue: "\(String(describing: valuePrint!))", title: strText!))
-        }
-        return result
-    }
+//    func generateEmptyDataEntries() -> [DataEntry] {
+//        var result: [DataEntry] = []
+//        Array(0..<numEntry).forEach {_ in
+//            result.append(DataEntry(color: UIColor.clear, height: 0, textValue: "0", title: ""))
+//        }
+//        return result
+//    }
+//
+//    func generateRandomDataEntries(obj : DeviceDetailsModel,arrayValue : NSMutableArray,arrayText : NSArray) -> [DataEntry] {
+//        let colors = [#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)]
+//        var result: [DataEntry] = []
+//        for i in 0..<numEntry {
+//            let strText = arrayText[i] as? String
+//            let dict = arrayValue[i] as? NSDictionary
+//            let valuePrint = dict?.object(forKey: "name") as? String
+//            let valueActual = dict?.object(forKey: "value") as? String
+//            let height: Float = Float(valueActual!.floatValue) / obj.solar_electricity_savings.days30_saving.floatValue
+//            result.append(DataEntry(color: colors[i % colors.count], height: height, textValue: "\(String(describing: valuePrint!))", title: strText!))
+//        }
+//        return result
+//    }
 }
 
 extension String {
