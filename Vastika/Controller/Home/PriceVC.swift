@@ -19,12 +19,14 @@ class PriceVC: UIViewController {
     @IBOutlet weak var lblThrdWeek: UILabel!
     @IBOutlet weak var lblFourthWeek: UILabel!
     
+    @IBOutlet weak var lblTitleFourthWeek: UILabel!
+    @IBOutlet weak var lblTitleThirdWeek: UILabel!
+    @IBOutlet weak var lblTitleThisWeek: UILabel!
+    @IBOutlet weak var lblTitleSecWeek: UILabel!
     var deviceId = String()
     @IBOutlet weak var lblTitle: UILabel!
     var viewModel = DeviceDetailsViewModel()
-   // private let numEntry = 4
-    
-   // @IBOutlet weak var barChartView: BasicBarChart!
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +39,7 @@ class PriceVC: UIViewController {
         self.makeShadowBorder(yourView: self.firstView)
         self.makeShadowBorder(yourView: self.secView)
 
-//        let dataEntries = generateEmptyDataEntries()
-//        self.barChartView.updateDataEntries(dataEntries: dataEntries, animated: false)
-        // Do any additional setup after loading the view.
+
     }
     
     func makeCurve(lbl : UILabel)
@@ -91,8 +91,7 @@ class PriceVC: UIViewController {
     func setupDetails(obj : DeviceDetailsModel)
     {
         self.lblSavingInMonth.text = obj.solar_electricity_savings.days30_kwg + "\n" + obj.solar_electricity_savings.days30_saving
-//        let arrayOftext = ["This Week","Week-2","Week-3","Week-4"]
-//        let arrayOfValue = NSMutableArray()
+
         let wek1 =  obj.solar_electricity_savings.week1_kwg + "\n" + obj.solar_electricity_savings.week1_saving
         let wek2 = obj.solar_electricity_savings.week2_kwg + "\n" + obj.solar_electricity_savings.week2_saving
         let wek3 =  obj.solar_electricity_savings.week3_kwg + "\n" +  obj.solar_electricity_savings.week3_saving
@@ -102,47 +101,56 @@ class PriceVC: UIViewController {
         self.lblThrdWeek.text = wek3
         self.lblFourthWeek.text = wek4
         
-//        var dict = ["name" : wek1,"value" : obj.solar_electricity_savings.week1_saving]
-//        arrayOfValue.add(dict)
-//        dict = ["name" : wek2,"value" : obj.solar_electricity_savings.week2_saving]
-//        arrayOfValue.add(dict)
-//        dict = ["name" : wek3,"value" : obj.solar_electricity_savings.week3_saving]
-//        arrayOfValue.add(dict)
-//        dict = ["name" : wek4,"value" : obj.solar_electricity_savings.week4_saving]
-//        arrayOfValue.add(dict)
-//
-//        let dataEntries = self.generateRandomDataEntries(obj: obj,arrayValue: arrayOfValue,arrayText: arrayOftext as NSArray)
-//        for data in dataEntries
-//        {
-//            print(data.height)
-//            print(data.textValue)
-//            print(data.title)
-//            print(data.color)
-//        }
-//        self.barChartView.updateDataEntries(dataEntries: dataEntries, animated: true)
-    }
 
-//    func generateEmptyDataEntries() -> [DataEntry] {
-//        var result: [DataEntry] = []
-//        Array(0..<numEntry).forEach {_ in
-//            result.append(DataEntry(color: UIColor.clear, height: 0, textValue: "0", title: ""))
-//        }
-//        return result
-//    }
-//
-//    func generateRandomDataEntries(obj : DeviceDetailsModel,arrayValue : NSMutableArray,arrayText : NSArray) -> [DataEntry] {
-//        let colors = [#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1),#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)]
-//        var result: [DataEntry] = []
-//        for i in 0..<numEntry {
-//            let strText = arrayText[i] as? String
-//            let dict = arrayValue[i] as? NSDictionary
-//            let valuePrint = dict?.object(forKey: "name") as? String
-//            let valueActual = dict?.object(forKey: "value") as? String
-//            let height: Float = Float(valueActual!.floatValue) / obj.solar_electricity_savings.days30_saving.floatValue
-//            result.append(DataEntry(color: colors[i % colors.count], height: height, textValue: "\(String(describing: valuePrint!))", title: strText!))
-//        }
-//        return result
-//    }
+        
+        // attributes text for uilable
+        let attrs1 = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14.0), NSAttributedString.Key.foregroundColor : UIColor.darkGray]
+
+        let attrs2 = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 10.0), NSAttributedString.Key.foregroundColor : UIColor.darkGray]
+
+        let attributedString1 = NSMutableAttributedString(string:"This Week \n\n", attributes:attrs1 as [NSAttributedString.Key : Any])
+
+        
+        let strThisWeek = obj.solar_electricity_savings.week1_start + " to " +  obj.solar_electricity_savings.week1_end
+        
+        let attributedString2 = NSMutableAttributedString(string:strThisWeek, attributes:attrs2 as [NSAttributedString.Key : Any])
+
+        attributedString1.append(attributedString2)
+        self.lblTitleThisWeek.attributedText = attributedString1
+        
+        
+        let attributedString11 = NSMutableAttributedString(string:"Week - 2 \n\n", attributes:attrs1 as [NSAttributedString.Key : Any])
+
+        
+        let strThisWeek2 =  obj.solar_electricity_savings.week2_start + " to " +  obj.solar_electricity_savings.week2_end
+        
+        let attributedString22 = NSMutableAttributedString(string:strThisWeek2, attributes:attrs2 as [NSAttributedString.Key : Any])
+
+        attributedString11.append(attributedString22)
+        self.lblTitleSecWeek.attributedText = attributedString11
+        
+        
+        let attributedString111 = NSMutableAttributedString(string:"Week - 3 \n\n", attributes:attrs1 as [NSAttributedString.Key : Any])
+
+        
+        let strThisWeek3 = obj.solar_electricity_savings.week3_start + " to " +  obj.solar_electricity_savings.week3_end
+        
+        let attributedString222 = NSMutableAttributedString(string:strThisWeek3, attributes:attrs2 as [NSAttributedString.Key : Any])
+
+        attributedString111.append(attributedString222)
+        self.lblTitleThirdWeek.attributedText = attributedString111
+        
+        
+        let attributedString1111 = NSMutableAttributedString(string:"Week - 4 \n\n", attributes:attrs1 as [NSAttributedString.Key : Any])
+
+        
+        let strThisWeek4 = obj.solar_electricity_savings.week4_start + " to " +  obj.solar_electricity_savings.week4_end
+        
+        let attributedString2222 = NSMutableAttributedString(string:strThisWeek4, attributes:attrs2 as [NSAttributedString.Key : Any])
+
+        attributedString1111.append(attributedString2222)
+        self.lblTitleFourthWeek.attributedText = attributedString1111
+    }
 }
 
 extension String {
