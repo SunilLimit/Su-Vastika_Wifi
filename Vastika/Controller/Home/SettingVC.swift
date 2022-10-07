@@ -12,7 +12,6 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     @IBOutlet weak var lblUPSType: UILabel!
     @IBOutlet weak var lblBatteryType: UILabel!
     @IBOutlet weak var lblGridCharing: UILabel!
-    @IBOutlet weak var lblPriority: UILabel!
     @IBOutlet weak var lblLowVoltageCut: UILabel!
     @IBOutlet weak var lblTemperature: UILabel!
     @IBOutlet weak var lblWarrenty: UILabel!
@@ -20,6 +19,8 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     var viewModel = DeviceDetailsViewModel()
     @IBOutlet weak var switchContro: UISwitch!
     @IBOutlet weak var lblBuzzer: UILabel!
+    @IBOutlet weak var txtFieldAmount: UITextField!
+    @IBOutlet weak var priceView: UIView!
     
     var deviceId = String()
     var arrayUPSType = NSMutableArray()
@@ -29,27 +30,41 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     var arrayAmbientTemp = NSMutableArray()
     var arrayBuzzer = NSMutableArray()
     var arrayResourcePriority = NSMutableArray()
-
+    var arrayPerUnit = NSMutableArray()
+    var toolBarTextField = UIToolbar()
+    var arrayGridCharging = NSMutableArray()
+    var currencyList : [currencyModel]!
     var pickerView = UIPickerView()
     var toolBar = UIToolbar()
     var selectedId = String()
+    @IBOutlet weak var scrlView: UIScrollView!
+    @IBOutlet weak var scrlHeight: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.priceView.layer.cornerRadius = 10
+        self.priceView.layer.borderWidth = 1
+        self.priceView.layer.borderColor = UIColor.black.cgColor
+        self.priceView.clipsToBounds = true
+        
+        let height =  200
+        self.scrlView.contentSize = CGSize(width: self.scrlView.frame.size.width, height: CGFloat(height))
+        self.scrlHeight.constant = CGFloat(height)
         
         var dict = ["name" : "Buzzer Enable","ide" : "3"]
         self.arrayBuzzer.add(dict)
         dict = ["name" : "Buzzer Disabled","ide" : "2"]
         self.arrayBuzzer.add(dict)
         
-        dict = ["name" : "ATC Disable","ide" : "2"]
+        dict = ["name" : "Disable","ide" : "2"]
         self.arrayAmbientTemp.add(dict)
-        dict = ["name" : "ATC Enable","ide" : "3"]
+        dict = ["name" : "Enable","ide" : "3"]
         self.arrayAmbientTemp.add(dict)
                 
-        dict = ["name" : "Narrow Window","ide" : "2"]
+        dict = ["name" : "Narrow Window (185-265V)","ide" : "2"]
         self.arrayUPSType.add(dict)
-        dict = ["name" : "Wide Window","ide" : "3"]
+        dict = ["name" : "Wide Window (90-290V)","ide" : "3"]
         self.arrayUPSType.add(dict)
      
         
@@ -89,7 +104,16 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         dict = ["name" : "Enable grid when battery at 11 V","ide" : "3"]
         self.arrayResourcePriority.add(dict)
         
+
+       
+        dict = ["name" : "Disabe","ide" : "2"]
+        self.arrayGridCharging.add(dict)
+        dict = ["name" : "Enable","ide" : "3"]
+        self.arrayGridCharging.add(dict)
+        
+        self.setUpPickerForTextField()
         self.getDeviceDeetails()
+        self.getPriceDeetails()
         // Do any additional setup after loading the view.
     }
     
@@ -104,14 +128,85 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
             self.pickerView.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
             self.view.addSubview(self.pickerView)
                     
-            toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
+            toolBar.barStyle = UIBarStyle.default
+            toolBar.isTranslucent = true
+            toolBar.tintColor = UIColor.init(red: 103/255, green: 48/255, blue: 197/255, alpha: 1)
+            toolBar.sizeToFit()
+        
+        
+            toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 250, width: UIScreen.main.bounds.size.width, height: 50))
             toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped))]
             toolBar.tag = 100
             self.view.addSubview(toolBar)
     }
+    
+    // MARK:- Setup Picker ---------
 
+    func setUpPickerForTextField()
+    {
+       
+        self.toolBarTextField.barStyle = UIBarStyle.default
+        self.toolBarTextField.isTranslucent = true
+        self.toolBarTextField.tintColor = UIColor.init(red: 103/255, green: 48/255, blue: 197/255, alpha: 1)
+        self.toolBarTextField.sizeToFit()
+       
+       let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: #selector(donePicker))
+       
+       let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+       
+       let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelPicker))
+       
+        self.toolBarTextField.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        self.toolBarTextField.isUserInteractionEnabled = true
+               
+        self.txtFieldAmount.inputAccessoryView = toolBarTextField
+        
+
+}
+
+    
+    @objc func donePicker() {
+        self.txtFieldAmount.resignFirstResponder()
+        // call service for upadate currency
+        self.updateCurrencyToServer()
+        
+    }
+    
+    func updateCurrencyToServer()
+    {
+        if !Reachability.isConnectedToNetwork()
+        {
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+               
+            }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        self.viewModel.updateCurency(charge: self.txtFieldAmount.text!, currency: self.lblWarrenty.text!, deviceId: self.deviceId, viewController: self, isLoaderRequired: true) { errorString, obj in
+            if errorString == "Success"
+            {
+                let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                   
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        
+    }
+            
+    @objc func cancelPicker()
+    {
+        self.txtFieldAmount.resignFirstResponder()
+    }
+    
     @objc func onDoneButtonTapped()
     {
+        self.view.resignFirstResponder()
+        self.view.endEditing(true)
+        
         for v in self.view.subviews{
             if v is UIToolbar
             {
@@ -148,6 +243,10 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
                    // Resource preioty
                    self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
                    break
+               case 999999999:
+                   // Electricity per unit
+                  // self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                   break
                default: break
                    // nothing to do
                }
@@ -180,9 +279,9 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
             self.callServiceForUpdateValues(deviceIDAndValue: value, isFrom: "lvc")
             break
         case 999999:
-            // ATC
+            // GRid Charging
             let value = self.deviceId + "/" + String(self.selectedId)
-            self.callServiceForUpdateValues(deviceIDAndValue: value, isFrom: "atc")
+            self.callServiceForUpdateValues(deviceIDAndValue: value, isFrom: "grid")
             break
         case 9999999:
             // buzzer
@@ -253,9 +352,29 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         }
     }
     
+    func getPriceDeetails()
+    {
+        if !Reachability.isConnectedToNetwork()
+        {
+            let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+               
+            }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        self.viewModel.getCurrencyDetails(viewController: self, isLoaderRequired: true) { errorString, obj in
+            if errorString == "Success"
+            {
+                self.currencyList = obj
+            }
+        }
+        
+    }
+    
     func setupDetails(obj : DeviceDetailsModel)  {
-        self.lblPriority.text = obj.setting_priority
-        self.lblWarrenty.text = String(obj.warranty_1) + " Months, " + String(obj.warranty_2) + " Days"
+        //self.lblWarrenty.text = String(obj.warranty_1) + " Months, " + String(obj.warranty_2) + " Days"
         let onColor  = UIColor.green
         let offColor = UIColor.red
 
@@ -279,6 +398,10 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
             self.getShowAllButtonFromViewRecursion(view: self.view)
             
         }
+        
+        
+        self.lblWarrenty.text = obj.currency
+        self.txtFieldAmount.text = obj.electricity_unit_charge
         
    
         let buzzer = obj.setting_buzzer
@@ -309,16 +432,16 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         
         switch (obj.setting_ups_type_is) {
             case 2:
-               self.lblUPSType.text = "Narrow Window"
+               self.lblUPSType.text = "Narrow Window (185-265V)"
               break;
             case 3:
-               self.lblUPSType.text = "Wide Window"
+               self.lblUPSType.text = "Wide Window (90-290V)"
                 break
             case 1:
-               self.lblUPSType.text = "Wide Window"
+               self.lblUPSType.text = "Wide Window (90-290V)"
                 break;
             default:
-                self.lblUPSType.text = "Narrow Window"
+                self.lblUPSType.text = "Narrow Window (185-265V)"
                 break
         }
         
@@ -379,6 +502,24 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
                 break;
             default:
                 self.lblGridCharing.text = "--"
+                break
+        }
+        
+        switch (obj.setting_grid_charging) {
+            case 0:
+               self.lblTemperature.text = "Disable"
+              break;
+            case 1:
+               self.lblTemperature.text = "Enable"
+                break;
+            case 2:
+                self.lblTemperature.text = "Disable"
+                break;
+            case 3:
+                self.lblTemperature.text = "Enable"
+                break;
+            default:
+                self.lblTemperature.text = "Disable"
                 break
         }
         
@@ -476,7 +617,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
                             self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
                             self.switchContro.clipsToBounds = true
                             self.getHideAllButtonFromViewRecursion(view: self.view)
-                            
+                            self.txtFieldAmount.isUserInteractionEnabled = false
                         }
                     }))
                     self.present(alert, animated: true, completion: nil)
@@ -520,7 +661,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
                             self.switchContro.backgroundColor = onColor
                             self.switchContro.clipsToBounds = true
                             self.getShowAllButtonFromViewRecursion(view: self.view)
-
+                            self.txtFieldAmount.isUserInteractionEnabled = true
                         }
                     }))
                     self.present(alert, animated: true, completion: nil)
@@ -546,13 +687,13 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
                 self.getHideAllButtonFromViewRecursion(view: v)
             }
             else if (v.isKind(of: UIButton.self)) {
-                if v.tag == 9 || v.tag == 99 || v.tag == 999 || v.tag == 9999 || v.tag == 99999 || v.tag == 999999 || v.tag == 9999999 || v.tag == 99999999
+                if v.tag == 9 || v.tag == 99 || v.tag == 999 || v.tag == 9999 || v.tag == 99999 || v.tag == 999999 || v.tag == 9999999 || v.tag == 99999999 || v.tag == 999999999
                 {
                     v.isHidden = true
                 }
             }
             else if (v.isKind(of: UIImageView.self)) {
-                if v.tag == 8 || v.tag == 88 || v.tag == 888 || v.tag == 8888 || v.tag == 88888 || v.tag == 888888 || v.tag == 8888888 || v.tag == 88888888
+                if v.tag == 8 || v.tag == 88 || v.tag == 888 || v.tag == 8888 || v.tag == 88888 || v.tag == 888888 || v.tag == 8888888 || v.tag == 88888888 || v.tag == 888888888
                 {
                     v.isHidden = true
                 }
@@ -567,13 +708,13 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
                 self.getShowAllButtonFromViewRecursion(view: v)
             }
             else if (v.isKind(of: UIButton.self)) {
-                if v.tag == 9 || v.tag == 99 || v.tag == 999 || v.tag == 9999 || v.tag == 99999 || v.tag == 999999 || v.tag == 9999999 || v.tag == 99999999
+                if v.tag == 9 || v.tag == 99 || v.tag == 999 || v.tag == 9999 || v.tag == 99999 || v.tag == 999999 || v.tag == 9999999 || v.tag == 99999999 || v.tag == 999999999
                 {
                     v.isHidden = false
                 }
             }
             else if (v.isKind(of: UIImageView.self)) {
-                if v.tag == 8 || v.tag == 88 || v.tag == 888 || v.tag == 8888 || v.tag == 88888 || v.tag == 888888 || v.tag == 8888888 || v.tag == 88888888
+                if v.tag == 8 || v.tag == 88 || v.tag == 888 || v.tag == 8888 || v.tag == 88888 || v.tag == 888888 || v.tag == 8888888 || v.tag == 88888888 || v.tag == 888888888
                 {
                     v.isHidden = false
                 }
@@ -614,11 +755,15 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
          }
          else if self.pickerView.tag == 999999
          {
-             return self.arrayAmbientTemp.count
+             return self.arrayGridCharging.count
          }
          else if self.pickerView.tag == 9999999
          {
              return self.arrayBuzzer.count
+         }
+         else if self.pickerView.tag == 999999999
+         {
+             return self.currencyList.count
          }
          else
          {
@@ -653,7 +798,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
           }
           else if self.pickerView.tag == 999999
           {
-              let dict = self.arrayAmbientTemp[row] as? NSDictionary
+              let dict = self.arrayGridCharging[row] as? NSDictionary
               value = (dict?.object(forKey: "name") as? String)!
           }
           else if self.pickerView.tag == 9999999
@@ -661,6 +806,11 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
               let dict = self.arrayBuzzer[row] as? NSDictionary
               value = (dict?.object(forKey: "name") as? String)!
           }
+         else if self.pickerView.tag == 999999999
+         {
+          
+             value = self.currencyList[row].country + "(" + self.currencyList[row].code + ")"
+         }
           else
           {
               let dict = self.arrayResourcePriority[row] as? NSDictionary
@@ -701,7 +851,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
           }
           else if self.pickerView.tag == 999999
           {
-              let dict = self.arrayAmbientTemp[row] as? NSDictionary
+              let dict = self.arrayGridCharging[row] as? NSDictionary
               self.lblTemperature.text = (dict?.object(forKey: "name") as? String)!
               self.selectedId = (dict?.object(forKey: "ide") as? String)!
 
@@ -713,6 +863,12 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
               self.selectedId = (dict?.object(forKey: "ide") as? String)!
 
           }
+         else if self.pickerView.tag == 999999999
+         {
+             self.lblWarrenty.text = self.currencyList[row].country + "(" + self.currencyList[row].code + ")"
+             self.selectedId = self.currencyList[row].symbol
+
+         }
           else
           {
               let dict = self.arrayResourcePriority[row] as? NSDictionary

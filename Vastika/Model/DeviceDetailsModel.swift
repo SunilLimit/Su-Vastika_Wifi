@@ -44,7 +44,7 @@ class DeviceDetailsModel:NSObject,Codable{
     var status_front_switch : Int!
     var setting_atc : String!
     var warranty_2 : Int!
-    var setting_grid_charging : String!
+    var setting_grid_charging : Int!
     var battery_percent : Int!
     var load_sharing_2 : Int!
     var bv : Double!
@@ -64,6 +64,7 @@ class DeviceDetailsModel:NSObject,Codable{
     var electricity_unit_charge : String!
     var timestamp : String!
     var device_function_type : String!
+    var currency : String!
     
     // * Instantiate the instance using the passed json values to set the properties values
     // */
@@ -108,6 +109,8 @@ class DeviceDetailsModel:NSObject,Codable{
         device_id = json["device_id"].intValue
         solar_mode_timer = json["solar_mode_timer"].stringValue
         
+        currency = json["currency"].stringValue
+
         power_fail_timer = json["power_fail_timer"].stringValue
         device_name = json["device_name"].stringValue
         dsg_i = json["dsg_i"].doubleValue
@@ -119,7 +122,7 @@ class DeviceDetailsModel:NSObject,Codable{
         status_front_switch = json["status_front_switch"].intValue
         setting_atc = json["setting_atc"].stringValue
         warranty_2 = json["warranty_2"].intValue
-        setting_grid_charging = json["setting_grid_charging"].stringValue
+        setting_grid_charging = json["setting_grid_charging"].intValue
         battery_percent = json["battery_percent"].intValue
         
         load_sharing_2 = json["load_sharing_2"].intValue
@@ -172,6 +175,10 @@ class DeviceDetailsModel:NSObject,Codable{
         
         if device_function_type != nil{
             dictionary["device_function_type"] = device_function_type
+        }
+        
+        if currency != nil{
+            dictionary["currency"] = currency
         }
         
         if syscap != nil{
@@ -343,6 +350,7 @@ class DeviceDetailsModel:NSObject,Codable{
         bw = (aDecoder.decodeObject(forKey: "bw") as? Int)!
         device_type = (aDecoder.decodeObject(forKey: "device_type") as? String)!
         device_function_type = (aDecoder.decodeObject(forKey: "device_function_type") as? String)!
+        currency = (aDecoder.decodeObject(forKey: "currency") as? String)!
 
         
         load_wattage = aDecoder.decodeObject(forKey: "load_wattage") as? Int
@@ -377,7 +385,7 @@ class DeviceDetailsModel:NSObject,Codable{
         status_front_switch = aDecoder.decodeObject(forKey: "status_front_switch") as? Int
         setting_atc = (aDecoder.decodeObject(forKey: "setting_atc") as? String)!
         warranty_2 = (aDecoder.decodeObject(forKey: "warranty_2") as? Int)!
-        setting_grid_charging = (aDecoder.decodeObject(forKey: "setting_grid_charging") as? String)!
+        setting_grid_charging = (aDecoder.decodeObject(forKey: "setting_grid_charging") as? Int)!
         battery_percent = (aDecoder.decodeObject(forKey: "battery_percent") as? Int)!
         
         load_sharing_2 = aDecoder.decodeObject(forKey: "load_sharing_2") as? Int
@@ -427,6 +435,11 @@ class DeviceDetailsModel:NSObject,Codable{
         if setting_low_voltage_cut_is != nil{
             aCoder.encode(setting_low_voltage_cut_is, forKey: "setting_low_voltage_cut_is")
         }
+        
+        if currency != nil{
+            aCoder.encode(currency, forKey: "currency")
+        }
+        
         
         if setting_buzzer != nil{
             aCoder.encode(setting_buzzer, forKey: "setting_buzzer")

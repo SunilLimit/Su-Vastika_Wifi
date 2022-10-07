@@ -51,6 +51,8 @@ class webServices{
     static let updatedRegister = "api/consumer/signup"
     static let updateEmailAndMobil = "api/consumer/email-or-mobile-update-otp"
     static let verifyProfileOTP = "api/consumer/email-or-mobile-update-otp-verify"
+    static let currenyDetails = "api/consumer/common/currencies"
+    static let upadteCurrency = "api/consumer/setting/device/"
 
     class var sharedInstance:webServices{
         struct sharedInstanceStruct{

@@ -188,7 +188,17 @@ class AppUtils{
         return "";
     }
     
-    
+    static func getDateFromNewShowFormate(strDate : String)-> String
+    {
+        let dateFormatter = DateFormatter();
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let convertToDate = dateFormatter.date(from: strDate){
+            dateFormatter.dateFormat = "dd-MM-yyyy"
+            let formattedDate = dateFormatter.string(from: convertToDate);
+            return formattedDate;
+        }
+        return ""
+    }
     
     static func getDateFromString(dateString:String,format:String) -> Date{
         

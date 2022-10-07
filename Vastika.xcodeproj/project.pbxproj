@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0413BA7126FDF63800FD0FF7 /* DemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413BA7026FDF63800FD0FF7 /* DemoVC.swift */; };
+		0418F87D28EB030B0092B54B /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0418F87C28EB030B0092B54B /* DatePickerDialog.swift */; };
+		0418F88028EB044C0092B54B /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0418F87E28EB044C0092B54B /* UIColor+Ext.swift */; };
+		0418F88128EB044C0092B54B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0418F87F28EB044C0092B54B /* Colors.swift */; };
 		041FCBCD27044179002729F9 /* Splash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041FCBCA27044177002729F9 /* Splash@3x.png */; };
 		041FCBCE27044179002729F9 /* Splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041FCBCB27044178002729F9 /* Splash@2x.png */; };
 		041FCBCF27044179002729F9 /* Splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 041FCBCC27044178002729F9 /* Splash.png */; };
@@ -111,6 +114,9 @@
 
 /* Begin PBXFileReference section */
 		0413BA7026FDF63800FD0FF7 /* DemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoVC.swift; sourceTree = "<group>"; };
+		0418F87C28EB030B0092B54B /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
+		0418F87E28EB044C0092B54B /* UIColor+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
+		0418F87F28EB044C0092B54B /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		041FCBCA27044177002729F9 /* Splash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash@3x.png"; sourceTree = "<group>"; };
 		041FCBCB27044178002729F9 /* Splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash@2x.png"; sourceTree = "<group>"; };
 		041FCBCC27044178002729F9 /* Splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Splash.png; sourceTree = "<group>"; };
@@ -537,6 +543,9 @@
 		04DE74E026EF6EB100956103 /* CommonFunction */ = {
 			isa = PBXGroup;
 			children = (
+				0418F87F28EB044C0092B54B /* Colors.swift */,
+				0418F87E28EB044C0092B54B /* UIColor+Ext.swift */,
+				0418F87C28EB030B0092B54B /* DatePickerDialog.swift */,
 				048FCA3728AE0F670002F3E6 /* Chart */,
 				049AD17926F0BA5A00EC38F5 /* Reeachability.swift */,
 				04DE74E126EF6EB100956103 /* Messages.swift */,
@@ -788,6 +797,7 @@
 				04845556285062E8004D9A85 /* ForgotPasswordOTPVC.swift in Sources */,
 				04C78E1A2701827D0055E6EC /* CellFour.swift in Sources */,
 				04DE751026EF6EB100956103 /* StarRatingStackView.swift in Sources */,
+				0418F88128EB044C0092B54B /* Colors.swift in Sources */,
 				04DE750D26EF6EB100956103 /* textFieldValidator.swift in Sources */,
 				0484555428505417004D9A85 /* NewSignUPVC.swift in Sources */,
 				04DE752826EF6EB100956103 /* Color.swift in Sources */,
@@ -818,6 +828,8 @@
 				04DE751626EF6EB100956103 /* AppUtils.swift in Sources */,
 				04DE750C26EF6EB100956103 /* Messages.swift in Sources */,
 				04C78E162701819F0055E6EC /* CellThree.swift in Sources */,
+				0418F87D28EB030B0092B54B /* DatePickerDialog.swift in Sources */,
+				0418F88028EB044C0092B54B /* UIColor+Ext.swift in Sources */,
 				049AD17C26F1C4E600EC38F5 /* RegisterViewModel.swift in Sources */,
 				0484555A285085DC004D9A85 /* VerifyProfileOTPVC.swift in Sources */,
 				04DE750626EF6EB100956103 /* GenericAlertView.swift in Sources */,

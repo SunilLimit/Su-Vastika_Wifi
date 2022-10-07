@@ -127,7 +127,7 @@ class AddDeviceVC: UIViewController,UITextFieldDelegate {
         }
         
         if !self.setValidationForDevice() {return}
-        self.viewModel.addDevice(srialNumber: self.txtFieldSerialNumbeer.text!, deviceName: self.txtFieldDeviceName.text!, charge: self.txtFieldCharge.text!,type:self.isFrom,viewController: self, isLoaderRequired: true) { status, msg in
+        self.viewModel.addDevice(srialNumber: self.txtFieldSerialNumbeer.text!, deviceName: self.txtFieldDeviceName.text!, charge: "0",type:self.isFrom,viewController: self, isLoaderRequired: true) { status, msg in
             if status == "Success"
             {
                 let alert = UIAlertController(title: webServices.AppName, message: msg, preferredStyle: UIAlertController.Style.alert)

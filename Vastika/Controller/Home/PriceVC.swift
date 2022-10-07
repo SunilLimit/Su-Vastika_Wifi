@@ -23,10 +23,16 @@ class PriceVC: UIViewController {
     @IBOutlet weak var lblTitleThirdWeek: UILabel!
     @IBOutlet weak var lblTitleThisWeek: UILabel!
     @IBOutlet weak var lblTitleSecWeek: UILabel!
+    @IBOutlet weak var lblFromDate: UILabel!
+    @IBOutlet weak var lblToDate: UILabel!
     var deviceId = String()
     @IBOutlet weak var lblTitle: UILabel!
     var viewModel = DeviceDetailsViewModel()
-   
+    var datePicker = DatePickerDialog()
+    var currentDate : String = ""
+    var previousMonth : String = ""
+    @IBOutlet weak var fromView: UIView!
+    @IBOutlet weak var toView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,10 +41,18 @@ class PriceVC: UIViewController {
         self.makeCurve(lbl: self.lblSecWeek)
         self.makeCurve(lbl: self.lblThrdWeek)
         self.makeCurve(lbl: self.lblFourthWeek)
+        
         self.makeShadowBorder(yourView: self.monthlyView)
         self.makeShadowBorder(yourView: self.firstView)
         self.makeShadowBorder(yourView: self.secView)
+        self.makeShadowBorder(yourView: self.fromView)
+        self.makeShadowBorder(yourView: self.toView)
 
+        self.currentDate = AppUtils.getCurrentDate()
+        self.previousMonth = AppUtils.getDateFromMonthBefore()
+        self.lblFromDate.text = AppUtils.getDateFromNewShowFormate(strDate: self.previousMonth)//self.previousMonth
+        self.lblToDate.text = AppUtils.getDateFromNewShowFormate(strDate: self.currentDate)
+        
 
     }
     
@@ -151,6 +165,52 @@ class PriceVC: UIViewController {
         attributedString1111.append(attributedString2222)
         self.lblTitleFourthWeek.attributedText = attributedString1111
     }
+    
+    @IBAction func tapFromDate(_ sender: Any) {
+        let currentDate = Date()
+                var dateComponents = DateComponents()
+                dateComponents.year = -10
+                let threeMonthAgo = Calendar.current.date(byAdding: dateComponents, to: currentDate)
+
+                datePicker.show("Select Date",
+                                doneButtonTitle: "Done",
+                                cancelButtonTitle: "Cancel",
+                                minimumDate: threeMonthAgo,
+                                maximumDate: currentDate,
+                                datePickerMode: .date) { (date) in
+                    if let dt = date {
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        self.previousMonth = dateFormatter.string(from: dt)
+                        self.lblFromDate.text = AppUtils.getDateFromNewShowFormate(strDate: dateFormatter.string(from: dt))
+                        
+                    }
+                }
+    }
+    
+    
+    @IBAction func tapToDAte(_ sender: Any) {
+        let currentDate = Date()
+                var dateComponents = DateComponents()
+                dateComponents.year = -10
+                let threeMonthAgo = Calendar.current.date(byAdding: dateComponents, to: currentDate)
+
+                datePicker.show("Select Date",
+                                doneButtonTitle: "Done",
+                                cancelButtonTitle: "Cancel",
+                                minimumDate: threeMonthAgo,
+                                maximumDate: currentDate,
+                                datePickerMode: .date) { (date) in
+                    if let dt = date {
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        self.currentDate = dateFormatter.string(from: dt)
+                        self.lblToDate.text = AppUtils.getDateFromNewShowFormate(strDate: dateFormatter.string(from: dt))
+                        
+                    }
+                }
+    }
+    
 }
 
 extension String {
