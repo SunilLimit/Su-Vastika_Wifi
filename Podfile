@@ -18,6 +18,8 @@ target 'Vastika' do
   pod 'ListPlaceholder'
   pod 'SkeletonView'
   pod 'IQKeyboardManagerSwift'
-  pod 'CocoaMQTT'  
-
+  pod 'CocoaMQTT'
+  pod 'SwiftyGif'
+  pod 'SwiftGifOrigin'
+pod 'SmartGauge'
 end

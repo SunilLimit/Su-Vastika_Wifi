@@ -77,9 +77,8 @@ extension FramePubAck {
 
         //3.4.2.2.3 User Property
         if let userProperty = self.userProperties {
-            let dictValues = [String](userProperty.values)
-            for (value) in dictValues {
-                properties += getMQTTPropertyData(type: CocoaMQTTPropertyName.userProperty.rawValue, value: value.bytesWithLength)
+            for (key, value) in userProperty {
+                properties += getMQTTPropertyData(type: CocoaMQTTPropertyName.userProperty.rawValue, value: key.bytesWithLength + value.bytesWithLength)
             }
         }
 
@@ -109,18 +108,19 @@ extension FramePubAck: InitialWithBytes {
         guard packetFixedHeaderType == FrameType.puback.rawValue else {
             return nil
         }
+        
         //MQTT 5.0 bytes.count == 4
         guard bytes.count >= 2 else {
             return nil
         }
 
-        self.reasonCode = CocoaMQTTPUBACKReasonCode(rawValue: bytes[2])
-
+        if bytes.count > 2{
+            self.reasonCode = CocoaMQTTPUBACKReasonCode(rawValue: bytes[2])
+            self.pubAckProperties = MqttDecodePubAck()
+            self.pubAckProperties!.decodePubAck(fixedHeader: packetFixedHeaderType, pubAckData: bytes)
+        }
+        
         msgid = UInt16(bytes[0]) << 8 + UInt16(bytes[1])
-
-
-        self.pubAckProperties = MqttDecodePubAck()
-        self.pubAckProperties!.decodePubAck(fixedHeader: packetFixedHeaderType, pubAckData: bytes)
     }
 }
 

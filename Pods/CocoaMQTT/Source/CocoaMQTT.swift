@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CocoaAsyncSocket
+import MqttCocoaAsyncSocket
 
 /**
  * Conn Ack
@@ -20,6 +20,15 @@ import CocoaAsyncSocket
     case badUsernameOrPassword
     case notAuthorized
     case reserved
+    
+    public init(byte: UInt8) {
+        switch byte {
+        case CocoaMQTTConnAck.accept.rawValue..<CocoaMQTTConnAck.reserved.rawValue:
+            self.init(rawValue: byte)!
+        default:
+            self = .reserved
+        }
+    }
     
     public var description: String {
         switch self {
@@ -76,6 +85,14 @@ import CocoaAsyncSocket
     @objc optional func mqtt(_ mqtt: CocoaMQTT, didStateChangeTo state: CocoaMQTTConnState)
 }
 
+/// set mqtt version to 3.1.1
+public func setMqtt3Version(){
+    if let storage = CocoaMQTTStorage() {
+        storage.setMQTTVersion("3.1.1")
+    }
+}
+
+
 /**
  * Blueprint of the MQTT Client
  */
@@ -120,7 +137,7 @@ protocol CocoaMQTTClient {
 
 /// MQTT Client
 ///
-/// - Note: GCDAsyncSocket need delegate to extend NSObject
+/// - Note: MGCDAsyncSocket need delegate to extend NSObject
 public class CocoaMQTT: NSObject, CocoaMQTTClient {
     
     public weak var delegate: CocoaMQTTDelegate?
@@ -286,13 +303,13 @@ public class CocoaMQTT: NSObject, CocoaMQTTClient {
         self.socket = socket
         super.init()
         deliver.delegate = self
-        if let storage = CocoaMQTTStorage(by: clientID) {
+        if let storage = CocoaMQTTStorage() {
             storage.setMQTTVersion("3.1.1")
         } else {
             printWarning("Localstorage initial failed for key: \(clientID)")
         }
     }
-    
+
     deinit {
         aliveTimer?.suspend()
         autoReconnTimer?.suspend()
@@ -383,7 +400,6 @@ public class CocoaMQTT: NSObject, CocoaMQTTClient {
     ///         If you want to disconnect from inside framework, call internal_disconnect()
     ///         disconnect expectedly
     public func disconnect() {
-        is_internal_disconnected = false
         internal_disconnect()
     }
     
@@ -550,7 +566,7 @@ extension CocoaMQTT: CocoaMQTTSocketDelegate {
     }
 
     // ?
-    public func socketDidSecure(_ sock: GCDAsyncSocket) {
+    public func socketDidSecure(_ sock: MGCDAsyncSocket) {
         printDebug("Socket has successfully completed SSL/TLS negotiation")
         sendConnectFrame()
     }
@@ -581,10 +597,8 @@ extension CocoaMQTT: CocoaMQTTSocketDelegate {
         delegate?.mqttDidDisconnect(self, withError: err)
         didDisconnect(self, err)
 
-        if !autoReconnect{
-            guard !is_internal_disconnected else {
-                return
-            }
+        guard !is_internal_disconnected else {
+            return
         }
 
         guard autoReconnect else {
@@ -611,14 +625,6 @@ extension CocoaMQTT: CocoaMQTTSocketDelegate {
 
 // MARK: - CocoaMQTTReaderDelegate
 extension CocoaMQTT: CocoaMQTTReaderDelegate {
-    
-    func didReceive(_ reader: CocoaMQTTReader, disconnect: FrameDisconnect) {
-
-    }
-    
-    func didReceive(_ reader: CocoaMQTTReader, auth: FrameAuth) {
-        
-    }
     
     func didReceive(_ reader: CocoaMQTTReader, connack: FrameConnAck) {
         printDebug("RECV: \(connack)")
@@ -719,7 +725,6 @@ extension CocoaMQTT: CocoaMQTTReaderDelegate {
 
     func didReceive(_ reader: CocoaMQTTReader, suback: FrameSubAck) {
         printDebug("RECV: \(suback)")
-        
         guard let topicsAndQos = subscriptionsWaitingAck.removeValue(forKey: suback.msgid) else {
             printWarning("UNEXPECT SUBACK Received: \(suback)")
             return
@@ -733,7 +738,7 @@ extension CocoaMQTT: CocoaMQTTReaderDelegate {
         let success: NSMutableDictionary = NSMutableDictionary()
         var failed = [String]()
         for (idx,(topic, _)) in topicsAndQos.enumerated() {
-            if suback.grantedQos[idx] != .FAILTURE {
+            if suback.grantedQos[idx] != .FAILURE {
                 subscriptions[topic] = suback.grantedQos[idx]
                 success[topic] = suback.grantedQos[idx].rawValue
             } else {

@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window : UIWindow?
     var storyboard = UIStoryboard()
-
+    var isFrom : String = ""
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.storyboard = UIStoryboard.init(name: "Main", bundle: nil)
@@ -37,8 +37,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setHomeVieew()
     {
-        let navRoot = self.storyboard.instantiateViewController(withIdentifier: "HomeNavigation")
+       
+        let navRoot = self.storyboard.instantiateViewController(withIdentifier: "OptionNav")
         self.window?.rootViewController = navRoot
+        
+//        let navRoot = self.storyboard.instantiateViewController(withIdentifier: "HomeNavigation")
+//        self.window?.rootViewController = navRoot
     }
 }
 

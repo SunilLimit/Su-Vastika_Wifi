@@ -12,17 +12,21 @@ MQTT v3.1.1 and v5.0 client library for iOS/macOS/tvOS written with Swift 5
 
 Build with Xcode 11.1 / Swift 5.1
 
-IOS Target: 10.0 or above
+IOS Target: 9.0 or above
 OSX Target: 10.12 or above
 TVOS Target: 10.0 or above
 
 ## Installation
 ### CocoaPods
 
-Install using [CocoaPods](http://cocoapods.org) by adding this line to your Podfile:
+To integrate CocoaMQTT into your Xcode project using [CocoaPods](http://cocoapods.org), you need to modify you `Podfile` like the followings:
 
 ```ruby
-pod 'CocoaMQTT, '~> 2.0.2''
+use_frameworks!
+
+target 'Example' do
+    pod 'CocoaMQTT'
+end
 ```
 
 Then, run the following command:
@@ -48,37 +52,23 @@ github "emqx/CocoaMQTT" "master"
 Then, run the following command:
 
 ```bash
-$ carthage update --platform iOS,macOS,tvOS
+$ carthage update --platform iOS,macOS,tvOS --use-xcframeworks
 ```
 
-Last if you're building for OS X:
+At last:
 
-- On your application targets “General” settings tab, in the "Embedded Binaries" section, drag and drop CocoaMQTT.framework from the Carthage/Build/Mac folder on disk.
+On your application targets “General” settings tab, in the "Frameworks, Libraries, and Embedded content" section, drag and drop CocoaMQTT.xcframework, CocoaAsyncSocket.xcframework and Starscream.xcframework from the Carthage/Build folder on disk. Then select "Embed & Sign". 
 
-If you're building for iOS, tvOS:
 
-- On your application targets “General” settings tab, in the "Frameworks and Libraries" section, drag and drop each framework you want to use from the Carthage/Build folder on disk.
-
-- On your application targets "Build Phases" settings tab, click the "+" icon and choose "New Run Script Phase". Create a Run Script with the following contents: 
-
-    ```
-    /usr/local/bin/carthage copy-frameworks
-    ```
-
-- and add the paths to the frameworks you want to use under "Input Files", e.g.:
-
-    ```
-    $(SRCROOT)/Carthage/Build/iOS/CocoaMQTT.framework
-    ```
 
 ## Usage
 
-Create a client to connect [MQTT broker](https://www.emqx.io/products/broker):
+Create a client to connect [MQTT broker](https://www.emqx.com/en/mqtt/public-mqtt5-broker):
 
 ```swift
 ///MQTT 5.0
 let clientID = "CocoaMQTT-" + String(ProcessInfo().processIdentifier)
-let mqtt5 = CocoaMQTT5(clientID: clientID, host: "localhost", port: 1883)
+let mqtt5 = CocoaMQTT5(clientID: clientID, host: "broker.emqx.io", port: 1883)
 
 let connectProperties = MqttConnectProperties()
 connectProperties.topicAliasMaximum = 0
@@ -96,7 +86,7 @@ mqtt5.connect()
 
 ///MQTT 3.1.1
 let clientID = "CocoaMQTT-" + String(ProcessInfo().processIdentifier)
-let mqtt = CocoaMQTT(clientID: clientID, host: "localhost", port: 1883)
+let mqtt = CocoaMQTT(clientID: clientID, host: "broker.emqx.io", port: 1883)
 mqtt.username = "test"
 mqtt.password = "public"
 mqtt.willMessage = CocoaMQTTWill(topic: "/will", message: "dieout")
@@ -142,7 +132,7 @@ If you integrated by **CocoaPods**, you need to modify you `Podfile` like the fo
 use_frameworks!
 
 target 'Example' do
-    pod 'CocoaMQTT/WebSockets', '1.3.0-rc.1'
+    pod 'CocoaMQTT/WebSockets'
 end
 
 ```
@@ -152,7 +142,7 @@ If you're using CocoaMQTT in a project with only a `.podspec` and no `Podfile`, 
 ```ruby
 Pod::Spec.new do |s|
   ...
-  s.dependency "Starscream", "~> 3.1.1"
+  s.dependency "Starscream"
 end
 ```
 
@@ -213,8 +203,9 @@ Then, open the `Example.xcworkspace/` by Xcode and start it!
 
 These third-party functions are used:
 
-* [GCDAsyncSocket](https://github.com/robbiehanson/CocoaAsyncSocket)
-* [Starscream](https://github.com/daltoniam/Starscream）
+~~[GCDAsyncSocket](https://github.com/robbiehanson/CocoaAsyncSocket)~~
+* [MqttCocoaAsyncSocket](https://github.com/leeway1208/MqttCocoaAsyncSocket)
+* [Starscream](https://github.com/daltoniam/Starscream)
 
 
 ## LICENSE
@@ -240,5 +231,4 @@ MIT License (see `LICENSE`)
 
 ## Twitter
 
-https://twitter.com/emqtt
-
+https://twitter.com/EMQTech

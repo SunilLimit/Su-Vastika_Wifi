@@ -269,8 +269,11 @@ class LoginVC: UIViewController,UITextFieldDelegate {
                     UserDefaults.standard.removeObject(forKey: "password")
                     UserDefaults.standard.synchronize()
                 }
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.setHomeVieew()
+//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//                appDelegate.setHomeVieew()
+                if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "OptionVC") as? OptionVC{
+                    self.navigationController?.pushViewController(vcToPresent, animated: true);
+                }
             }
             else
             {

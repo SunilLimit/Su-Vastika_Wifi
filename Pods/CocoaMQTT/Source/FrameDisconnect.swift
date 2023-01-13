@@ -73,9 +73,8 @@ extension FrameDisconnect {
         }
         //3.14.2.2.4 User Property
         if let userProperty = self.userProperties {
-            let dictValues = [String](userProperty.values)
-            for (value) in dictValues {
-                properties += getMQTTPropertyData(type: CocoaMQTTPropertyName.userProperty.rawValue, value: value.bytesWithLength)
+            for (key, value) in userProperty {
+                properties += getMQTTPropertyData(type: CocoaMQTTPropertyName.userProperty.rawValue, value: key.bytesWithLength + value.bytesWithLength)
             }
         }
         //3.14.2.2.5 Server Reference
@@ -106,8 +105,17 @@ extension FrameDisconnect {
 extension FrameDisconnect: InitialWithBytes {
     
     init?(packetFixedHeaderType: UInt8, bytes: [UInt8]) {
-        
-        receiveReasonCode = CocoaMQTTDISCONNECTReasonCode(rawValue: bytes[0])
+
+        var protocolVersion = "";
+        if let storage = CocoaMQTTStorage() {
+            protocolVersion = storage.queryMQTTVersion()
+        }
+
+        if (protocolVersion == "5.0"){
+            if bytes.count > 0 {
+                receiveReasonCode = CocoaMQTTDISCONNECTReasonCode(rawValue: bytes[0])
+            }
+        }
     }
     
 }

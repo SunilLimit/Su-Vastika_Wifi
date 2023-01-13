@@ -107,6 +107,17 @@
 		04DE753126EF6F8300956103 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DE752D26EF6F8300956103 /* LaunchScreen.storyboard */; };
 		04DE753226EF6F8300956103 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DE752F26EF6F8300956103 /* Main.storyboard */; };
 		04DE753626EF70F600956103 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE753426EF70F600956103 /* User.swift */; };
+		1050091F29556B82006D999A /* SimpleBluetoothIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050091D29556B82006D999A /* SimpleBluetoothIO.swift */; };
+		1050092029556B82006D999A /* NSData+int8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050091E29556B82006D999A /* NSData+int8.swift */; };
+		1050092329556BEE006D999A /* OptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050092229556BEE006D999A /* OptionVC.swift */; };
+		10500925295573D8006D999A /* AvailableBLEVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10500924295573D8006D999A /* AvailableBLEVC.swift */; };
+		10637A89296ECF8A0004AFB3 /* DeviceBLEVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10637A88296ECF8A0004AFB3 /* DeviceBLEVC.swift */; };
+		10637A8F296FD3E30004AFB3 /* lw-error.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8B296FD3E20004AFB3 /* lw-error.gif */; };
+		10637A90296FD3E30004AFB3 /* medium_battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8C296FD3E20004AFB3 /* medium_battery.gif */; };
+		10637A91296FD3E30004AFB3 /* low_battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8D296FD3E30004AFB3 /* low_battery.gif */; };
+		10637A92296FD3E30004AFB3 /* battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8E296FD3E30004AFB3 /* battery.gif */; };
+		10637A94296FE5870004AFB3 /* DeviceMainSVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10637A93296FE5870004AFB3 /* DeviceMainSVC.swift */; };
+		10637A96297025A50004AFB3 /* grid.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A95297025A50004AFB3 /* grid.gif */; };
 		3FDFEC0FE2A7D8D152F3150E /* Pods_Vastika.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B47D49309A62EF3887294747 /* Pods_Vastika.framework */; };
 		9A27E50A2803EEED0023E26A /* LogiWithOtpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A27E5092803EEED0023E26A /* LogiWithOtpVC.swift */; };
 		9AD8C92A28044E0A00AAEE7F /* UpdateProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8C92928044E0A00AAEE7F /* UpdateProfileVC.swift */; };
@@ -220,6 +231,17 @@
 		04DE752E26EF6F8300956103 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04DE753026EF6F8300956103 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		04DE753426EF70F600956103 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		1050091D29556B82006D999A /* SimpleBluetoothIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBluetoothIO.swift; sourceTree = "<group>"; };
+		1050091E29556B82006D999A /* NSData+int8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+int8.swift"; sourceTree = "<group>"; };
+		1050092229556BEE006D999A /* OptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionVC.swift; sourceTree = "<group>"; };
+		10500924295573D8006D999A /* AvailableBLEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableBLEVC.swift; sourceTree = "<group>"; };
+		10637A88296ECF8A0004AFB3 /* DeviceBLEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBLEVC.swift; sourceTree = "<group>"; };
+		10637A8B296FD3E20004AFB3 /* lw-error.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "lw-error.gif"; sourceTree = "<group>"; };
+		10637A8C296FD3E20004AFB3 /* medium_battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = medium_battery.gif; sourceTree = "<group>"; };
+		10637A8D296FD3E30004AFB3 /* low_battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = low_battery.gif; sourceTree = "<group>"; };
+		10637A8E296FD3E30004AFB3 /* battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = battery.gif; sourceTree = "<group>"; };
+		10637A93296FE5870004AFB3 /* DeviceMainSVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMainSVC.swift; sourceTree = "<group>"; };
+		10637A95297025A50004AFB3 /* grid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = grid.gif; sourceTree = "<group>"; };
 		9A27E5092803EEED0023E26A /* LogiWithOtpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogiWithOtpVC.swift; sourceTree = "<group>"; };
 		9AD8C92928044E0A00AAEE7F /* UpdateProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileVC.swift; sourceTree = "<group>"; };
 		B47D49309A62EF3887294747 /* Pods_Vastika.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Vastika.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -328,6 +350,8 @@
 			isa = PBXGroup;
 			children = (
 				049AD18426F1FC4400EC38F5 /* HomeVC.swift */,
+				10637A88296ECF8A0004AFB3 /* DeviceBLEVC.swift */,
+				10637A93296FE5870004AFB3 /* DeviceMainSVC.swift */,
 				0430CB8526FB4733000FF57E /* AlertVC.swift */,
 				04C25D2C26FB2675001A0610 /* AddDeviceVC.swift */,
 				04C1FB1828ACC1A1007484A7 /* PriceVC.swift */,
@@ -471,6 +495,7 @@
 		04DE74D026EF6EB100956103 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1050092129556BDB006D999A /* BLE */,
 				0471356026FD8359007D30E7 /* Feedback */,
 				049AD19A26F2174C00EC38F5 /* Change Password */,
 				049AD19726F2140000EC38F5 /* Profile */,
@@ -543,6 +568,9 @@
 		04DE74E026EF6EB100956103 /* CommonFunction */ = {
 			isa = PBXGroup;
 			children = (
+				10637A8A296FD3CC0004AFB3 /* GIF Image */,
+				1050091E29556B82006D999A /* NSData+int8.swift */,
+				1050091D29556B82006D999A /* SimpleBluetoothIO.swift */,
 				0418F87F28EB044C0092B54B /* Colors.swift */,
 				0418F87E28EB044C0092B54B /* UIColor+Ext.swift */,
 				0418F87C28EB030B0092B54B /* DatePickerDialog.swift */,
@@ -603,6 +631,27 @@
 			);
 			name = Base.lproj;
 			path = Base.lproj/Base.lproj;
+			sourceTree = "<group>";
+		};
+		1050092129556BDB006D999A /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				1050092229556BEE006D999A /* OptionVC.swift */,
+				10500924295573D8006D999A /* AvailableBLEVC.swift */,
+			);
+			path = BLE;
+			sourceTree = "<group>";
+		};
+		10637A8A296FD3CC0004AFB3 /* GIF Image */ = {
+			isa = PBXGroup;
+			children = (
+				10637A95297025A50004AFB3 /* grid.gif */,
+				10637A8E296FD3E30004AFB3 /* battery.gif */,
+				10637A8D296FD3E30004AFB3 /* low_battery.gif */,
+				10637A8B296FD3E20004AFB3 /* lw-error.gif */,
+				10637A8C296FD3E20004AFB3 /* medium_battery.gif */,
+			);
+			path = "GIF Image";
 			sourceTree = "<group>";
 		};
 		937C8EA2AFF9102DA38940C5 /* Frameworks */ = {
@@ -683,18 +732,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C78E132701802E0055E6EC /* CellTwo.xib in Resources */,
+				10637A91296FD3E30004AFB3 /* low_battery.gif in Resources */,
 				04DE753126EF6F8300956103 /* LaunchScreen.storyboard in Resources */,
 				049AD18A26F1FF6C00EC38F5 /* HomeCell.xib in Resources */,
 				041FCBCE27044179002729F9 /* Splash@2x.png in Resources */,
 				041FCBCD27044179002729F9 /* Splash@3x.png in Resources */,
 				04DE753226EF6F8300956103 /* Main.storyboard in Resources */,
+				10637A90296FD3E30004AFB3 /* medium_battery.gif in Resources */,
+				10637A8F296FD3E30004AFB3 /* lw-error.gif in Resources */,
 				04DE750826EF6EB100956103 /* MONTSERRAT-MEDIUM_0.TTF in Resources */,
+				10637A96297025A50004AFB3 /* grid.gif in Resources */,
 				04DE750926EF6EB100956103 /* MONTSERRAT-REGULAR_0.TTF in Resources */,
 				04C78E172701819F0055E6EC /* CellThree.xib in Resources */,
 				04C78E232701903E0055E6EC /* CellFive.xib in Resources */,
 				04DE74BF26EF6CD500956103 /* Assets.xcassets in Resources */,
 				04C78E0F27017EE70055E6EC /* cellOne.xib in Resources */,
 				0430CB8426FB430E000FF57E /* alertCell.xib in Resources */,
+				10637A92296FD3E30004AFB3 /* battery.gif in Resources */,
 				04DE750B26EF6EB100956103 /* MONTSERRAT-BLACK_0.TTF in Resources */,
 				04DE750F26EF6EB100956103 /* StarRatingStackView.xib in Resources */,
 				04DE750A26EF6EB100956103 /* MONTSERRAT-SEMIBOLD_0.TTF in Resources */,
@@ -756,6 +810,7 @@
 				048FCA4828AE0F670002F3E6 /* ArrayExtension.swift in Sources */,
 				049AD19E26F2F98D00EC38F5 /* DetailsPageVC.swift in Sources */,
 				048FCA4928AE0F670002F3E6 /* DataEntry.swift in Sources */,
+				1050092329556BEE006D999A /* OptionVC.swift in Sources */,
 				04DE750526EF6EB100956103 /* LoaderManager.swift in Sources */,
 				048FCA4B28AE0F670002F3E6 /* BeautifulBarChart.swift in Sources */,
 				048FCA4328AE0F670002F3E6 /* CustomSegments.swift in Sources */,
@@ -816,14 +871,18 @@
 				048FCA4628AE0F670002F3E6 /* UIBezierPathExtension.swift in Sources */,
 				049AD18026F1CD4400EC38F5 /* StateModee.swift in Sources */,
 				04DE751326EF6EB100956103 /* LogUtils.swift in Sources */,
+				10637A89296ECF8A0004AFB3 /* DeviceBLEVC.swift in Sources */,
 				04C1FB1928ACC1A1007484A7 /* PriceVC.swift in Sources */,
 				048FCA4528AE0F670002F3E6 /* BasicBarChartPresenter.swift in Sources */,
 				049AD1A026F35BEA00EC38F5 /* collDeviceCell.swift in Sources */,
+				1050091F29556B82006D999A /* SimpleBluetoothIO.swift in Sources */,
+				10637A94296FE5870004AFB3 /* DeviceMainSVC.swift in Sources */,
 				049AD1A426F4681800EC38F5 /* DeviceDetailsModel.swift in Sources */,
 				049AD18526F1FC4400EC38F5 /* HomeVC.swift in Sources */,
 				04C78E0A27017DAF0055E6EC /* NewDeviceDetailsVC.swift in Sources */,
 				049AD17626F0B00300EC38F5 /* SignUpVC.swift in Sources */,
 				0430CB8626FB4733000FF57E /* AlertVC.swift in Sources */,
+				10500925295573D8006D999A /* AvailableBLEVC.swift in Sources */,
 				048FCA4D28AE0F670002F3E6 /* BeautifulBarChartPresenter.swift in Sources */,
 				04DE751626EF6EB100956103 /* AppUtils.swift in Sources */,
 				04DE750C26EF6EB100956103 /* Messages.swift in Sources */,
@@ -836,6 +895,7 @@
 				04DE750326EF6EB100956103 /* webServiceExecuter.swift in Sources */,
 				04DE750426EF6EB100956103 /* WebServices.swift in Sources */,
 				04DE753626EF70F600956103 /* User.swift in Sources */,
+				1050092029556B82006D999A /* NSData+int8.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -986,7 +1046,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = 5M3D6657R9;
+				DEVELOPMENT_TEAM = W7R7MDY44S;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Vastika/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1012,7 +1072,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = 5M3D6657R9;
+				DEVELOPMENT_TEAM = W7R7MDY44S;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Vastika/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

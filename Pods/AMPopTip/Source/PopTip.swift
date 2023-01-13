@@ -116,9 +116,11 @@ open class PopTip: UIView {
   @objc open dynamic var textColor = UIColor.white
   /// The `NSTextAlignment` of the text
   @objc open dynamic var textAlignment = NSTextAlignment.center
-  /// The `UIColor` for the poptip's background
+  /// The `UIColor` for the poptip's background. If `bubbleLayer` is specificed, this will be ignored
   @objc open dynamic var bubbleColor = UIColor.red
-  /// The `UIColor` for the poptip's bordedr
+  /// The `CALayer` generator closure for poptip's sublayer 0. If nil, the bubbleColor will be used as solid fill
+  @objc open dynamic var bubbleLayerGenerator: ((_ path: UIBezierPath) -> CALayer?)?
+  /// The `UIColor` for the poptip's border
   @objc open dynamic var borderColor = UIColor.clear
   /// The width for the poptip's border
   @objc open dynamic var borderWidth = CGFloat(0.0)
@@ -176,6 +178,12 @@ open class PopTip: UIView {
   @objc open dynamic var maskColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
   /// Flag to enable or disable background mask
   @objc open dynamic var shouldShowMask = false
+  /// Flag to enable or disable cutout mask
+  @objc open dynamic var shouldCutoutMask = false
+  /// The path to use for the cutout path when the the pop up is visible
+  @objc open dynamic var cutoutPathGenerator: (_ from: CGRect) -> UIBezierPath = { from in
+    UIBezierPath(roundedRect: from.insetBy(dx: -8, dy: -8), byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8))
+  }
   /// Flag to enable or disable the checks that make sure that the tip does not extend over the container
   @objc open dynamic var constrainInContainerView = true
   /// Holds the CGrect with the rect the tip is pointing to
@@ -194,6 +202,9 @@ open class PopTip: UIView {
   /// A boolean value that determines whether to consider the originating frame as part of the poptip,
   /// i.e wether to call the `tapHandler` or the `tapOutsideHandler` when the tap occurs in the `from` frame.
   @objc open dynamic var shouldConsiderOriginatingFrameAsPopTip = false
+  /// A boolean value that determines whether to consider the cutout area as separately to outside,
+  /// i.e wether to call the `tapOutsideHandler` or the `tapCutoutHandler` when the tap occurs in the `from` frame.
+  @objc open dynamic var shouldConsiderCutoutTapSeparately = false
   /// A boolean value that determines whether to dismiss when swiping outside the poptip.
   @objc open dynamic var shouldDismissOnSwipeOutside = false
   /// A boolean value that determines if the action animation should start automatically when the poptip is shown
@@ -209,6 +220,8 @@ open class PopTip: UIView {
   open var tapHandler: ((PopTip) -> Void)?
   /// A block that will be fired when the user taps outside the poptip.
   open var tapOutsideHandler: ((PopTip) -> Void)?
+  /// A block that will be fired when the user taps the cutout area, only applicable is shouldShowMask and shouldCutoutMask are true.
+  open var tapCutoutHandler: ((PopTip) -> Void)?
   /// A block that will be fired when the user swipes outside the poptip.
   open var swipeOutsideHandler: ((PopTip) -> Void)?
   /// A block that will be fired when the poptip appears.
@@ -238,7 +251,7 @@ open class PopTip: UIView {
   /// The tap gesture recognizer. Read-only.
   open private(set) var tapGestureRecognizer: UITapGestureRecognizer?
   /// The tap remove gesture recognizer. Read-only.
-  open private(set) var tapRemoveGestureRecognizer: UITapGestureRecognizer?
+  open private(set) var tapToRemoveGestureRecognizer: UITapGestureRecognizer?
   fileprivate var attributedText: NSAttributedString?
   fileprivate var paragraphStyle = NSMutableParagraphStyle()
   fileprivate var swipeGestureRecognizer: UISwipeGestureRecognizer?
@@ -248,6 +261,11 @@ open class PopTip: UIView {
   fileprivate var customView: UIView?
   fileprivate var hostingController: UIViewController?
   fileprivate var isApplicationInBackground: Bool?
+  fileprivate var bubbleLayer: CALayer? {
+    willSet {
+      bubbleLayer?.removeFromSuperlayer()
+    }
+  }
   fileprivate var label: UILabel = {
     let label = UILabel()
     label.numberOfLines = 0
@@ -501,7 +519,6 @@ open class PopTip: UIView {
     } else {
       if backgroundMask == nil {
         backgroundMask = UIView()
-        backgroundMask?.backgroundColor = maskColor
       }
       backgroundMask?.frame = containerView.bounds
     }
@@ -513,9 +530,8 @@ open class PopTip: UIView {
       tapGestureRecognizer?.cancelsTouchesInView = false
       self.addGestureRecognizer(tapGestureRecognizer!)
     }
-    if shouldDismissOnTapOutside && tapRemoveGestureRecognizer == nil {
-      tapRemoveGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PopTip.handleTapOutside(_:)))
-      tapRemoveGestureRecognizer?.cancelsTouchesInView = false
+    if shouldDismissOnTapOutside && tapToRemoveGestureRecognizer == nil {
+      tapToRemoveGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PopTip.handleTapOutside(_:)))
     }
     if shouldDismissOnSwipeOutside && swipeGestureRecognizer == nil {
       swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(PopTip.handleSwipeOutside(_:)))
@@ -544,8 +560,14 @@ open class PopTip: UIView {
     layer.shadowOffset = shadowOffset
     layer.shadowColor = shadowColor.cgColor
 
-    bubbleColor.setFill()
-    path.fill()
+    if let bubbleLayerGenerator = self.bubbleLayerGenerator, let bubbleLayer = bubbleLayerGenerator(path) {
+      self.bubbleLayer = bubbleLayer
+      layer.insertSublayer(bubbleLayer, at: 0)
+    } else {
+      bubbleLayer = nil
+      bubbleColor.setFill()
+      path.fill()
+    }
 
     borderColor.setStroke()
     path.lineWidth = borderWidth
@@ -667,7 +689,9 @@ open class PopTip: UIView {
     containerView = view
     let controller = UIHostingController(rootView: rootView)
     controller.view.backgroundColor = .clear
-    controller.view.frame.size = controller.view.intrinsicContentSize
+    let maxContentWidth = UIScreen.main.bounds.width - (self.edgeMargin * 2) - self.edgeInsets.horizontal - (self.padding * 2)
+    let sizeThatFits = controller.view.sizeThatFits(CGSize(width: maxContentWidth, height: CGFloat.greatestFiniteMagnitude))
+    controller.view.frame.size = CGSize(width: min(sizeThatFits.width, maxContentWidth), height: sizeThatFits.height)
     maxWidth = controller.view.frame.size.width
     self.customView?.removeFromSuperview()
     self.customView = controller.view
@@ -719,7 +743,7 @@ open class PopTip: UIView {
     dismissTimer?.invalidate()
     dismissTimer = nil
 
-    if let gestureRecognizer = tapRemoveGestureRecognizer {
+    if let gestureRecognizer = tapToRemoveGestureRecognizer {
       containerView?.removeGestureRecognizer(gestureRecognizer)
     }
     if let gestureRecognizer = swipeGestureRecognizer {
@@ -732,7 +756,9 @@ open class PopTip: UIView {
       self.hostingController?.removeFromParent()
       self.customView = nil
       self.dismissActionAnimation()
+      self.bubbleLayer = nil
       self.backgroundMask?.removeFromSuperview()
+      self.backgroundMask?.subviews.forEach { $0.removeFromSuperview() }
       self.removeFromSuperview()
       self.layer.removeAllAnimations()
       self.transform = .identity
@@ -793,7 +819,7 @@ open class PopTip: UIView {
     performEntranceAnimation {
       self.customView?.layoutIfNeeded()
 
-      if let tapRemoveGesture = self.tapRemoveGestureRecognizer {
+      if let tapRemoveGesture = self.tapToRemoveGestureRecognizer {
         self.containerView?.addGestureRecognizer(tapRemoveGesture)
       }
       if let swipeGesture = self.swipeGestureRecognizer {
@@ -819,12 +845,20 @@ open class PopTip: UIView {
   }
 
   @objc fileprivate func handleTapOutside(_ gesture: UITapGestureRecognizer) {
+    if !isVisible {
+      return
+    }
+
     if shouldDismissOnTapOutside {
       hide()
     }
 
-    if shouldConsiderOriginatingFrameAsPopTip && from.contains(gesture.location(in: containerView)) {
+    let gestureLocationInContainer = gesture.location(in: containerView)
+
+    if shouldConsiderOriginatingFrameAsPopTip && from.contains(gestureLocationInContainer) {
       tapHandler?(self)
+    } else if shouldConsiderCutoutTapSeparately && shouldShowMask && shouldCutoutMask && cutoutPathGenerator(from).contains(gestureLocationInContainer) {
+      tapCutoutHandler?(self)
     } else {
       tapOutsideHandler?(self)
     }

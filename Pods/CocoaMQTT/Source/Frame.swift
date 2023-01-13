@@ -20,14 +20,14 @@ import Foundation
     case qos2
     
     /// !!! Used SUBACK frame only
-    case FAILTURE = 0x80
+    case FAILURE = 0x80
     
     public var description: String {
         switch self {
         case .qos0: return "qos0"
         case .qos1: return "qos1"
         case .qos2: return "qos2"
-        case .FAILTURE: return "Failure"
+        case .FAILURE: return "Failure"
         }
     }
 }
@@ -113,13 +113,12 @@ extension Frame {
     /// Pack struct to binary
     func bytes(version: String) -> [UInt8] {
 
-
-        if version == "5.0" {   let fixedHeader = self.fixedHeader()
+        if version == "5.0" {
+            let fixedHeader = self.fixedHeader()
             let variableHeader5 = self.variableHeader5()
             let payload5 = self.payload5()
             let properties = self.properties()
             let len5 = UInt32(variableHeader5.count + properties.count + payload5.count)
-
 
             printDebug("==========================MQTT 5.0==========================")
             printDebug("packetFixedHeaderType \(packetFixedHeaderType)")
@@ -130,7 +129,7 @@ extension Frame {
             printDebug("payload \(payload5)")
             printDebug("=============================================================")
 
-            return fixedHeader + remainingLen(len: len5) + variableHeader5 + properties + payload5
+            return [packetFixedHeaderType] + remainingLen(len: len5) + variableHeader5 + properties + payload5
         }else {
 
             let variableHeader = self.variableHeader()
@@ -144,8 +143,7 @@ extension Frame {
             printDebug("variableHeader \(variableHeader)")
             printDebug("payload \(payload)")
             printDebug("=============================================================")
-
-
+            
             return [packetFixedHeaderType] + remainingLen(len: len) + variableHeader + payload
         }
 
