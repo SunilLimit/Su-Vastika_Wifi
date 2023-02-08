@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreBluetooth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,7 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window : UIWindow?
     var storyboard = UIStoryboard()
     var isFrom : String = ""
-
+    var ssid = String()
+    var globalDict = NSDictionary()
+    var bluetoothManager : BluetoothManager!//.getInstance()
+    var writableCharacteristic: CBCharacteristic?
+    var peripheral: CBPeripheral!
+    var audioActive : Int = 0
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let userActive = UserDefaults.standard.object(forKey: "isLogin") as? Bool

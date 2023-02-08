@@ -30,7 +30,9 @@ class DeviceDiagonsisVC: UIViewController {
     @IBOutlet weak var lblOk3: UILabel!
     @IBOutlet weak var lblOk4: UILabel!
     @IBOutlet weak var lblOk5: UILabel!
+    @IBOutlet weak var lblWifi: UILabel!
     var actiVityIndicator = UIActivityIndicatorView()
+    var isFrom = String()
     
     // MARK:- View Life Cycle --------
     override func viewDidLoad() {
@@ -41,6 +43,15 @@ class DeviceDiagonsisVC: UIViewController {
         self.setCricle(vew: self.lblCr4)
         self.setCricle(vew: self.lblCr5)
         self.startSpinning()
+        
+        if self.isFrom == "BLE"
+        {
+            self.lblWifi.text = "BLE Communication"
+        }
+        else
+        {
+            self.lblWifi.text = "Wifi Communication"
+        }
         // Do any additional setup after loading the view.
     }
     

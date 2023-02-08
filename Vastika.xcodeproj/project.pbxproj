@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -107,17 +107,57 @@
 		04DE753126EF6F8300956103 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DE752D26EF6F8300956103 /* LaunchScreen.storyboard */; };
 		04DE753226EF6F8300956103 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DE752F26EF6F8300956103 /* Main.storyboard */; };
 		04DE753626EF70F600956103 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE753426EF70F600956103 /* User.swift */; };
+		104E16282979030000BBBE9A /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E161C2979030000BBBE9A /* BluetoothManager.swift */; };
+		104E16292979030000BBBE9A /* PreferencesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E161D2979030000BBBE9A /* PreferencesStore.swift */; };
+		104E162A2979030000BBBE9A /* CBCharacteristicProperties+LightBlue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E161E2979030000BBBE9A /* CBCharacteristicProperties+LightBlue.swift */; };
+		104E162B2979030000BBBE9A /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E161F2979030000BBBE9A /* Preferences.swift */; };
+		104E162C2979030000BBBE9A /* CBCharacteristic+LightBlue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16202979030000BBBE9A /* CBCharacteristic+LightBlue.swift */; };
+		104E162D2979030000BBBE9A /* CBService+LightBlue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16212979030000BBBE9A /* CBService+LightBlue.swift */; };
+		104E162E2979030000BBBE9A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16222979030000BBBE9A /* Constants.swift */; };
+		104E162F2979030000BBBE9A /* VirtualPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16232979030000BBBE9A /* VirtualPeripheral.swift */; };
+		104E16302979030000BBBE9A /* VirtualPeripheralStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16242979030000BBBE9A /* VirtualPeripheralStore.swift */; };
+		104E16312979030000BBBE9A /* CBAdvertisementData+LightBlue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16252979030000BBBE9A /* CBAdvertisementData+LightBlue.swift */; };
+		104E16322979030000BBBE9A /* BluetoothDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16262979030000BBBE9A /* BluetoothDelegate.swift */; };
+		104E16332979030000BBBE9A /* CBUUID+LightBlue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E16272979030000BBBE9A /* CBUUID+LightBlue.swift */; };
+		104E16832980E7D100BBBE9A /* Montserrat-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 104E16712980E7D000BBBE9A /* Montserrat-MediumItalic.ttf */; };
+		104E16862980E7D100BBBE9A /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 104E16742980E7D000BBBE9A /* Montserrat-SemiBoldItalic.ttf */; };
+		104E16872980E7D200BBBE9A /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 104E16752980E7D000BBBE9A /* Montserrat-ThinItalic.ttf */; };
+		104E16882980E7D200BBBE9A /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 104E16762980E7D000BBBE9A /* Montserrat-LightItalic.ttf */; };
 		1050091F29556B82006D999A /* SimpleBluetoothIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050091D29556B82006D999A /* SimpleBluetoothIO.swift */; };
 		1050092029556B82006D999A /* NSData+int8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050091E29556B82006D999A /* NSData+int8.swift */; };
 		1050092329556BEE006D999A /* OptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050092229556BEE006D999A /* OptionVC.swift */; };
 		10500925295573D8006D999A /* AvailableBLEVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10500924295573D8006D999A /* AvailableBLEVC.swift */; };
+		1050D9D22980EA8D00E789C4 /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9D42980EA8D00E789C4 /* Montserrat-Black.ttf */; };
+		1050D9D52980EAA100E789C4 /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9D72980EAA100E789C4 /* Montserrat-BlackItalic.ttf */; };
+		1050D9D82980EAA600E789C4 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9DA2980EAA600E789C4 /* Montserrat-Bold.ttf */; };
+		1050D9DB2980EAAA00E789C4 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9DD2980EAAA00E789C4 /* Montserrat-BoldItalic.ttf */; };
+		1050D9DE2980EAAD00E789C4 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9E02980EAAD00E789C4 /* Montserrat-ExtraBold.ttf */; };
+		1050D9E12980EAB400E789C4 /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9E32980EAB400E789C4 /* Montserrat-ExtraBoldItalic.ttf */; };
+		1050D9E42980EAB700E789C4 /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9E62980EAB700E789C4 /* Montserrat-ExtraLight.ttf */; };
+		1050D9E72980EABA00E789C4 /* Montserrat-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9E92980EABA00E789C4 /* Montserrat-ExtraLightItalic.ttf */; };
+		1050D9EA2980EABE00E789C4 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9EC2980EABE00E789C4 /* Montserrat-Italic.ttf */; };
+		1050D9ED2980EAC300E789C4 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9EF2980EAC300E789C4 /* Montserrat-Light.ttf */; };
+		1050D9F02980EAC700E789C4 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9F22980EAC700E789C4 /* Montserrat-Medium.ttf */; };
+		1050D9F32980EACA00E789C4 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9F52980EACA00E789C4 /* Montserrat-Regular.ttf */; };
+		1050D9F62980EACE00E789C4 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9F82980EACE00E789C4 /* Montserrat-SemiBold.ttf */; };
+		1050D9F92980EAD200E789C4 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1050D9FB2980EAD200E789C4 /* Montserrat-Thin.ttf */; };
+		1050DA3D2983972300E789C4 /* battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1050DA3C2983972300E789C4 /* battery.gif */; };
 		10637A89296ECF8A0004AFB3 /* DeviceBLEVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10637A88296ECF8A0004AFB3 /* DeviceBLEVC.swift */; };
 		10637A8F296FD3E30004AFB3 /* lw-error.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8B296FD3E20004AFB3 /* lw-error.gif */; };
 		10637A90296FD3E30004AFB3 /* medium_battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8C296FD3E20004AFB3 /* medium_battery.gif */; };
 		10637A91296FD3E30004AFB3 /* low_battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8D296FD3E30004AFB3 /* low_battery.gif */; };
-		10637A92296FD3E30004AFB3 /* battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A8E296FD3E30004AFB3 /* battery.gif */; };
 		10637A94296FE5870004AFB3 /* DeviceMainSVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10637A93296FE5870004AFB3 /* DeviceMainSVC.swift */; };
 		10637A96297025A50004AFB3 /* grid.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10637A95297025A50004AFB3 /* grid.gif */; };
+		108432A2298D15EF00DCC19A /* GDGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 108432A1298D15EF00DCC19A /* GDGauge */; };
+		108432A9298D280B00DCC19A /* load_percentage_green.gif in Resources */ = {isa = PBXBuildFile; fileRef = 108432A7298D280A00DCC19A /* load_percentage_green.gif */; };
+		108432AA298D280B00DCC19A /* load_percentage.gif in Resources */ = {isa = PBXBuildFile; fileRef = 108432A8298D280B00DCC19A /* load_percentage.gif */; };
+		108432AC299383EB00DCC19A /* beep-06.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 108432AB299383EB00DCC19A /* beep-06.mp3 */; };
+		108432EC2993B01400DCC19A /* chargingGrid.gif in Resources */ = {isa = PBXBuildFile; fileRef = 108432EB2993B01300DCC19A /* chargingGrid.gif */; };
+		10BCE17C2983AB9400D3F296 /* GaugeVWP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BCE17B2983AB9400D3F296 /* GaugeVWP.swift */; };
+		10EAADF52988E8EA00E62B21 /* GaugeVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EAADF42988E8EA00E62B21 /* GaugeVMain.swift */; };
+		10EAADF72989160300E62B21 /* GaugeLOWHIgh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EAADF62989160300E62B21 /* GaugeLOWHIgh.swift */; };
+		10EAADF92989168500E62B21 /* GaugeHigh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EAADF82989168500E62B21 /* GaugeHigh.swift */; };
+		10F95E0929713A950046E3FA /* ConnectingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F95E0829713A950046E3FA /* ConnectingVC.swift */; };
 		3FDFEC0FE2A7D8D152F3150E /* Pods_Vastika.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B47D49309A62EF3887294747 /* Pods_Vastika.framework */; };
 		9A27E50A2803EEED0023E26A /* LogiWithOtpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A27E5092803EEED0023E26A /* LogiWithOtpVC.swift */; };
 		9AD8C92A28044E0A00AAEE7F /* UpdateProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8C92928044E0A00AAEE7F /* UpdateProfileVC.swift */; };
@@ -231,17 +271,57 @@
 		04DE752E26EF6F8300956103 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04DE753026EF6F8300956103 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		04DE753426EF70F600956103 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		104E161C2979030000BBBE9A /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		104E161D2979030000BBBE9A /* PreferencesStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesStore.swift; sourceTree = "<group>"; };
+		104E161E2979030000BBBE9A /* CBCharacteristicProperties+LightBlue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CBCharacteristicProperties+LightBlue.swift"; sourceTree = "<group>"; };
+		104E161F2979030000BBBE9A /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		104E16202979030000BBBE9A /* CBCharacteristic+LightBlue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CBCharacteristic+LightBlue.swift"; sourceTree = "<group>"; };
+		104E16212979030000BBBE9A /* CBService+LightBlue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CBService+LightBlue.swift"; sourceTree = "<group>"; };
+		104E16222979030000BBBE9A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		104E16232979030000BBBE9A /* VirtualPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualPeripheral.swift; sourceTree = "<group>"; };
+		104E16242979030000BBBE9A /* VirtualPeripheralStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualPeripheralStore.swift; sourceTree = "<group>"; };
+		104E16252979030000BBBE9A /* CBAdvertisementData+LightBlue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CBAdvertisementData+LightBlue.swift"; sourceTree = "<group>"; };
+		104E16262979030000BBBE9A /* BluetoothDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothDelegate.swift; sourceTree = "<group>"; };
+		104E16272979030000BBBE9A /* CBUUID+LightBlue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CBUUID+LightBlue.swift"; sourceTree = "<group>"; };
+		104E16712980E7D000BBBE9A /* Montserrat-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-MediumItalic.ttf"; sourceTree = "<group>"; };
+		104E16742980E7D000BBBE9A /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		104E16752980E7D000BBBE9A /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
+		104E16762980E7D000BBBE9A /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		1050091D29556B82006D999A /* SimpleBluetoothIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBluetoothIO.swift; sourceTree = "<group>"; };
 		1050091E29556B82006D999A /* NSData+int8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+int8.swift"; sourceTree = "<group>"; };
 		1050092229556BEE006D999A /* OptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionVC.swift; sourceTree = "<group>"; };
 		10500924295573D8006D999A /* AvailableBLEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableBLEVC.swift; sourceTree = "<group>"; };
+		105069E3298D156C00057B06 /* GDGauge */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GDGauge; path = "../../../../../../Downloads/GDGauge-master 2/GDGauge"; sourceTree = "<group>"; };
+		1050D9D32980EA8D00E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-Black.ttf"; sourceTree = "<group>"; };
+		1050D9D62980EAA100E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
+		1050D9D92980EAA600E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		1050D9DC2980EAAA00E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
+		1050D9DF2980EAAD00E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
+		1050D9E22980EAB400E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		1050D9E52980EAB700E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
+		1050D9E82980EABA00E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		1050D9EB2980EABE00E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
+		1050D9EE2980EAC300E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		1050D9F12980EAC700E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
+		1050D9F42980EACA00E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		1050D9F72980EACE00E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		1050D9FA2980EAD200E789C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
+		1050DA3C2983972300E789C4 /* battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = battery.gif; path = "../../../../../../../Downloads/Su-vastika_Icons/battery.gif"; sourceTree = "<group>"; };
 		10637A88296ECF8A0004AFB3 /* DeviceBLEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBLEVC.swift; sourceTree = "<group>"; };
 		10637A8B296FD3E20004AFB3 /* lw-error.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "lw-error.gif"; sourceTree = "<group>"; };
 		10637A8C296FD3E20004AFB3 /* medium_battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = medium_battery.gif; sourceTree = "<group>"; };
 		10637A8D296FD3E30004AFB3 /* low_battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = low_battery.gif; sourceTree = "<group>"; };
-		10637A8E296FD3E30004AFB3 /* battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = battery.gif; sourceTree = "<group>"; };
 		10637A93296FE5870004AFB3 /* DeviceMainSVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMainSVC.swift; sourceTree = "<group>"; };
 		10637A95297025A50004AFB3 /* grid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = grid.gif; sourceTree = "<group>"; };
+		108432A7298D280A00DCC19A /* load_percentage_green.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = load_percentage_green.gif; sourceTree = "<group>"; };
+		108432A8298D280B00DCC19A /* load_percentage.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = load_percentage.gif; sourceTree = "<group>"; };
+		108432AB299383EB00DCC19A /* beep-06.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "beep-06.mp3"; sourceTree = "<group>"; };
+		108432EB2993B01300DCC19A /* chargingGrid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = chargingGrid.gif; sourceTree = "<group>"; };
+		10BCE17B2983AB9400D3F296 /* GaugeVWP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeVWP.swift; sourceTree = "<group>"; };
+		10EAADF42988E8EA00E62B21 /* GaugeVMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeVMain.swift; sourceTree = "<group>"; };
+		10EAADF62989160300E62B21 /* GaugeLOWHIgh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeLOWHIgh.swift; sourceTree = "<group>"; };
+		10EAADF82989168500E62B21 /* GaugeHigh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeHigh.swift; sourceTree = "<group>"; };
+		10F95E0829713A950046E3FA /* ConnectingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectingVC.swift; sourceTree = "<group>"; };
 		9A27E5092803EEED0023E26A /* LogiWithOtpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogiWithOtpVC.swift; sourceTree = "<group>"; };
 		9AD8C92928044E0A00AAEE7F /* UpdateProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileVC.swift; sourceTree = "<group>"; };
 		B47D49309A62EF3887294747 /* Pods_Vastika.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Vastika.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -255,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FDFEC0FE2A7D8D152F3150E /* Pods_Vastika.framework in Frameworks */,
+				108432A2298D15EF00DCC19A /* GDGauge in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +576,8 @@
 		04DE74D026EF6EB100956103 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				105069E3298D156C00057B06 /* GDGauge */,
+				104E161B297902DE00BBBE9A /* BLE Support */,
 				1050092129556BDB006D999A /* BLE */,
 				0471356026FD8359007D30E7 /* Feedback */,
 				049AD19A26F2174C00EC38F5 /* Change Password */,
@@ -568,6 +651,12 @@
 		04DE74E026EF6EB100956103 /* CommonFunction */ = {
 			isa = PBXGroup;
 			children = (
+				108432AB299383EB00DCC19A /* beep-06.mp3 */,
+				10EAADF82989168500E62B21 /* GaugeHigh.swift */,
+				10EAADF62989160300E62B21 /* GaugeLOWHIgh.swift */,
+				10EAADF42988E8EA00E62B21 /* GaugeVMain.swift */,
+				10BCE17B2983AB9400D3F296 /* GaugeVWP.swift */,
+				104E16702980E7BD00BBBE9A /* Font */,
 				10637A8A296FD3CC0004AFB3 /* GIF Image */,
 				1050091E29556B82006D999A /* NSData+int8.swift */,
 				1050091D29556B82006D999A /* SimpleBluetoothIO.swift */,
@@ -633,11 +722,56 @@
 			path = Base.lproj/Base.lproj;
 			sourceTree = "<group>";
 		};
+		104E161B297902DE00BBBE9A /* BLE Support */ = {
+			isa = PBXGroup;
+			children = (
+				104E16262979030000BBBE9A /* BluetoothDelegate.swift */,
+				104E161C2979030000BBBE9A /* BluetoothManager.swift */,
+				104E16252979030000BBBE9A /* CBAdvertisementData+LightBlue.swift */,
+				104E16202979030000BBBE9A /* CBCharacteristic+LightBlue.swift */,
+				104E161E2979030000BBBE9A /* CBCharacteristicProperties+LightBlue.swift */,
+				104E16212979030000BBBE9A /* CBService+LightBlue.swift */,
+				104E16272979030000BBBE9A /* CBUUID+LightBlue.swift */,
+				104E16222979030000BBBE9A /* Constants.swift */,
+				104E161F2979030000BBBE9A /* Preferences.swift */,
+				104E161D2979030000BBBE9A /* PreferencesStore.swift */,
+				104E16232979030000BBBE9A /* VirtualPeripheral.swift */,
+				104E16242979030000BBBE9A /* VirtualPeripheralStore.swift */,
+			);
+			path = "BLE Support";
+			sourceTree = "<group>";
+		};
+		104E16702980E7BD00BBBE9A /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				1050D9D42980EA8D00E789C4 /* Montserrat-Black.ttf */,
+				1050D9D72980EAA100E789C4 /* Montserrat-BlackItalic.ttf */,
+				1050D9DA2980EAA600E789C4 /* Montserrat-Bold.ttf */,
+				1050D9DD2980EAAA00E789C4 /* Montserrat-BoldItalic.ttf */,
+				1050D9E02980EAAD00E789C4 /* Montserrat-ExtraBold.ttf */,
+				1050D9E32980EAB400E789C4 /* Montserrat-ExtraBoldItalic.ttf */,
+				1050D9E62980EAB700E789C4 /* Montserrat-ExtraLight.ttf */,
+				1050D9E92980EABA00E789C4 /* Montserrat-ExtraLightItalic.ttf */,
+				1050D9EC2980EABE00E789C4 /* Montserrat-Italic.ttf */,
+				1050D9EF2980EAC300E789C4 /* Montserrat-Light.ttf */,
+				104E16762980E7D000BBBE9A /* Montserrat-LightItalic.ttf */,
+				1050D9F22980EAC700E789C4 /* Montserrat-Medium.ttf */,
+				104E16712980E7D000BBBE9A /* Montserrat-MediumItalic.ttf */,
+				1050D9F52980EACA00E789C4 /* Montserrat-Regular.ttf */,
+				1050D9F82980EACE00E789C4 /* Montserrat-SemiBold.ttf */,
+				104E16742980E7D000BBBE9A /* Montserrat-SemiBoldItalic.ttf */,
+				1050D9FB2980EAD200E789C4 /* Montserrat-Thin.ttf */,
+				104E16752980E7D000BBBE9A /* Montserrat-ThinItalic.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		1050092129556BDB006D999A /* BLE */ = {
 			isa = PBXGroup;
 			children = (
 				1050092229556BEE006D999A /* OptionVC.swift */,
 				10500924295573D8006D999A /* AvailableBLEVC.swift */,
+				10F95E0829713A950046E3FA /* ConnectingVC.swift */,
 			);
 			path = BLE;
 			sourceTree = "<group>";
@@ -646,8 +780,11 @@
 			isa = PBXGroup;
 			children = (
 				10637A95297025A50004AFB3 /* grid.gif */,
-				10637A8E296FD3E30004AFB3 /* battery.gif */,
+				1050DA3C2983972300E789C4 /* battery.gif */,
+				108432EB2993B01300DCC19A /* chargingGrid.gif */,
 				10637A8D296FD3E30004AFB3 /* low_battery.gif */,
+				108432A7298D280A00DCC19A /* load_percentage_green.gif */,
+				108432A8298D280B00DCC19A /* load_percentage.gif */,
 				10637A8B296FD3E20004AFB3 /* lw-error.gif */,
 				10637A8C296FD3E20004AFB3 /* medium_battery.gif */,
 			);
@@ -690,6 +827,9 @@
 			dependencies = (
 			);
 			name = Vastika;
+			packageProductDependencies = (
+				108432A1298D15EF00DCC19A /* GDGauge */,
+			);
 			productName = Vastika;
 			productReference = 04DE74B226EF6CD000956103 /* Vastika.app */;
 			productType = "com.apple.product-type.application";
@@ -731,6 +871,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1050D9ED2980EAC300E789C4 /* Montserrat-Light.ttf in Resources */,
+				1050D9F32980EACA00E789C4 /* Montserrat-Regular.ttf in Resources */,
 				04C78E132701802E0055E6EC /* CellTwo.xib in Resources */,
 				10637A91296FD3E30004AFB3 /* low_battery.gif in Resources */,
 				04DE753126EF6F8300956103 /* LaunchScreen.storyboard in Resources */,
@@ -738,18 +880,38 @@
 				041FCBCE27044179002729F9 /* Splash@2x.png in Resources */,
 				041FCBCD27044179002729F9 /* Splash@3x.png in Resources */,
 				04DE753226EF6F8300956103 /* Main.storyboard in Resources */,
+				1050D9F92980EAD200E789C4 /* Montserrat-Thin.ttf in Resources */,
 				10637A90296FD3E30004AFB3 /* medium_battery.gif in Resources */,
+				1050D9F02980EAC700E789C4 /* Montserrat-Medium.ttf in Resources */,
+				104E16882980E7D200BBBE9A /* Montserrat-LightItalic.ttf in Resources */,
+				1050D9D82980EAA600E789C4 /* Montserrat-Bold.ttf in Resources */,
+				1050D9D22980EA8D00E789C4 /* Montserrat-Black.ttf in Resources */,
+				1050D9F62980EACE00E789C4 /* Montserrat-SemiBold.ttf in Resources */,
 				10637A8F296FD3E30004AFB3 /* lw-error.gif in Resources */,
+				108432A9298D280B00DCC19A /* load_percentage_green.gif in Resources */,
 				04DE750826EF6EB100956103 /* MONTSERRAT-MEDIUM_0.TTF in Resources */,
+				1050DA3D2983972300E789C4 /* battery.gif in Resources */,
 				10637A96297025A50004AFB3 /* grid.gif in Resources */,
+				1050D9EA2980EABE00E789C4 /* Montserrat-Italic.ttf in Resources */,
+				1050D9DE2980EAAD00E789C4 /* Montserrat-ExtraBold.ttf in Resources */,
 				04DE750926EF6EB100956103 /* MONTSERRAT-REGULAR_0.TTF in Resources */,
+				108432AA298D280B00DCC19A /* load_percentage.gif in Resources */,
+				104E16862980E7D100BBBE9A /* Montserrat-SemiBoldItalic.ttf in Resources */,
+				1050D9DB2980EAAA00E789C4 /* Montserrat-BoldItalic.ttf in Resources */,
+				1050D9E12980EAB400E789C4 /* Montserrat-ExtraBoldItalic.ttf in Resources */,
 				04C78E172701819F0055E6EC /* CellThree.xib in Resources */,
+				108432EC2993B01400DCC19A /* chargingGrid.gif in Resources */,
 				04C78E232701903E0055E6EC /* CellFive.xib in Resources */,
+				1050D9D52980EAA100E789C4 /* Montserrat-BlackItalic.ttf in Resources */,
+				1050D9E42980EAB700E789C4 /* Montserrat-ExtraLight.ttf in Resources */,
 				04DE74BF26EF6CD500956103 /* Assets.xcassets in Resources */,
+				104E16832980E7D100BBBE9A /* Montserrat-MediumItalic.ttf in Resources */,
 				04C78E0F27017EE70055E6EC /* cellOne.xib in Resources */,
 				0430CB8426FB430E000FF57E /* alertCell.xib in Resources */,
-				10637A92296FD3E30004AFB3 /* battery.gif in Resources */,
+				1050D9E72980EABA00E789C4 /* Montserrat-ExtraLightItalic.ttf in Resources */,
+				108432AC299383EB00DCC19A /* beep-06.mp3 in Resources */,
 				04DE750B26EF6EB100956103 /* MONTSERRAT-BLACK_0.TTF in Resources */,
+				104E16872980E7D200BBBE9A /* Montserrat-ThinItalic.ttf in Resources */,
 				04DE750F26EF6EB100956103 /* StarRatingStackView.xib in Resources */,
 				04DE750A26EF6EB100956103 /* MONTSERRAT-SEMIBOLD_0.TTF in Resources */,
 				041FCBCF27044179002729F9 /* Splash.png in Resources */,
@@ -810,8 +972,11 @@
 				048FCA4828AE0F670002F3E6 /* ArrayExtension.swift in Sources */,
 				049AD19E26F2F98D00EC38F5 /* DetailsPageVC.swift in Sources */,
 				048FCA4928AE0F670002F3E6 /* DataEntry.swift in Sources */,
+				104E162E2979030000BBBE9A /* Constants.swift in Sources */,
 				1050092329556BEE006D999A /* OptionVC.swift in Sources */,
+				104E162C2979030000BBBE9A /* CBCharacteristic+LightBlue.swift in Sources */,
 				04DE750526EF6EB100956103 /* LoaderManager.swift in Sources */,
+				10EAADF52988E8EA00E62B21 /* GaugeVMain.swift in Sources */,
 				048FCA4B28AE0F670002F3E6 /* BeautifulBarChart.swift in Sources */,
 				048FCA4328AE0F670002F3E6 /* CustomSegments.swift in Sources */,
 				04DE751726EF6EB100956103 /* CommonFunctions.swift in Sources */,
@@ -827,20 +992,27 @@
 				0484555828506A84004D9A85 /* NewPasswordVC.swift in Sources */,
 				046C15402702E0710000A96A /* VPMOTPTextField.swift in Sources */,
 				0430CB7D26FB2FBC000FF57E /* DeviceDiagonsisVC.swift in Sources */,
+				104E162D2979030000BBBE9A /* CBService+LightBlue.swift in Sources */,
+				104E16312979030000BBBE9A /* CBAdvertisementData+LightBlue.swift in Sources */,
 				049AD17A26F0BA5A00EC38F5 /* Reeachability.swift in Sources */,
 				049AD18226F1CF6300EC38F5 /* CityModel.swift in Sources */,
 				0413BA7126FDF63800FD0FF7 /* DemoVC.swift in Sources */,
 				04C78E0E27017EE70055E6EC /* cellOne.swift in Sources */,
+				104E16332979030000BBBE9A /* CBUUID+LightBlue.swift in Sources */,
 				049AD1A226F4610900EC38F5 /* DeviceDetailsViewModel.swift in Sources */,
 				04C25D2D26FB2675001A0610 /* AddDeviceVC.swift in Sources */,
+				10BCE17C2983AB9400D3F296 /* GaugeVWP.swift in Sources */,
 				049AD1A826F852B100EC38F5 /* MainLoad.swift in Sources */,
 				04DE752B26EF6F4900956103 /* LoginVC.swift in Sources */,
+				104E16292979030000BBBE9A /* PreferencesStore.swift in Sources */,
 				04DE751926EF6EB100956103 /* CustomFont.swift in Sources */,
 				04DE751226EF6EB100956103 /* NavigationHeader.swift in Sources */,
+				10F95E0929713A950046E3FA /* ConnectingVC.swift in Sources */,
 				0430CB8326FB430E000FF57E /* alertCell.swift in Sources */,
 				048FCA4C28AE0F670002F3E6 /* BasicBarEntry.swift in Sources */,
 				04DE751426EF6EB100956103 /* extensions.swift in Sources */,
 				048FCA4428AE0F670002F3E6 /* CALayerExtension.swift in Sources */,
+				104E162A2979030000BBBE9A /* CBCharacteristicProperties+LightBlue.swift in Sources */,
 				049AD19926F2141900EC38F5 /* ProfileVC.swift in Sources */,
 				049AD19526F20AB300EC38F5 /* sideMenuCell.swift in Sources */,
 				04DE751126EF6EB100956103 /* StarRatingView.swift in Sources */,
@@ -854,11 +1026,14 @@
 				04DE751026EF6EB100956103 /* StarRatingStackView.swift in Sources */,
 				0418F88128EB044C0092B54B /* Colors.swift in Sources */,
 				04DE750D26EF6EB100956103 /* textFieldValidator.swift in Sources */,
+				104E162F2979030000BBBE9A /* VirtualPeripheral.swift in Sources */,
 				0484555428505417004D9A85 /* NewSignUPVC.swift in Sources */,
 				04DE752826EF6EB100956103 /* Color.swift in Sources */,
 				04C1FB1B28ACC7FF007484A7 /* PriceModel.swift in Sources */,
+				10EAADF92989168500E62B21 /* GaugeHigh.swift in Sources */,
 				048FCA4A28AE0F670002F3E6 /* BeautifulBarEntry.swift in Sources */,
 				9A27E50A2803EEED0023E26A /* LogiWithOtpVC.swift in Sources */,
+				104E16302979030000BBBE9A /* VirtualPeripheralStore.swift in Sources */,
 				048FCA4728AE0F670002F3E6 /* BasicBarChart.swift in Sources */,
 				049AD18926F1FF6C00EC38F5 /* HomeCell.swift in Sources */,
 				049AD19C26F2179700EC38F5 /* ChangePasswordVC.swift in Sources */,
@@ -866,6 +1041,7 @@
 				049AD17826F0B7C600EC38F5 /* LoginViewModel.swift in Sources */,
 				04DE750E26EF6EB100956103 /* CustomAlertView.swift in Sources */,
 				0471356226FD8371007D30E7 /* FeedbackVC.swift in Sources */,
+				104E16322979030000BBBE9A /* BluetoothDelegate.swift in Sources */,
 				04DE74B626EF6CD000956103 /* AppDelegate.swift in Sources */,
 				046C15412702E0710000A96A /* VerifyOTPViewController.swift in Sources */,
 				048FCA4628AE0F670002F3E6 /* UIBezierPathExtension.swift in Sources */,
@@ -883,9 +1059,12 @@
 				049AD17626F0B00300EC38F5 /* SignUpVC.swift in Sources */,
 				0430CB8626FB4733000FF57E /* AlertVC.swift in Sources */,
 				10500925295573D8006D999A /* AvailableBLEVC.swift in Sources */,
+				10EAADF72989160300E62B21 /* GaugeLOWHIgh.swift in Sources */,
 				048FCA4D28AE0F670002F3E6 /* BeautifulBarChartPresenter.swift in Sources */,
+				104E162B2979030000BBBE9A /* Preferences.swift in Sources */,
 				04DE751626EF6EB100956103 /* AppUtils.swift in Sources */,
 				04DE750C26EF6EB100956103 /* Messages.swift in Sources */,
+				104E16282979030000BBBE9A /* BluetoothManager.swift in Sources */,
 				04C78E162701819F0055E6EC /* CellThree.swift in Sources */,
 				0418F87D28EB030B0092B54B /* DatePickerDialog.swift in Sources */,
 				0418F88028EB044C0092B54B /* UIColor+Ext.swift in Sources */,
@@ -916,6 +1095,118 @@
 				04DE753026EF6F8300956103 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1050D9D42980EA8D00E789C4 /* Montserrat-Black.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9D32980EA8D00E789C4 /* Base */,
+			);
+			name = "Montserrat-Black.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9D72980EAA100E789C4 /* Montserrat-BlackItalic.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9D62980EAA100E789C4 /* Base */,
+			);
+			name = "Montserrat-BlackItalic.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9DA2980EAA600E789C4 /* Montserrat-Bold.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9D92980EAA600E789C4 /* Base */,
+			);
+			name = "Montserrat-Bold.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9DD2980EAAA00E789C4 /* Montserrat-BoldItalic.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9DC2980EAAA00E789C4 /* Base */,
+			);
+			name = "Montserrat-BoldItalic.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9E02980EAAD00E789C4 /* Montserrat-ExtraBold.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9DF2980EAAD00E789C4 /* Base */,
+			);
+			name = "Montserrat-ExtraBold.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9E32980EAB400E789C4 /* Montserrat-ExtraBoldItalic.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9E22980EAB400E789C4 /* Base */,
+			);
+			name = "Montserrat-ExtraBoldItalic.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9E62980EAB700E789C4 /* Montserrat-ExtraLight.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9E52980EAB700E789C4 /* Base */,
+			);
+			name = "Montserrat-ExtraLight.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9E92980EABA00E789C4 /* Montserrat-ExtraLightItalic.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9E82980EABA00E789C4 /* Base */,
+			);
+			name = "Montserrat-ExtraLightItalic.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9EC2980EABE00E789C4 /* Montserrat-Italic.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9EB2980EABE00E789C4 /* Base */,
+			);
+			name = "Montserrat-Italic.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9EF2980EAC300E789C4 /* Montserrat-Light.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9EE2980EAC300E789C4 /* Base */,
+			);
+			name = "Montserrat-Light.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9F22980EAC700E789C4 /* Montserrat-Medium.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9F12980EAC700E789C4 /* Base */,
+			);
+			name = "Montserrat-Medium.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9F52980EACA00E789C4 /* Montserrat-Regular.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9F42980EACA00E789C4 /* Base */,
+			);
+			name = "Montserrat-Regular.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9F82980EACE00E789C4 /* Montserrat-SemiBold.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9F72980EACE00E789C4 /* Base */,
+			);
+			name = "Montserrat-SemiBold.ttf";
+			sourceTree = "<group>";
+		};
+		1050D9FB2980EAD200E789C4 /* Montserrat-Thin.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050D9FA2980EAD200E789C4 /* Base */,
+			);
+			name = "Montserrat-Thin.ttf";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1111,6 +1402,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		108432A1298D15EF00DCC19A /* GDGauge */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GDGauge;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 04DE74AA26EF6CD000956103 /* Project object */;
 }

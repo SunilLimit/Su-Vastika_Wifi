@@ -20,9 +20,10 @@ PODS:
   - SkyFloatingLabelTextField (3.8.0)
   - SmartGauge (0.6.6)
   - SwiftGifOrigin (1.7.0)
-  - SwiftyGif (5.4.3)
+  - SwiftyGif (5.4.4)
   - SwiftyJSON (5.0.1)
   - SwipeMenuViewController (4.1.0)
+  - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - SwiftyGif
   - SwiftyJSON
   - SwipeMenuViewController
+  - Toast-Swift (~> 5.0.0)
 
 SPEC REPOS:
   trunk:
@@ -61,6 +63,7 @@ SPEC REPOS:
     - SwiftyGif
     - SwiftyJSON
     - SwipeMenuViewController
+    - Toast-Swift
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
@@ -77,10 +80,11 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   SmartGauge: 4a730c6d28636f798555592857571c4e43e14a23
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
-  SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
+  SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   SwipeMenuViewController: 94fac81cc192d9f08f218fe4c0c853569b735e1f
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 77f474d2e93eee49795007558f5020fc403e7dd7
+PODFILE CHECKSUM: 27dfb05bea9655640df8d7ac161e74fcd5a545d9
 
 COCOAPODS: 1.11.3

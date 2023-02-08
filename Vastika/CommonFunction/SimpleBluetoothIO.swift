@@ -43,6 +43,8 @@ extension SimpleBluetoothIO: CBCentralManagerDelegate {
             print("Connected! With \(name)")
             print(peripheral.maximumWriteValueLength(for: .withResponse))
             
+            
+            
         }
     }
     

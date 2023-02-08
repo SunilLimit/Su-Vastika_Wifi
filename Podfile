@@ -21,5 +21,6 @@ target 'Vastika' do
   pod 'CocoaMQTT'
   pod 'SwiftyGif'
   pod 'SwiftGifOrigin'
+  pod 'Toast-Swift', '~> 5.0.0'
 pod 'SmartGauge'
 end

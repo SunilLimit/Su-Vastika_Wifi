@@ -21,7 +21,8 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     @IBOutlet weak var lblBuzzer: UILabel!
     @IBOutlet weak var txtFieldAmount: UITextField!
     @IBOutlet weak var priceView: UIView!
-    
+    @IBOutlet weak var lblSolarRP: UILabel!
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var deviceId = String()
     var arrayUPSType = NSMutableArray()
     var arrayBatteryType = NSMutableArray()
@@ -37,8 +38,10 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     var pickerView = UIPickerView()
     var toolBar = UIToolbar()
     var selectedId = String()
+    var dicrDetails = NSDictionary()
     @IBOutlet weak var scrlView: UIScrollView!
     @IBOutlet weak var scrlHeight: NSLayoutConstraint!
+    @IBOutlet weak var setBottomView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +77,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         self.arrayBatteryType.add(dict)
         dict = ["name" : "Lithium Ion","ide" : "7"]
         self.arrayBatteryType.add(dict)
-        dict = ["name" : "Lead Acid","ide" : "4"]
-        self.arrayBatteryType.add(dict)
+        
                 
         dict = ["name" : "2.5A","ide" : "5"]
         self.arrayGrid.add(dict)
@@ -86,15 +88,15 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         dict = ["name" : "15A","ide" : "8"]
         self.arrayGrid.add(dict)
         
-        dict = ["name" : "11.0","ide" : "2"]
+        dict = ["name" : "5%","ide" : "2"]
         self.arrayLowVeltage.add(dict)
-        dict = ["name" : "10.5","ide" : "3"]
+        dict = ["name" : "0%","ide" : "3"]
         self.arrayLowVeltage.add(dict)
-        dict = ["name" : "10.8","ide" : "4"]
+        dict = ["name" : "3%","ide" : "4"]
         self.arrayLowVeltage.add(dict)
-        dict = ["name" : "11.2","ide" : "5"]
+        dict = ["name" : "8%","ide" : "5"]
         self.arrayLowVeltage.add(dict)
-        dict = ["name" : "11.6","ide" : "6"]
+        dict = ["name" : "10%","ide" : "6"]
         self.arrayLowVeltage.add(dict)
         
         dict = ["name" : "Enable grid when battery at 13 V","ide" : "1"]
@@ -112,9 +114,236 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         self.arrayGridCharging.add(dict)
         
         self.setUpPickerForTextField()
-        self.getDeviceDeetails()
-        self.getPriceDeetails()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isFrom == "BLE"
+        {
+            self.setBottomView.isHidden = true
+            self.setUpBLEData()
+        }
+        else
+        {
+            dict = ["name" : "Lead Acid","ide" : "4"]
+            self.arrayBatteryType.add(dict)
+            self.setBottomView.isHidden = false
+            self.getDeviceDeetails()
+            self.getPriceDeetails()
+        }
+       
         // Do any additional setup after loading the view.
+    }
+    
+    
+    func setUpBLEData()
+    {
+        let onColor  = UIColor.green
+        let offColor = UIColor.red
+        self.arrayResourcePriority.removeAllObjects()
+        var dict = ["name" : "On","ide" : "111"]
+        self.arrayResourcePriority.add(dict)
+        dict = ["name" : "Off","ide" : "000"]
+        self.arrayResourcePriority.add(dict)
+        
+        self.lblSolarRP.text = "Notification Sound"
+        self.lblResourcePreiority.text = "On"
+        // check setting is on or off
+        
+        let settingSwitch = self.dicrDetails.object(forKey: "setting_remote_priority") as? String
+        if settingSwitch == "0"
+        {
+            // off
+            self.switchContro.isOn = false
+            self.switchContro.tintColor = offColor
+            self.switchContro.backgroundColor = offColor
+            self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
+            self.switchContro.clipsToBounds = true
+            self.getHideAllButtonFromViewRecursion(view: self.view)
+        }
+        else
+        {
+            // on
+            let onColor = UIColor.green
+            self.switchContro.isOn = true
+            self.switchContro.onTintColor = onColor
+            self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
+            self.switchContro.backgroundColor = onColor
+            self.switchContro.clipsToBounds = true
+            self.getShowAllButtonFromViewRecursion(view: self.view)
+            self.txtFieldAmount.isUserInteractionEnabled = true
+        }
+        
+        //
+        let buzzer = self.dicrDetails.object(forKey: "setting_buzzer") as? String// obj.setting_buzzer
+        if buzzer == "3"
+        {
+            self.lblBuzzer.text = "Buzzer Enable "
+        }
+        else  if buzzer == "2"
+        {
+            self.lblBuzzer.text = "Buzzer Disabled"
+        }
+        else
+        {
+            self.lblBuzzer.text = "Buzzer Enable "
+        }
+        
+        
+        let upsType = self.dicrDetails.object(forKey: "setting_ups_type") as? String
+
+        switch (upsType) {
+            case "2":
+               self.lblUPSType.text = "Narrow Window (185-265V)"
+              break;
+            case "3":
+               self.lblUPSType.text = "Wide Window (90-290V)"
+                break
+            case "1":
+               self.lblUPSType.text = "Wide Window (90-290V)"
+                break;
+            default:
+                self.lblUPSType.text = "Narrow Window (185-265V)"
+                break
+        }
+        
+        let batteryType = self.dicrDetails.object(forKey: "setting_battery_type") as? String
+        switch (batteryType) {
+            case "5":
+               self.lblBatteryType.text = "Tubular"
+              break;
+            case "6":
+               self.lblBatteryType.text = "Sealed Maintenance Free"
+                break;
+            case "7":
+                self.lblBatteryType.text = "Lithium Ion"
+                break;
+            case "1":
+               self.lblBatteryType.text = "Tubular"
+              break;
+            case "2":
+               self.lblBatteryType.text = "Sealed Maintenance Free"
+                break;
+            case "3":
+                self.lblBatteryType.text = "Lithium Ion"
+                break;
+            case "4":
+                self.lblBatteryType.text = ""
+                break;
+            default:
+                self.lblBatteryType.text = ""
+
+                break
+        }
+
+        let gridCurrent = self.dicrDetails.object(forKey: "setting_grid_charging_current") as? String
+
+        switch (gridCurrent) {
+            case "5":
+               self.lblGridCharing.text = "2.5A"
+              break;
+            case "6":
+               self.lblGridCharing.text = "5A"
+                break;
+            case "7":
+                self.lblGridCharing.text = "10A"
+                break;
+            case "8":
+                self.lblGridCharing.text = "15A"
+                break;
+            case "1":
+                self.lblGridCharing.text = "2.5 A"
+                break;
+            case "2":
+                self.lblGridCharing.text = "5 A"
+                break;
+            case "3":
+                self.lblGridCharing.text = "10 A"
+                break;
+            case "4":
+                self.lblGridCharing.text = "15 A"
+                break;
+            default:
+                self.lblGridCharing.text = "--"
+                break
+        }
+
+        let gridStatus = self.dicrDetails.object(forKey: "setting_grid_charging") as? String
+
+        switch (gridStatus) {
+            case "0":
+               self.lblTemperature.text = "Disable"
+              break;
+            case "1":
+               self.lblTemperature.text = "Enable"
+                break;
+            case "2":
+                self.lblTemperature.text = "Disable"
+                break;
+            case "3":
+                self.lblTemperature.text = "Enable"
+                break;
+            default:
+                self.lblTemperature.text = "Disable"
+                break
+        }
+        
+        
+        let voltageCut = self.dicrDetails.object(forKey: "setting_low_voltage_cut") as? String
+
+        switch (voltageCut) {
+            case "2":
+               self.lblLowVoltageCut.text = "5%"
+              break;
+            case "3":
+               self.lblLowVoltageCut.text = "0%"
+                break;
+            case "1":
+                self.lblLowVoltageCut.text = "10.5"
+            break;
+            case "4":
+                self.lblLowVoltageCut.text = "3%"
+                break;
+            case "5":
+                self.lblLowVoltageCut.text = "8%"
+                break;
+            case "6":
+                self.lblLowVoltageCut.text = "10%"
+                break;
+            default:
+                self.lblLowVoltageCut.text = "5%"
+                break
+        }
+
+        let rPreority = self.dicrDetails.object(forKey: "setting_resource_priority") as? String
+//
+//        switch (rPreority) {
+//             case "1":
+//                self.lblResourcePreiority.text = "Enable grid when battery at 13 V"
+//               break;
+//             case "2":
+//                self.lblResourcePreiority.text = "Enable grid when battery at 12.2 V"
+//                 break;
+//             case "3":
+//                self.lblResourcePreiority.text = "Enable grid when battery at 11 V"
+//               break;
+//             case "4":
+//                self.lblResourcePreiority.text = "-"
+//               break;
+//             case "5":
+//                self.lblResourcePreiority.text = "Enable grid when battery at 13 V"
+//               break;
+//             case "6":
+//                self.lblResourcePreiority.text =  "Enable grid when battery at 12.2 V"
+//               break;
+//             case "7":
+//                self.lblResourcePreiority.text =  "Enable grid when battery at 11 V"
+//               break;
+//             default:
+//                self.lblResourcePreiority.text =  "-"
+//               break;
+//           }
+        
+        
+        
     }
     
     func setUpPicker()
@@ -204,55 +433,154 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
     @objc func onDoneButtonTapped()
     {
-        self.view.resignFirstResponder()
-        self.view.endEditing(true)
         
-        for v in self.view.subviews{
-            if v is UIToolbar
-            {
-                v.removeFromSuperview()
-            }
-            else if v is UIPickerView{
-               v.removeFromSuperview()
-               switch v.tag {
-               case 9:
-                   // ups type
-                   self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               case 99:
-                   // battery type
-                   self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               case 999:
-                   // grid charging
-                   self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               case 99999:
-                   // low voltage
-                   self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               case 999999:
-                   // ATC
-                   self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               case 9999999:
-                   // buzzer
-                   self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               case 99999999:
-                   // Resource preioty
-                   self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               case 999999999:
-                   // Electricity per unit
-                  // self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
-                   break
-               default: break
-                   // nothing to do
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isFrom == "BLE"
+        {
+            self.view.resignFirstResponder()
+            self.view.endEditing(true)
+            var dict = NSMutableDictionary()
+            dict.setValue(AppUtils.getCurrenTimeStamp(), forKey: "timestamp")
+
+            for v in self.view.subviews{
+                if v is UIToolbar
+                {
+                    v.removeFromSuperview()
+                }
+                else if v is UIPickerView{
+                   v.removeFromSuperview()
+                   switch v.tag {
+                   case 9:
+                       // ups type for ble
+                       dict.setValue(self.selectedId, forKey: "setting_ups_type")
+
+                       break
+                   case 99:
+                       // battery type for ble
+                       dict.setValue(self.selectedId, forKey: "setting_battery_type")
+
+                       break
+                   case 999:
+                       // grid charging current for ble
+                       dict.setValue(self.selectedId, forKey: "setting_grid_charging_current")
+
+                       break
+                   case 99999:
+                       // low voltage for ble
+                       dict.setValue(self.selectedId, forKey: "setting_low_voltage_cut")
+
+                       break
+                   case 999999:
+                       // Grid charging status for ble
+                       dict.setValue(self.selectedId, forKey: "setting_grid_charging")
+
+                       break
+                   case 9999999:
+                       // buzzer for ble
+                       dict.setValue(self.selectedId, forKey: "setting_buzzer")
+
+                       break
+                   case 99999999:
+                       // Resource preioty for ble
+                       dict.setValue(self.selectedId, forKey: "setting_resource_priorty")
+                      
+                       break
+                   case 999999999:
+                       // Electricity per unit not for ble
+                      
+                       break
+                   default: break
+                       // nothing to do
+                   }
                }
-           }
+
+            }
+            
+            
+            if self.selectedId == "111"
+            {
+                appDelegate.audioActive = 1
+            }
+            if self.selectedId == "000"
+            {
+                appDelegate.audioActive = 0
+            }
+            if self.selectedId == "000" && self.selectedId == "111"
+            {
+                return
+            }
+            
+            if let theJSONData = try?  JSONSerialization.data(
+                  withJSONObject: dict,
+                  options: .prettyPrinted
+                  ),
+                  let theJSONText = String(data: theJSONData,
+                                           encoding: String.Encoding.ascii) {
+                      print("JSON string = \n\(theJSONText)")
+                var newSTr = theJSONText.replacingOccurrences(of: " ", with: "")
+                newSTr = newSTr.replacingOccurrences(of: "\n", with: "")
+
+                let data = Data(newSTr.utf8)
+                self.appDelegate.bluetoothManager.writeValue(data: data, forCharacteristic: self.appDelegate.writableCharacteristic!, type: .withResponse)
 
         }
+              
+        
+        }
+        else
+        {
+            self.view.resignFirstResponder()
+            self.view.endEditing(true)
+            
+            for v in self.view.subviews{
+                if v is UIToolbar
+                {
+                    v.removeFromSuperview()
+                }
+                else if v is UIPickerView{
+                   v.removeFromSuperview()
+                   switch v.tag {
+                   case 9:
+                       // ups type
+                       self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   case 99:
+                       // battery type
+                       self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   case 999:
+                       // grid charging
+                       self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   case 99999:
+                       // low voltage
+                       self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   case 999999:
+                       // ATC
+                       self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   case 9999999:
+                       // buzzer
+                       self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   case 99999999:
+                       // Resource preioty
+                       self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   case 999999999:
+                       // Electricity per unit
+                      // self.callServiceForUpdate(value: self.selectedId, isfromTag: v.tag)
+                       break
+                   default: break
+                       // nothing to do
+                   }
+               }
+
+            }
+        }
+        
+        
     }
     
     func callServiceForUpdate(value : String, isfromTag : Int)
@@ -591,91 +919,170 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
     @IBAction func tapswitchChnageValue(_ sender: UISwitch) {
         
-        if sender.isOn == false
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isFrom == "BLE"
         {
-            // device is offline
-            if !Reachability.isConnectedToNetwork()
+            let alert = UIAlertController(title: webServices.AppName, message: "Are you sure, you want to switch On.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                if sender.isOn == false
+                            {
+                                
+                                let offColor = UIColor.red
+                                self.switchContro.isOn = false
+                                self.switchContro.tintColor = offColor
+                                self.switchContro.backgroundColor = offColor
+                                self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
+                                self.switchContro.clipsToBounds = true
+                                self.getHideAllButtonFromViewRecursion(view: self.view)
+                                self.txtFieldAmount.isUserInteractionEnabled = false
+                                
+                                // send data to ble off
+                                let dict = NSMutableDictionary()
+                                dict.setValue(AppUtils.getCurrenTimeStamp(), forKey: "timestamp")
+                                dict.setValue("0", forKey: "setting_remote_priority")
+
+                                if let theJSONData = try?  JSONSerialization.data(
+                                      withJSONObject: dict,
+                                      options: .prettyPrinted
+                                      ),
+                                      let theJSONText = String(data: theJSONData,
+                                                               encoding: String.Encoding.ascii) {
+                                          print("JSON string = \n\(theJSONText)")
+                                    var newSTr = theJSONText.replacingOccurrences(of: " ", with: "")
+                                    newSTr = newSTr.replacingOccurrences(of: "\n", with: "")
+
+                                    let data = Data(newSTr.utf8)
+                                    self.appDelegate.bluetoothManager.writeValue(data: data, forCharacteristic: self.appDelegate.writableCharacteristic!, type: .withResponse)
+
+                                }
+                            }
+                            else
+                            {
+                                let onColor = UIColor.green
+                                self.switchContro.isOn = true
+                                self.switchContro.onTintColor = onColor
+                                self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
+                                self.switchContro.backgroundColor = onColor
+                                self.switchContro.clipsToBounds = true
+                                self.getShowAllButtonFromViewRecursion(view: self.view)
+                                self.txtFieldAmount.isUserInteractionEnabled = true
+                                // send data to ble on
+                                let dict = NSMutableDictionary()
+                                dict.setValue(AppUtils.getCurrenTimeStamp(), forKey: "timestamp")
+                                dict.setValue("1", forKey: "setting_remote_priority")
+
+                                if let theJSONData = try?  JSONSerialization.data(
+                                      withJSONObject: dict,
+                                      options: .prettyPrinted
+                                      ),
+                                      let theJSONText = String(data: theJSONData,
+                                                               encoding: String.Encoding.ascii) {
+                                          print("JSON string = \n\(theJSONText)")
+                                    var newSTr = theJSONText.replacingOccurrences(of: " ", with: "")
+                                    newSTr = newSTr.replacingOccurrences(of: "\n", with: "")
+
+                                    let data = Data(newSTr.utf8)
+                                    self.appDelegate.bluetoothManager.writeValue(data: data, forCharacteristic: self.appDelegate.writableCharacteristic!, type: .withResponse)
+
+                                }
+                            }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+               
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else
+        {
+            if sender.isOn == false
             {
-                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                   
-                }))
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
-            
-            self.viewModel.deviceOnoff(deviceId: self.deviceId, control: 0, viewController: self, isLoaderRequired: true) { errorString, obj in
-                if errorString == "Success"
+                // device is offline
+                if !Reachability.isConnectedToNetwork()
                 {
-                    let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                        DispatchQueue.main.async {
-                            let offColor = UIColor.red
-                            self.switchContro.isOn = false
-                            self.switchContro.tintColor = offColor
-                            self.switchContro.backgroundColor = offColor
-                            self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
-                            self.switchContro.clipsToBounds = true
-                            self.getHideAllButtonFromViewRecursion(view: self.view)
-                            self.txtFieldAmount.isUserInteractionEnabled = false
-                        }
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
-                else
-                {
-                    let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                    let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                        
                     }))
                     self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                self.viewModel.deviceOnoff(deviceId: self.deviceId, control: 0, viewController: self, isLoaderRequired: true) { errorString, obj in
+                    if errorString == "Success"
+                    {
+                        let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            DispatchQueue.main.async {
+                                let offColor = UIColor.red
+                                self.switchContro.isOn = false
+                                self.switchContro.tintColor = offColor
+                                self.switchContro.backgroundColor = offColor
+                                self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
+                                self.switchContro.clipsToBounds = true
+                                self.getHideAllButtonFromViewRecursion(view: self.view)
+                                self.txtFieldAmount.isUserInteractionEnabled = false
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    else
+                    {
+                        let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                           
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+            
+            else
+            {
+                // device is online
+                if !Reachability.isConnectedToNetwork()
+                {
+                    let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                       
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                
+                
+                self.viewModel.deviceOnoff(deviceId: self.deviceId, control: 1, viewController: self, isLoaderRequired: true) { errorString, obj in
+                    if errorString == "Success"
+                    {
+                        let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            DispatchQueue.main.async {
+                                let onColor = UIColor.green
+                                self.switchContro.isOn = true
+                                self.switchContro.onTintColor = onColor
+                                self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
+                                self.switchContro.backgroundColor = onColor
+                                self.switchContro.clipsToBounds = true
+                                self.getShowAllButtonFromViewRecursion(view: self.view)
+                                self.txtFieldAmount.isUserInteractionEnabled = true
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    else
+                    {
+                        let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                           
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }
         
-        else
-        {
-            // device is online
-            if !Reachability.isConnectedToNetwork()
-            {
-                let alert = UIAlertController(title: webServices.AppName, message: "Internet connection is not available. Please check your internet.", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                   
-                }))
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
-            
-            
-            
-            self.viewModel.deviceOnoff(deviceId: self.deviceId, control: 1, viewController: self, isLoaderRequired: true) { errorString, obj in
-                if errorString == "Success"
-                {
-                    let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                        DispatchQueue.main.async {
-                            let onColor = UIColor.green
-                            self.switchContro.isOn = true
-                            self.switchContro.onTintColor = onColor
-                            self.switchContro.layer.cornerRadius = self.switchContro.frame.height / 2.0
-                            self.switchContro.backgroundColor = onColor
-                            self.switchContro.clipsToBounds = true
-                            self.getShowAllButtonFromViewRecursion(view: self.view)
-                            self.txtFieldAmount.isUserInteractionEnabled = true
-                        }
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
-                else
-                {
-                    let alert = UIAlertController(title: webServices.AppName, message: obj, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                       
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
-        }
+        
     }
     
   

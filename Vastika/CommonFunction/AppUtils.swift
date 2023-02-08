@@ -290,7 +290,7 @@ class AppUtils{
     
         let date = Date();
         let dateFormatter = DateFormatter();
-        dateFormatter.dateFormat = "yyyyMMddHHmmss";
+        dateFormatter.dateFormat = "HH:mm:ss";
         return dateFormatter.string(from: date)
     }
     

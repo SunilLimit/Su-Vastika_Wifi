@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreBluetooth
 
 
 class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
@@ -15,13 +14,7 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     var arrayList = [HomeModel]()
     @IBOutlet weak var btnAddNew: UIButton!
     var viewModel = HomeViewModel()
-    var simpleBluetoothIO: SimpleBluetoothIO!
-    var peripherals:[CBPeripheral] = []
-    var centralManager: CBCentralManager!
-    let cellReuseIdentifier = "cell"
-    let heartRateServiceCBUUID = CBUUID(string: "0x180D")
-    var reciveData = NSMutableArray()
-    var index : Int = -1
+
     
     // MARK:- View Life cycle -------
     
@@ -34,7 +27,6 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         self.tblView.tableFooterView = UIView();
         self.tblView.separatorStyle = .singleLine;
         self.tblView.register(UINib(nibName: "HomeCell", bundle: nil), forCellReuseIdentifier: "HomeCell")
-        self.tblView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
         self.tblView.reloadData()
         self.btnAddNew.layer.cornerRadius = self.btnAddNew.frame.size.height/2
         self.btnAddNew.clipsToBounds = true
@@ -43,43 +35,7 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        self.peripherals.removeAll()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.isFrom == "BLE"
-        {
-            // set ble
-            loaderManager.sharedInstance.startLoading();
-            self.centralManager = CBCentralManager(delegate: self, queue: .main)
-            let options: [String: Any] = [CBCentralManagerScanOptionAllowDuplicatesKey:NSNumber(value: false)]
-            self.centralManager?.scanForPeripherals(withServices: nil, options: options)
-           
-            DispatchQueue.main.asyncAfter(deadline: .now() + 20.0) {
-                self.centralManager.stopScan()
-                loaderManager.sharedInstance.stopLoading();
-                print("Scanning stop")
-                var tempPeripherals:[CBPeripheral] = []
-
-                if self.peripherals.count > 0
-                {
-                    for device in self.peripherals
-                    {
-                        if device.name?.count != 0 && device.name != nil
-                        {
-                            if device.name!.contains("BLE")
-                            {
-                                tempPeripherals.append(device)
-                            }
-                        }
-                    }
-                    self.peripherals = tempPeripherals
-                    self.tblView.reloadData()
-                }
-            }
-        }
-        else
-        {
-            self.getList()
-        }
+        self.getList()
        
     }
     
@@ -135,96 +91,17 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBAction func tapAddNew(_ sender: Any) {
         
-        simpleBluetoothIO.writeValue(value:"hello")
+       // simpleBluetoothIO.writeValue(value:"hello")
 
-//        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "AddDeviceVC") as? AddDeviceVC{
-//            self.navigationController?.pushViewController(vcToPresent, animated: true)
-//        }
-    }
-    
-    
-    func getString()
-    {
-        for str in self.reciveData
-        {
-            print(str)
-        }
-        
-        if self.reciveData.lastObject as! String == "#MEND"
-        {
-            var str = String()
-            self.reciveData.removeObject(at: 0)
-            self.reciveData.removeLastObject()
-            for item in self.reciveData
-            {
-                str = str + String(item as! String)
-            }
-            let convertedDict = self.convertStringToDictionary(text: str)
-            let newDict = convertedDict as? NSDictionary
-            print("converted json : ", "\(convertedDict)")
-            self.index = self.index + 1
-            if self.index == 0
-            {
-                let statusUPS = newDict!.object(forKey: "status_ups") as? String
-                let statusMains = newDict!.object(forKey: "status_mains") as? String
-                
-                let pvw = newDict!.object(forKey: "pvw") as? String
-                let bw = newDict!.object(forKey: "bw") as? String
-                
-                if statusUPS == "1" && statusMains == "0"
-                {
-                    if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "DeviceBLEVC") as? DeviceBLEVC{
-                        vcToPresent.dicrDta = newDict!
-                        self.navigationController?.pushViewController(vcToPresent, animated: true)
-                    }
-                }
-                else if statusUPS == "0" && statusMains == "1"
-                {
-                    if pvw == "0.0" && bw == "0.0"
-                    {
-                        //Solar Mode
-                    }
-                    else
-                    {
-                        // Mains Mode
-                        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "DeviceMainSVC") as? DeviceMainSVC{
-                            vcToPresent.dicrDta = newDict!
-                            self.navigationController?.pushViewController(vcToPresent, animated: true)
-                        }
-                    }
-                }
-                
-                
-                
-            }
-            
+        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "AddDeviceVC") as? AddDeviceVC{
+            self.navigationController?.pushViewController(vcToPresent, animated: true)
         }
     }
     
-    func convertStringToDictionary(text: String) -> [String:AnyObject]? {
-       if let data = text.data(using: .utf8) {
-           do {
-               let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
-               self.reciveData.removeAllObjects()
-               return json
-           } catch {
-               print("Something went wrong")
-           }
-       }
-       return nil
-   }
     
-    func getReciveData(msg : String)
-    {
-        if msg == "#MEND"
-        {
-            self.reciveData.add(msg)
-            self.getString()
-        }else
-        {
-            self.reciveData.add(msg)
-        }
-    }
+   
+    
+    
     
     // MARK:- UITableview Delegate and datasource method  ---------
     
@@ -233,44 +110,18 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.isFrom == "BLE"
-        {
-            return self.peripherals.count
-        }
-        else
-        {
-            return self.arrayList.count
-        }
+        return self.arrayList.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.isFrom == "BLE"
-        {
-            return 44
-        }
-        else
-        {
-            return  80
-        }
+        return  80
        
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.isFrom == "BLE"
-        {
-            let cell:UITableViewCell = (self.tblView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as UITableViewCell?)!
-            cell.textLabel?.text = self.peripherals[indexPath.row].name
-            cell.accessoryType = .disclosureIndicator
-            return cell
-        }
-        else
-        {
-            var cell: HomeCell! = tableView.dequeueReusableCell(withIdentifier: "HomeCell") as? HomeCell
+          var cell: HomeCell! = tableView.dequeueReusableCell(withIdentifier: "HomeCell") as? HomeCell
                 if cell == nil {
                   cell = HomeCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "HomeCell")
                 }
@@ -307,7 +158,7 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             
             return cell!;
                 
-        }
+        
     }
     
     func getIndexPathFor(view: UIView, tableView: UITableView) -> IndexPath? {
@@ -374,75 +225,10 @@ class HomeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.isFrom == "BLE"
-        {
-            let udid = self.peripherals[indexPath.row].identifier.uuidString
-            self.centralManager.connect(self.peripherals[indexPath.row])
-           // simpleBluetoothIO = SimpleBluetoothIO(serviceUUID: self.peripherals[indexPath.row].identifier.uuidString, delegate: self)
-
-        }
-        else
-        {
-            if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "DemoVC") as? DemoVC{
-                vcToPresent.deviceid = String(self.arrayList[indexPath.row].device_id)
-                self.navigationController?.pushViewController(vcToPresent, animated: true)
-            }
+        if let vcToPresent = self.storyboard!.instantiateViewController(withIdentifier: "DemoVC") as? DemoVC{
+            vcToPresent.deviceid = String(self.arrayList[indexPath.row].device_id)
+            self.navigationController?.pushViewController(vcToPresent, animated: true)
         }
        
     }
 }
-extension HomeVC : CBPeripheralDelegate, CBCentralManagerDelegate{
-    
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        self.peripherals.append(peripheral)
-        let name = advertisementData["CBAdvertisementDataLocalNameKey"] as? String
-        print(name)
-        print(peripheral.name)
-    }
-    
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("connected to " +  peripheral.name!)
-        print(peripheral.state.rawValue)
-        simpleBluetoothIO = SimpleBluetoothIO(serviceUUID: peripheral.identifier.uuidString, delegate: self)
-    }
-    
-    func centralManagerDidUpdateState( _ central: CBCentralManager) {
-        
-        switch central.state {
-        case .unknown:
-            print("central.state is .unknown")
-        case .resetting:
-            print("central.state is .resetting")
-        case .unsupported:
-            print("central.state is .unsupported")
-        case .unauthorized:
-            print("central.state is .unauthorized")
-        case .poweredOff:
-            print("central.state is .poweredOff")
-        case .poweredOn:
-            print("central.state is .poweredOn")
-            self.centralManager?.scanForPeripherals(withServices: nil, options: nil)
-        @unknown default:
-            fatalError()
-            
-        }
-        
-    }
-
-
-    private func centralManager( central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        print(error!)
-        
-    }
-    
-}
-
-extension HomeVC: SimpleBluetoothIODelegate {
-    func simpleBluetoothIO(simpleBluetoothIO: SimpleBluetoothIO, didReceiveValue value: String) {
-        print(value)
-        self.getReciveData(msg: value)
-    }
-}
-
-
