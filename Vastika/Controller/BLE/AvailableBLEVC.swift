@@ -112,6 +112,7 @@ class AvailableBLEVC: UIViewController,UITableViewDelegate,UITableViewDataSource
         self.lblHeader.isHidden = true
         self.nearbyPeripheralInfos.removeAll()
         self.btnScan.isHidden = false
+        
         self.appDelegate.bluetoothManager = BluetoothManager.getInstance()
         if self.appDelegate.bluetoothManager.connectedPeripheral != nil {
             self.appDelegate.bluetoothManager.disconnectPeripheral()
@@ -176,7 +177,7 @@ class AvailableBLEVC: UIViewController,UITableViewDelegate,UITableViewDataSource
         {
             if peripheralInfo.peripheral.name!.contains("BLE")
             {
-                if self.nearbyPeripheralInfos.count > 0     
+                if self.nearbyPeripheralInfos.count > 1
                 {
                     for item in self.nearbyPeripheralInfos
                     {
@@ -223,6 +224,11 @@ class AvailableBLEVC: UIViewController,UITableViewDelegate,UITableViewDataSource
             self.appDelegate.bluetoothManager.startScanPeripheral()
         case .poweredOff:
             print(" MainController -->State : Powered Off")
+            let alert = UIAlertController(title: webServices.AppName, message: "Bluethooth is off. Please turn on bluethooth from setting.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
             fallthrough
         case .unauthorized:
             print("MainController --> State : Unauthorized")

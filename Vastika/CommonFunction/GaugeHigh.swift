@@ -58,7 +58,7 @@ class GaugeHigh : UIView
     var value: Int = 0 {
         didSet {
             // update the value label to show the exact number
-            valueLabel.text = String(value) + " W"
+            valueLabel.text = String(value) + " V"
             let needlePosition = CGFloat(80) / 100
 
             // create a lerp from the start angle (rotation) through to the end angle (rotation + totalAngle)

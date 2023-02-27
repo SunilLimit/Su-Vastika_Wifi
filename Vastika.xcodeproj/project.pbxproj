@@ -151,9 +151,9 @@
 		108432A2298D15EF00DCC19A /* GDGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 108432A1298D15EF00DCC19A /* GDGauge */; };
 		108432A9298D280B00DCC19A /* load_percentage_green.gif in Resources */ = {isa = PBXBuildFile; fileRef = 108432A7298D280A00DCC19A /* load_percentage_green.gif */; };
 		108432AA298D280B00DCC19A /* load_percentage.gif in Resources */ = {isa = PBXBuildFile; fileRef = 108432A8298D280B00DCC19A /* load_percentage.gif */; };
-		108432AC299383EB00DCC19A /* beep-06.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 108432AB299383EB00DCC19A /* beep-06.mp3 */; };
 		108432EC2993B01400DCC19A /* chargingGrid.gif in Resources */ = {isa = PBXBuildFile; fileRef = 108432EB2993B01300DCC19A /* chargingGrid.gif */; };
 		10BCE17C2983AB9400D3F296 /* GaugeVWP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BCE17B2983AB9400D3F296 /* GaugeVWP.swift */; };
+		10E7183F29A8E41D008EB4A2 /* highAlt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 10E7183E29A8E41D008EB4A2 /* highAlt.mp4 */; };
 		10EAADF52988E8EA00E62B21 /* GaugeVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EAADF42988E8EA00E62B21 /* GaugeVMain.swift */; };
 		10EAADF72989160300E62B21 /* GaugeLOWHIgh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EAADF62989160300E62B21 /* GaugeLOWHIgh.swift */; };
 		10EAADF92989168500E62B21 /* GaugeHigh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EAADF82989168500E62B21 /* GaugeHigh.swift */; };
@@ -315,9 +315,9 @@
 		10637A95297025A50004AFB3 /* grid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = grid.gif; sourceTree = "<group>"; };
 		108432A7298D280A00DCC19A /* load_percentage_green.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = load_percentage_green.gif; sourceTree = "<group>"; };
 		108432A8298D280B00DCC19A /* load_percentage.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = load_percentage.gif; sourceTree = "<group>"; };
-		108432AB299383EB00DCC19A /* beep-06.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "beep-06.mp3"; sourceTree = "<group>"; };
 		108432EB2993B01300DCC19A /* chargingGrid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = chargingGrid.gif; sourceTree = "<group>"; };
 		10BCE17B2983AB9400D3F296 /* GaugeVWP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeVWP.swift; sourceTree = "<group>"; };
+		10E7183E29A8E41D008EB4A2 /* highAlt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = highAlt.mp4; sourceTree = "<group>"; };
 		10EAADF42988E8EA00E62B21 /* GaugeVMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeVMain.swift; sourceTree = "<group>"; };
 		10EAADF62989160300E62B21 /* GaugeLOWHIgh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeLOWHIgh.swift; sourceTree = "<group>"; };
 		10EAADF82989168500E62B21 /* GaugeHigh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeHigh.swift; sourceTree = "<group>"; };
@@ -651,7 +651,7 @@
 		04DE74E026EF6EB100956103 /* CommonFunction */ = {
 			isa = PBXGroup;
 			children = (
-				108432AB299383EB00DCC19A /* beep-06.mp3 */,
+				10E7183E29A8E41D008EB4A2 /* highAlt.mp4 */,
 				10EAADF82989168500E62B21 /* GaugeHigh.swift */,
 				10EAADF62989160300E62B21 /* GaugeLOWHIgh.swift */,
 				10EAADF42988E8EA00E62B21 /* GaugeVMain.swift */,
@@ -903,13 +903,13 @@
 				108432EC2993B01400DCC19A /* chargingGrid.gif in Resources */,
 				04C78E232701903E0055E6EC /* CellFive.xib in Resources */,
 				1050D9D52980EAA100E789C4 /* Montserrat-BlackItalic.ttf in Resources */,
+				10E7183F29A8E41D008EB4A2 /* highAlt.mp4 in Resources */,
 				1050D9E42980EAB700E789C4 /* Montserrat-ExtraLight.ttf in Resources */,
 				04DE74BF26EF6CD500956103 /* Assets.xcassets in Resources */,
 				104E16832980E7D100BBBE9A /* Montserrat-MediumItalic.ttf in Resources */,
 				04C78E0F27017EE70055E6EC /* cellOne.xib in Resources */,
 				0430CB8426FB430E000FF57E /* alertCell.xib in Resources */,
 				1050D9E72980EABA00E789C4 /* Montserrat-ExtraLightItalic.ttf in Resources */,
-				108432AC299383EB00DCC19A /* beep-06.mp3 in Resources */,
 				04DE750B26EF6EB100956103 /* MONTSERRAT-BLACK_0.TTF in Resources */,
 				104E16872980E7D200BBBE9A /* Montserrat-ThinItalic.ttf in Resources */,
 				04DE750F26EF6EB100956103 /* StarRatingStackView.xib in Resources */,
@@ -1337,7 +1337,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = W7R7MDY44S;
+				DEVELOPMENT_TEAM = 5M3D6657R9;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Vastika/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1363,7 +1363,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = W7R7MDY44S;
+				DEVELOPMENT_TEAM = 5M3D6657R9;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Vastika/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

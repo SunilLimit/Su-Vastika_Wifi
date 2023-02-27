@@ -68,13 +68,24 @@ class DeviceDiagonsisVC: UIViewController {
     
     func startSpinning()
     {
-        self.actiVityIndicator.frame = CGRect(x: self.view1.frame.origin.x - 3, y: 40, width: 30, height: 30)
+        self.actiVityIndicator.frame = CGRect(x: self.view5.frame.origin.x - 3, y: 40, width: 30, height: 30)
         self.actiVityIndicator.startAnimating()
-        self.view1.addSubview(self.actiVityIndicator)
+        self.view5.addSubview(self.actiVityIndicator)
         self.actiVityIndicator.color = UIColor.blue
-        self.viewHeight1.constant = 71
+        self.viewHeight5.constant = 71
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            // your code here
+            self.actiVityIndicator.removeFromSuperview()
+            self.actiVityIndicator.frame = CGRect(x: self.view1.frame.origin.x - 3, y: 40, width: 30, height: 30)
+            self.actiVityIndicator.startAnimating()
+            self.view1.addSubview(self.actiVityIndicator)
+            self.actiVityIndicator.color = UIColor.blue
+            self.viewHeight1.constant = 71
+            self.lblOk5.isHidden = false
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
             // your code here
             self.actiVityIndicator.removeFromSuperview()
             self.actiVityIndicator.frame = CGRect(x: self.view2.frame.origin.x - 3, y: 40, width: 30, height: 30)
@@ -85,7 +96,7 @@ class DeviceDiagonsisVC: UIViewController {
             self.lblOk1.isHidden = false
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 9) {
             // your code here
             self.actiVityIndicator.removeFromSuperview()
             self.actiVityIndicator.frame = CGRect(x: self.view3.frame.origin.x - 3, y: 40, width: 30, height: 30)
@@ -96,7 +107,7 @@ class DeviceDiagonsisVC: UIViewController {
             self.lblOk2.isHidden = false
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 9) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
             // your code here
             self.actiVityIndicator.removeFromSuperview()
             self.actiVityIndicator.frame = CGRect(x: self.view4.frame.origin.x - 3, y: 40, width: 30, height: 30)
@@ -107,20 +118,9 @@ class DeviceDiagonsisVC: UIViewController {
             self.lblOk3.isHidden = false
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
-            // your code here
-            self.actiVityIndicator.removeFromSuperview()
-            self.actiVityIndicator.frame = CGRect(x: self.view5.frame.origin.x - 3, y: 40, width: 30, height: 30)
-            self.actiVityIndicator.startAnimating()
-            self.view5.addSubview(self.actiVityIndicator)
-            self.actiVityIndicator.color = UIColor.blue
-            self.viewHeight5.constant = 71
-            self.lblOk4.isHidden = false
-        }
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
             self.actiVityIndicator.removeFromSuperview()
-            self.lblOk5.isHidden = false
+            self.lblOk4.isHidden = false
         }
         
     }

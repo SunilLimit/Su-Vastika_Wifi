@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var bluetoothManager : BluetoothManager!//.getInstance()
     var writableCharacteristic: CBCharacteristic?
     var peripheral: CBPeripheral!
-    var audioActive : Int = 0
+    var audioActive : Int = 1
+    var batteryName : String = "Tubular"
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.storyboard = UIStoryboard.init(name: "Main", bundle: nil)

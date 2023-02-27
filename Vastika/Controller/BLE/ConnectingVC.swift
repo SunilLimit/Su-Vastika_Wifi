@@ -65,7 +65,7 @@ class ConnectingVC: UIViewController,BluetoothDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.ssid.count != 0
         {
-            self.btnContinue.isHidden = false
+            self.btnContinue.isHidden = true
             
         }
         else
@@ -218,12 +218,47 @@ class ConnectingVC: UIViewController,BluetoothDelegate {
    }
     
     
+    /*
+    - parameter state: The bluetooth state
+    */
+   func didUpdateState(_ state: CBCentralManagerState) {
+       print("MainController --> didUpdateState:\(state)")
+       switch state {
+       case .resetting:
+           print("MainController --> State : Resetting")
+           
+       case .poweredOn:
+           print("Bluetooth State: Powered On")
+           self.appDelegate.bluetoothManager.startScanPeripheral()
+       case .poweredOff:
+           print(" MainController -->State : Powered Off")
+           let alert = UIAlertController(title: webServices.AppName, message: "Bluethooth is off. Please turn on bluethooth from setting.", preferredStyle: UIAlertController.Style.alert)
+           alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+//               UIApplication.shared.open(NSURL(string: "App-Prefs:root=Bluetooth")! as URL)
+           }))
+           
+           self.present(alert, animated: true, completion: nil)
+           fallthrough
+       case .unauthorized:
+           print("MainController --> State : Unauthorized")
+           fallthrough
+       case .unknown:
+           print("MainController --> State : Unknown")
+           fallthrough
+       case .unsupported:
+           print("MainController --> State : Unsupported")
+           self.appDelegate.bluetoothManager.stopScanPeripheral()
+           self.appDelegate.bluetoothManager.disconnectPeripheral()
+       @unknown default: break
+           
+       }
+   }
     
     
     
     func getReciveData(msg : String)
     {
-        if msg == "#2#MEND#"
+        if msg == "#1#MEND#"
         {
             self.reciveData.add(msg)
             self.getUpdatedString()
@@ -236,11 +271,14 @@ class ConnectingVC: UIViewController,BluetoothDelegate {
     func getUpdatedString()
     {
     
+        var statusCount : Int = 0
         var str = String()
         for item in self.reciveData
         {
-            if item as! String == "MSTAT#1#" || item as! String == "#1#MEND#" || item as! String == "MSTAT#2#" || item as! String == "#2#MEND#"
+            //|| item as! String == "MSTAT#2#" || item as! String == "#2#MEND#"
+            if item as! String == "MSTAT#1#" || item as! String == "#1#MEND#"
             {
+                statusCount = statusCount + 1
                 continue
             }
             else
@@ -249,8 +287,13 @@ class ConnectingVC: UIViewController,BluetoothDelegate {
             }
             
         }
+        print(statusCount)
         self.reciveData.removeAllObjects()
-        
+        if statusCount != 2
+        {
+            return
+        }
+        statusCount = 0
         var newSTr = str.replacingOccurrences(of: " ", with: "")
         newSTr = newSTr.replacingOccurrences(of: "\n", with: "")
         newSTr = newSTr.replacingOccurrences(of: "{", with: "")
@@ -270,7 +313,7 @@ class ConnectingVC: UIViewController,BluetoothDelegate {
                 if convertedDict!.count > 0
                 {
                     self.btnContinue.isHidden = false
-                    self.imgRefresh.image = UIImage(named: "Su-vastika")
+                   // self.imgRefresh.image = UIImage(named: "Su-vastika")
                     self.sendData = (convertedDict as? NSDictionary)!
                     self.index = self.index + 1
                     self.lblDetails.text = "Connecting to Su-vastika UPS"
@@ -306,7 +349,7 @@ class ConnectingVC: UIViewController,BluetoothDelegate {
                     if convertedDict!.count > 0
                     {
                         self.btnContinue.isHidden = false
-                        self.imgRefresh.image = UIImage(named: "Su-vastika")
+                        //self.imgRefresh.image = UIImage(named: "Su-vastika")
                         self.sendData = (convertedDict as? NSDictionary)!
                         self.index = self.index + 1
                         self.lblDetails.text = "Connecting to Su-vastika UPS"

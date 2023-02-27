@@ -21,7 +21,9 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     @IBOutlet weak var lblBuzzer: UILabel!
     @IBOutlet weak var txtFieldAmount: UITextField!
     @IBOutlet weak var priceView: UIView!
+    @IBOutlet weak var gdView: UIView!
     @IBOutlet weak var lblSolarRP: UILabel!
+    @IBOutlet weak var gridChargingHeight: NSLayoutConstraint!
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var deviceId = String()
     var arrayUPSType = NSMutableArray()
@@ -88,11 +90,12 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         dict = ["name" : "15A","ide" : "8"]
         self.arrayGrid.add(dict)
         
-        dict = ["name" : "5%","ide" : "2"]
-        self.arrayLowVeltage.add(dict)
+       
         dict = ["name" : "0%","ide" : "3"]
         self.arrayLowVeltage.add(dict)
         dict = ["name" : "3%","ide" : "4"]
+        self.arrayLowVeltage.add(dict)
+        dict = ["name" : "5%","ide" : "2"]
         self.arrayLowVeltage.add(dict)
         dict = ["name" : "8%","ide" : "5"]
         self.arrayLowVeltage.add(dict)
@@ -118,11 +121,16 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.isFrom == "BLE"
         {
+            self.dicrDetails = appDelegate.globalDict
             self.setBottomView.isHidden = true
             self.setUpBLEData()
+            self.gdView.isHidden = true
+            self.gridChargingHeight.constant = 0
         }
         else
         {
+            self.gdView.isHidden = false
+            self.gridChargingHeight.constant = 60
             dict = ["name" : "Lead Acid","ide" : "4"]
             self.arrayBatteryType.add(dict)
             self.setBottomView.isHidden = false
@@ -136,6 +144,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
     func setUpBLEData()
     {
+       
         let onColor  = UIColor.green
         let offColor = UIColor.red
         self.arrayResourcePriority.removeAllObjects()
@@ -145,7 +154,17 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         self.arrayResourcePriority.add(dict)
         
         self.lblSolarRP.text = "Notification Sound"
-        self.lblResourcePreiority.text = "On"
+        
+        if self.appDelegate.audioActive == 1
+        {
+            self.lblResourcePreiority.text = "On"
+        }
+        else
+        {
+            self.lblResourcePreiority.text = "Off"
+        }
+        
+        
         // check setting is on or off
         
         let settingSwitch = self.dicrDetails.object(forKey: "setting_remote_priority") as? String
@@ -174,17 +193,13 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         
         //
         let buzzer = self.dicrDetails.object(forKey: "setting_buzzer") as? String// obj.setting_buzzer
-        if buzzer == "3"
+         if buzzer == "1"
         {
-            self.lblBuzzer.text = "Buzzer Enable "
-        }
-        else  if buzzer == "2"
-        {
-            self.lblBuzzer.text = "Buzzer Disabled"
+            self.lblBuzzer.text = "Buzzer Enable"
         }
         else
         {
-            self.lblBuzzer.text = "Buzzer Enable "
+            self.lblBuzzer.text = "Buzzer Disabled "
         }
         
         
@@ -209,28 +224,35 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         switch (batteryType) {
             case "5":
                self.lblBatteryType.text = "Tubular"
+                self.appDelegate.batteryName = "Tubular"
               break;
             case "6":
                self.lblBatteryType.text = "Sealed Maintenance Free"
+                self.appDelegate.batteryName = "Sealed Maintenance Free"
                 break;
             case "7":
                 self.lblBatteryType.text = "Lithium Ion"
+                self.appDelegate.batteryName = "Lithium Ion"
                 break;
             case "1":
                self.lblBatteryType.text = "Tubular"
+                self.appDelegate.batteryName = "Tubular"
               break;
             case "2":
                self.lblBatteryType.text = "Sealed Maintenance Free"
+                self.appDelegate.batteryName = "Sealed Maintenance Free"
                 break;
             case "3":
                 self.lblBatteryType.text = "Lithium Ion"
+                self.appDelegate.batteryName = "Lithium Ion"
                 break;
             case "4":
-                self.lblBatteryType.text = ""
+                self.lblBatteryType.text = "Tubular"
+                self.appDelegate.batteryName = "Tubular"
                 break;
             default:
-                self.lblBatteryType.text = ""
-
+                self.lblBatteryType.text = "Tubular"
+                self.appDelegate.batteryName = "Tubular"
                 break
         }
 
@@ -297,7 +319,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
                self.lblLowVoltageCut.text = "0%"
                 break;
             case "1":
-                self.lblLowVoltageCut.text = "10.5"
+                self.lblLowVoltageCut.text = "0%"
             break;
             case "4":
                 self.lblLowVoltageCut.text = "3%"
@@ -308,6 +330,9 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
             case "6":
                 self.lblLowVoltageCut.text = "10%"
                 break;
+            case "0":
+            self.lblLowVoltageCut.text = "5%"
+            break;
             default:
                 self.lblLowVoltageCut.text = "5%"
                 break
@@ -1240,7 +1265,7 @@ class SettingVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
              let dict = self.arrayBatteryType[row] as? NSDictionary
              self.lblBatteryType.text = (dict?.object(forKey: "name") as? String)!
              self.selectedId = (dict?.object(forKey: "ide") as? String)!
-
+             self.appDelegate.batteryName = (dict?.object(forKey: "name") as? String)!
          }
          else if self.pickerView.tag == 999
          {

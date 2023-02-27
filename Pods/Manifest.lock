@@ -1,9 +1,9 @@
 PODS:
   - Alamofire (4.9.1)
   - AMPopTip (4.10.0)
-  - CocoaMQTT (2.1.0):
-    - CocoaMQTT/Core (= 2.1.0)
-  - CocoaMQTT/Core (2.1.0):
+  - CocoaMQTT (2.1.1):
+    - CocoaMQTT/Core (= 2.1.1)
+  - CocoaMQTT/Core (2.1.1):
     - MqttCocoaAsyncSocket (~> 1.0.8)
   - IQKeyboardManagerSwift (6.5.11)
   - JTAppleCalendar (7.1.8)
@@ -68,7 +68,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   AMPopTip: 4630471652faf06872f72a39bfcb6f5b68a7e208
-  CocoaMQTT: 43666585403f664bb55361189c03c54897060324
+  CocoaMQTT: 204713d369b9a3ed8d90af2e0666f11121d06e74
   IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
   JTAppleCalendar: b7fb40852f5f319fe55c8ec3861f1de0edc99cc8
   Kingfisher: d2279a7abece3c7f25a80cd2b7f363ca5cf3f44c

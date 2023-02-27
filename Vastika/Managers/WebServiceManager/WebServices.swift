@@ -21,7 +21,7 @@ class webServices{
     //static let productionUrlMysql =   "https://suvastika.staging.zoneonedigital.com/"
     static var baseUrl = webServices.productionUrlMysql;
 
-    static let AppName = "Su-Vastika"
+    static let AppName = "Su-vastika"
 /************************************** End of Main URLs *****************************************************/
     static let loginRequest = "api/consumer/signin";
     static let countryGet =  "api/country/list"

@@ -48,6 +48,7 @@ class DeviceBLEVC: UIViewController {
     @IBOutlet weak var offlineView: UIView!
     @IBOutlet weak var innerOffline: UIView!
     @IBOutlet weak var bototmView: UIView!
+    @IBOutlet weak var lblDetailsHeader: UILabel!
     @IBOutlet weak var btmHeight: NSLayoutConstraint!
     var player: AVAudioPlayer?
     @IBOutlet weak var btnDignosis: UIButton!
@@ -70,6 +71,9 @@ class DeviceBLEVC: UIViewController {
     var priousError : String = "0"
     var previousRunningMode : String = "0"
     var errorCounter : Int = 0
+    var highAlert : Bool = false
+    var counterWarring : Int = 0
+    
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,8 +101,17 @@ class DeviceBLEVC: UIViewController {
         self.makeRounded(vw: self.batteryTypeView)
         self.makeRounded(vw: self.batteryReserveModeView)
         
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
        
+        let mon = self.dicrDta.object(forKey: "months") as? String
+        let day = self.dicrDta.object(forKey: "Days") as? String
+        let hr = self.dicrDta.object(forKey: "hours") as? String
+        let min = self.dicrDta.object(forKey: "minutes") as? String
+        var strHeader = String()
+        strHeader = "M:" + mon! + "D:" + day!
+        strHeader = strHeader + " | " + hr!
+        strHeader = strHeader + ":" + min!
+        self.lblDetailsHeader.text = strHeader
+        
         
         // Do any additional setup after loading the view.
     }
@@ -132,41 +145,62 @@ class DeviceBLEVC: UIViewController {
             if (error == "0"){
                 self.getErrorString = ""
                 }else if (error == "1"){
-                    self.getErrorString = "Short Circuit Warning"
+                    self.getErrorString = "UPS sense Short-cicuit happened please check the wiring"
+                    // coming
+                    self.highAlert = true
                 }else if (error == "2"){
-                    self.getErrorString = "Short Circuit Shutdown"
+                    self.getErrorString = "Short-circuit shutdown please reset the reset switch"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "3"){
-                    self.getErrorString = "Battery Low Warning"
+                    self.getErrorString = "Battery low warning, Please reduce the Load"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "4"){
-                    self.getErrorString = "Battery Low Shutdown"
+                    self.getErrorString = "Battery low cutoff warning, please wait for the Mains Grid to come back"
+                    
                 }else if (error == "5"){
-                    self.getErrorString = "Battery High Warning"
+                    self.getErrorString = "Battery High Warning, the UPS will switch off automatically"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "6"){
-                    self.getErrorString = "Battery High Shutdown"
+                    self.getErrorString = "Battery high shutdown please turn on UPS after 2 minutes."
                 }else if (error == "7"){
-                    self.getErrorString = "Overload Warning"
+                    self.counterWarring = self.counterWarring + 1
+                    self.getErrorString = "Warning \(self.counterWarring): Overload status, please reduce the load"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "8"){
-                    self.getErrorString = "Overload Shutdown"
+                    self.getErrorString = "Final Warning : Overload shutdown status, please reset the front switch"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "9"){
-                    self.getErrorString = "Mains Fuse Blown"
+                    self.getErrorString = "Mains MCB trip please reduce the load & lift the MCB from the back panel."
+                    //coming
+                    self.highAlert = true
                 }else if statusMains == "1" && error == "10" && statusUPS == "1"
                 {
-                    self.getErrorString = "Mains Low Voltage Cut"
+                    self.getErrorString = "Mains Voltage is very low shifted to UPS Mode, pls check the Mains power"
                 }
                 else if statusMains == "0" && error == "10" && statusUPS == "1"
                 {
-                    self.getErrorString = "Mains Fail"
+                    self.getErrorString = "Mains grid Failed"
                 }
                 else if statusMains == "0" && error == "10" && statusUPS == "0"
                 {
-                    self.getErrorString = "Mains Fail"
+                    self.getErrorString = "Mains Grid Failed"
                 }
                 else if (error == "11"){
-                    self.getErrorString = "Mains High Voltage Cut"
+                    self.getErrorString = "Mains Grid voltage is very high shifted to UPS Mode."
                 }else if (error == "12"){
                     self.getErrorString = "Solar High Voltage"
                 }else if (error == "13"){
                     self.getErrorString = "Solar High Current"
+                }
+                else if (error == "14"){
+                    self.getErrorString = "The Input and Output wiring connections are reversed pls correct the wiring"
+                    //coming
+                    self.highAlert = true
                 }
         return self.getErrorString
        
@@ -186,7 +220,7 @@ class DeviceBLEVC: UIViewController {
         if resetSwitch == "1"
         {
             //off
-            let alert = UIAlertController(title: webServices.AppName, message: "Are you sure, you want to switch On.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Are you sure, you want to switch Off.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
                 let dict = ["status_front_switch_remote":"2"]
                 if let theJSONData = try?  JSONSerialization.data(
@@ -214,7 +248,7 @@ class DeviceBLEVC: UIViewController {
         else
         {
             // on
-            let alert = UIAlertController(title: webServices.AppName, message: "Are you sure, you want to switch Off.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: webServices.AppName, message: "Are you sure, you want to switch On.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
                 let dict = ["status_front_switch_remote":"1"]
                 if let theJSONData = try?  JSONSerialization.data(
@@ -242,6 +276,8 @@ class DeviceBLEVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.timerforMode = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateMode), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+
         let statusUPS = self.dicrDta.object(forKey: "status_ups") as? String
         let statusMains = self.dicrDta.object(forKey: "status_mains") as? String
         let mainsOKN = self.dicrDta.object(forKey: "Mains_Ok") as? String
@@ -262,6 +298,7 @@ class DeviceBLEVC: UIViewController {
 
         }
         
+        self.highAlert = false
         
         if statusUPS == "1" && statusMains == "0"
         {
@@ -271,7 +308,7 @@ class DeviceBLEVC: UIViewController {
             {
 //                self.firstView = GaugeVMain(frame: CGRect(x: 0, y:20, width: 161, height: 130))
 //                self.firstView.backgroundColor = .white
-                gaugeView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+                gaugeView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
                 self.outFreChart.addSubview(gaugeView)
                 
                 // To setup the gauge view
@@ -294,7 +331,7 @@ class DeviceBLEVC: UIViewController {
             {
 //                self.firstView = GaugeVMain(frame: CGRect(x: 0, y:0, width: 161, height: 120))
 //                self.firstView.backgroundColor = .white
-                gaugeView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+                gaugeView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
                 self.outFreChart.addSubview(gaugeView)
                 
                 // To setup the gauge view
@@ -410,7 +447,7 @@ class DeviceBLEVC: UIViewController {
 //            self.firstView.backgroundColor = .white
 //            self.outFreChart.addSubview(self.firstView)
 
-            gaugeView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+            gaugeView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
             self.outFreChart.addSubview(gaugeView)
             
             // To setup the gauge view
@@ -438,9 +475,7 @@ class DeviceBLEVC: UIViewController {
             
             let attributedStringSE1 = NSMutableAttributedString(string:"UPS Mode" + "\n", attributes:attrsSE1 as [NSAttributedString.Key : Any])
             let attributedStringSE2 = NSMutableAttributedString(string:"Mains Fail" + "\n", attributes:attrsSE2 as [NSAttributedString.Key : Any])
-            let attributedStringSE3 = NSMutableAttributedString(string:"Device is Offline", attributes:attrsSE3 as [NSAttributedString.Key : Any])
             attributedStringSE1.append(attributedStringSE2)
-            attributedStringSE1.append(attributedStringSE3)
 
             self.lblMode.attributedText = attributedStringSE1
             
@@ -456,7 +491,7 @@ class DeviceBLEVC: UIViewController {
         let statusMains = self.dicrDta.object(forKey: "status_mains") as? String
         let mainsOKN = self.dicrDta.object(forKey: "Mains_Ok") as? String
         let errorN = self.dicrDta.object(forKey: "status_error") as? String
-        
+        self.highAlert = false
         if errorCounter == 6
         {
             self.gettingErrorCode()
@@ -498,10 +533,13 @@ class DeviceBLEVC: UIViewController {
                 
                 if Device.IS_IPHONE_X
                 {
+                    for view in self.outFreChart.subviews {
+                        view.removeFromSuperview()
+                    }
 //                    self.firstView = GaugeVMain(frame: CGRect(x: 0, y:20, width: 161, height: 130))
 //                    self.firstView.backgroundColor = .white
 //                    self.outFreChart.addSubview(self.firstView)
-                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
                     self.outFreChart.addSubview(gaugeView)
                     
                     // To setup the gauge view
@@ -524,7 +562,10 @@ class DeviceBLEVC: UIViewController {
 //                    self.firstView = GaugeVMain(frame: CGRect(x: 0, y:0, width: 161, height: 120))
 //                    self.firstView.backgroundColor = .white
 //                    self.outFreChart.addSubview(self.firstView)
-                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+                    for view in self.outFreChart.subviews {
+                        view.removeFromSuperview()
+                    }
+                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
                     self.outFreChart.addSubview(gaugeView)
                     
                     // To setup the gauge view
@@ -563,6 +604,9 @@ class DeviceBLEVC: UIViewController {
         {
             if self.previousRunningMode != "3"
             {
+                for view in self.outFreChart.subviews {
+                    view.removeFromSuperview()
+                }
                 self.secView = GaugeLOWHIgh(frame: CGRect(x: 0, y:20, width: 161, height: 129))
                 self.secView.backgroundColor = .white
                 self.outFreChart.addSubview(self.secView)
@@ -572,12 +616,14 @@ class DeviceBLEVC: UIViewController {
             self.lblHeaderOutputFrequency.text = "Low Voltage"
             self.updatedDataForUPSMode()
             self.offlineView.isHidden = true
-            
         }
         else if statusUPS == "0" && statusMains == "1" && commintErrorCodeNN == "11"
         {
             if self.previousRunningMode != "2"
             {
+                for view in self.outFreChart.subviews {
+                    view.removeFromSuperview()
+                }
                 self.normalView = GaugeHigh(frame: CGRect(x: 0, y:20, width: 161, height: 129))
                 self.normalView.backgroundColor = .white
                 self.outFreChart.addSubview(self.normalView)
@@ -614,6 +660,9 @@ class DeviceBLEVC: UIViewController {
             {
                 if self.previousRunningMode != "2"
                 {
+                    for view in self.outFreChart.subviews {
+                        view.removeFromSuperview()
+                    }
                     self.previousRunningMode = "2"
                     self.normalView = GaugeHigh(frame: CGRect(x: 0, y:20, width: 161, height: 129))
                     self.normalView.backgroundColor = .white
@@ -622,11 +671,15 @@ class DeviceBLEVC: UIViewController {
                 self.lblMode.text = "UPS Mode \n (Mains On - High Voltage)"
                 self.lblHeaderBatteryVoltage.text = "Battery Discharge"
                 self.lblHeaderOutputFrequency.text = "High Voltage"
+                
             }
             else if mainsOK == "0" && chg_i == "0.00" && commintErrorCode == "10"
             {
                 if self.previousRunningMode != "3"
                 {
+                    for view in self.outFreChart.subviews {
+                        view.removeFromSuperview()
+                    }
                     self.previousRunningMode = "3"
                     self.secView = GaugeLOWHIgh(frame: CGRect(x: 0, y:20, width: 161, height: 129))
                     self.secView.backgroundColor = .white
@@ -635,6 +688,7 @@ class DeviceBLEVC: UIViewController {
                 self.lblMode.text = "UPS Mode \n (Mains On - Low Voltage)"
                 self.lblHeaderBatteryVoltage.text = "Battery Discharge"
                 self.lblHeaderOutputFrequency.text = "Low Voltage"
+                
             }
             self.offlineView.isHidden = true
 
@@ -651,7 +705,10 @@ class DeviceBLEVC: UIViewController {
 //                    self.firstView = GaugeVMain(frame: CGRect(x: 0, y:20, width: 161, height: 130))
 //                    self.firstView.backgroundColor = .white
 //                    self.outFreChart.addSubview(self.firstView)
-                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+                    for view in self.outFreChart.subviews {
+                        view.removeFromSuperview()
+                    }
+                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
                     self.outFreChart.addSubview(gaugeView)
                     
                     // To setup the gauge view
@@ -674,7 +731,10 @@ class DeviceBLEVC: UIViewController {
 //                    self.firstView = GaugeVMain(frame: CGRect(x: 0, y:0, width: 161, height: 120))
 //                    self.firstView.backgroundColor = .white
 //                    self.outFreChart.addSubview(self.firstView)
-                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+                    for view in self.outFreChart.subviews {
+                        view.removeFromSuperview()
+                    }
+                    gaugeView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
                     self.outFreChart.addSubview(gaugeView)
                     
                     // To setup the gauge view
@@ -701,9 +761,7 @@ class DeviceBLEVC: UIViewController {
             
             let attributedStringSE1 = NSMutableAttributedString(string:"UPS Mode" + "\n", attributes:attrsSE1 as [NSAttributedString.Key : Any])
             let attributedStringSE2 = NSMutableAttributedString(string:"(Mains Fail)" + "\n", attributes:attrsSE2 as [NSAttributedString.Key : Any])
-            let attributedStringSE3 = NSMutableAttributedString(string:"Device is Offline", attributes:attrsSE3 as [NSAttributedString.Key : Any])
             attributedStringSE1.append(attributedStringSE2)
-            attributedStringSE1.append(attributedStringSE3)
 
             self.lblMode.attributedText = attributedStringSE1
             
@@ -732,11 +790,25 @@ class DeviceBLEVC: UIViewController {
             }
             print("single")
             self.priousError = error!
+        
             self.view.makeToast(self.createErrorString(error: error!))
+           
             if self.appDelegate.audioActive == 1
             {
-                let systemSoundID: SystemSoundID = 1315
-                AudioServicesPlaySystemSound (systemSoundID)
+                if self.highAlert == true
+                {
+                    let ernp = error?.contains("1,2,3,5,7,9,14")
+                    if ernp == true
+                    {
+                        self.playSound("highAlt")
+                    }
+                }
+                else
+                {
+                    let systemSoundID: SystemSoundID = 1315
+                    AudioServicesPlaySystemSound (systemSoundID)
+                }
+                
             }
             
         }
@@ -757,19 +829,43 @@ class DeviceBLEVC: UIViewController {
             print(newCodeErrorString)
    
             self.priousError = String(newCodeError)
+            var completeError = String()
+            let statusFrontOff = self.dicrDta.object(forKey: "status_front_switch") as? String
+//            if statusFrontOff == "0"
+//            {
+//                completeError = completeError + "Front switch is off so please turn ON switch to get the power." + "\n"
+//                completeError = completeError + String(newCodeErrorString)
+//                self.view.makeToast(completeError)
+//            }
+//            else
+//            {
+//                self.view.makeToast(self.createErrorString(error: error!))
+//            }
+            
+            self.view.makeToast(self.createErrorString(error: error!))
+            
             self.view.makeToast(String(newCodeErrorString))
             
             if self.appDelegate.audioActive == 1
             {
-                let systemSoundID: SystemSoundID = 1315
-                AudioServicesPlaySystemSound (systemSoundID)
+                if self.highAlert == true
+                {
+                    self.playSound("highAlt")
+                }
+                else
+                {
+                    let systemSoundID: SystemSoundID = 1315
+                    AudioServicesPlaySystemSound (systemSoundID)
+                }
+                
+               
             }
             
         }
     }
     
     func playSound(_ soundName: String) {
-        guard let url = Bundle.main.url(forResource: "beep-06", withExtension: "mp3") else {
+        guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp4") else {
             print("URL is wrong")
             return
         }
@@ -785,6 +881,7 @@ class DeviceBLEVC: UIViewController {
            print(error)
         }
     }
+    
     
     @objc func updateCounter() {
         //example functionality
@@ -826,77 +923,25 @@ class DeviceBLEVC: UIViewController {
     func updatedVoltageInpercentage()
     {
         let bv = self.dicrDta.object(forKey: "bv") as? String
-        let bvInInt = Int(Float((bv?.floatValue.rounded())!))
-        
-        let noBattery = Float(bvInInt / 15)
-        var totalbattery : Int = 0
-        if noBattery < 1.0
-        {
-            totalbattery = 1
-        }
-        else if noBattery > 1.0 && noBattery < 2.0
-        {
-            totalbattery = 2
-        }
-        else if noBattery > 2.0 && noBattery < 3.0
-        {
-            totalbattery = 3
-        }
-        else
-        {
-            totalbattery = 4
-        }
-        
-        let batteryVoltge = self.dicrDta.object(forKey: "setting_low_voltage_cut") as? String
-        var newbatteryVoltge = String()
+        let bw = self.dicrDta.object(forKey: "bdw") as? String
 
-        switch (batteryVoltge) {
-            case "0":
-                newbatteryVoltge = "11.0"
-                break;
-            case "1":
-                newbatteryVoltge = "10.5"
-                break;
-            case "4":
-                newbatteryVoltge = "10.8"
-                break;
-            case "5":
-                newbatteryVoltge = "11.2"
-                break;
-            case "6":
-                newbatteryVoltge = "11.4"
-            break;
-            default:
-                newbatteryVoltge = "--"
-              break;
-        }
-        
-        let v1 = Float(newbatteryVoltge.floatValue)
-        
-        let oneForActualPersent = Int(((15.0 - Float(v1)) / 15.0) * 100.0)
-        let totalPercent = oneForActualPersent * totalbattery
-        print(totalPercent)
-        let commingPercent = Int(((15.0 - Float(bvInInt)) / 15.0) * 100)
-        print(commingPercent)
-        print(v1)
-        
-        let tempPlacePercent = Int(Float(Float(oneForActualPersent - commingPercent) / Float(oneForActualPersent)) * 100)
-        let finalpercent = 100 - tempPlacePercent
-        print(finalpercent)
-        
-        self.lblBatteryVoltge.text = String(finalpercent) + " %"
-        
-        
-        
-        let lblWidth =  Float(60.0 / 100.0)
-        let nww = Int(lblWidth * Float(finalpercent))
-        self.lblChargingWidth.constant = CGFloat(nww)
-        
+        self.lblBatteryVoltge.text = (bv!) + " V" //+ " | " + bw! + " W"
         
     }
     
     func updatedDataForUPSMode()
     {
+        let mon = self.dicrDta.object(forKey: "months") as? String
+        let day = self.dicrDta.object(forKey: "Days") as? String
+        let hr = self.dicrDta.object(forKey: "hours") as? String
+        let min = self.dicrDta.object(forKey: "minutes") as? String
+        var strHeader = String()
+        strHeader = "M:" + mon! + "D:" + day!
+        strHeader = strHeader + " | " + hr!
+        strHeader = strHeader + ":" + min!
+        self.lblDetailsHeader.text = strHeader
+        
+        self.imgBatteryoltage.image = UIImage(named: "battery")
         if self.counterBatterypercent == 5
         {
             self.counterBatterypercent = 0
@@ -922,13 +967,26 @@ class DeviceBLEVC: UIViewController {
         }
         else
         {
-            self.imgSwitch.image = UIImage(named: "on_CR")
-            let attributedStringSwitch2 = NSMutableAttributedString(string:"On", attributes:attrsSwitch2 as [NSAttributedString.Key : Any])
-            attributedStringSwitch1.append(attributedStringSwitch2)
-            self.lblSwitch.attributedText = attributedStringSwitch1
+            let error = self.dicrDta.object(forKey: "status_error") as? String
+            let ernp = error?.contains("2")
+            if ernp == true
+            {
+                self.imgSwitch.image = UIImage(named: "on_CR")
+                let attributedStringSwitch2 = NSMutableAttributedString(string:"Reset", attributes:attrsSwitch2 as [NSAttributedString.Key : Any])
+                attributedStringSwitch1.append(attributedStringSwitch2)
+                self.lblSwitch.attributedText = attributedStringSwitch1
+            }
+            else
+            {
+                self.imgSwitch.image = UIImage(named: "on_CR")
+                let attributedStringSwitch2 = NSMutableAttributedString(string:"On", attributes:attrsSwitch2 as [NSAttributedString.Key : Any])
+                attributedStringSwitch1.append(attributedStringSwitch2)
+                self.lblSwitch.attributedText = attributedStringSwitch1
+            }
+            
         }
         
-        self.imgBatteryoltage.image = UIImage(named: "mediumbattery")
+       
         
         // Battery section for ups mode
         let battery = self.dicrDta.object(forKey: "setting_grid_charging") as? String
@@ -968,7 +1026,7 @@ class DeviceBLEVC: UIViewController {
         switch (batteryType) {
               case "1":
                 strBattryType = "Tubular"
-                self.imgBatteryType.image = UIImage(named: "tubalr_CR")
+                self.imgBatteryType.image = UIImage(named: "tubular")
                 break;
               case "2":
                 strBattryType = "Sealed Maintenance Free"
@@ -979,12 +1037,12 @@ class DeviceBLEVC: UIViewController {
                 self.imgBatteryType.image = UIImage(named: "lithium_Ion")
                 break;
               case "4":
-                strBattryType = "Lead Acid"
+                strBattryType = "Tubular"
                 self.imgBatteryType.image = UIImage(named: "lead_acid")
                 break;
               case "5":
                 strBattryType = "Tubular"
-                self.imgBatteryType.image = UIImage(named: "tubalr_CR")
+                self.imgBatteryType.image = UIImage(named: "tubular")
                 break;
               case "6":
                 strBattryType = "Sealed Maintenance Free"
@@ -995,7 +1053,7 @@ class DeviceBLEVC: UIViewController {
                 self.imgBatteryType.image = UIImage(named: "lithium_Ion")
                 break;
               default:
-                strBattryType = "Lead Acid"
+                strBattryType = "Tubular"
                 self.imgBatteryType.image = UIImage(named: "lead_acid")
                 break;
             }
@@ -1026,23 +1084,23 @@ class DeviceBLEVC: UIViewController {
                 resValue = "5%"
                 break;
               case "1":
-                strBattry = "0%"
+            resValue = "0%"
                   break;
               case "4":
-                strBattry = "3%"
+            resValue = "3%"
                 break;
               case "5":
-                strBattry = "8%"
+            resValue = "8%"
                 break;
               case "6":
-                strBattry = "10%"
+            resValue = "10%"
                 break;
               default:
-                strBattry = "--"
+            resValue = "--"
                 break;
             }
-        self.lblBatteryRMiode.text = strBattry
-        self.imgBatteryRMode.image = UIImage(named:  "battery_reserved")
+//        self.lblBatteryRMiode.text = resValue
+//        self.imgBatteryRMode.image = UIImage(named:  "battery_reserved")
         
         
         let statusUPS = self.dicrDta.object(forKey: "status_ups") as? String
@@ -1067,6 +1125,20 @@ class DeviceBLEVC: UIViewController {
             let inputfre = self.dicrDta.object(forKey: "Output_Frequency_Value") as? String
             var freVoltage = Float((inputfre?.floatValue.rounded())!)
             freVoltage = freVoltage - 15.0
+            self.lblBattery.isHidden = false
+            if Int((inputfre?.floatValue.rounded())!) < 50
+            {
+                self.lblBattery.text = "50 Hz"
+            }
+            else if Int((inputfre?.floatValue.rounded())!) > 60
+            {
+                self.lblBattery.text = "60 Hz"
+            }
+            else
+            {
+                self.lblBattery.text = (inputfre!) + " Hz"
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         UIView.animate(withDuration: 1) {
                             //self.firstView.value = Int(freVoltage)
@@ -1077,6 +1149,7 @@ class DeviceBLEVC: UIViewController {
         }
         else if statusUPS == "1" && statusMains == "1"
         {
+            self.lblBattery.isHidden = true
             let mainsOK = self.dicrDta.object(forKey: "Mains_Ok") as? String
             let error = self.dicrDta.object(forKey: "status_error") as? String
             let chg_i = self.dicrDta.object(forKey: "chg_i") as? String
@@ -1110,6 +1183,7 @@ class DeviceBLEVC: UIViewController {
         }
         else if statusUPS == "0" && statusMains == "1" && commintErrorCode == "10"
         {
+            self.lblBattery.isHidden = true
             var mipv = self.dicrDta.object(forKey: "mipv") as? String
             if mipv == "0.00"
             {
@@ -1126,6 +1200,7 @@ class DeviceBLEVC: UIViewController {
         }
         else if statusUPS == "0" && statusMains == "1" && commintErrorCode == "11"
         {
+            self.lblBattery.isHidden = true
             self.lblHeaderOutputFrequency.text = "High Voltage"
             var mipv = self.dicrDta.object(forKey: "mipv") as? String
             if mipv == "0.00"
@@ -1144,10 +1219,24 @@ class DeviceBLEVC: UIViewController {
         
         else
         {
+            self.lblBattery.isHidden = false
             let inputfre = self.dicrDta.object(forKey: "Output_Frequency_Value") as? String
             var freVoltage = Float((inputfre?.floatValue.rounded())!)
             freVoltage = freVoltage - 15.0
-
+            self.lblBattery.isHidden = false
+            if Int((inputfre?.floatValue.rounded())!) < 50
+            {
+                self.lblBattery.text = "50 Hz"
+            }
+            else if Int((inputfre?.floatValue.rounded())!) > 60
+            {
+                self.lblBattery.text = "60 Hz"
+            }
+            else
+            {
+                self.lblBattery.text = (inputfre!) + " Hz"
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         UIView.animate(withDuration: 1) {
                            // self.firstView.value = Int(freVoltage)
@@ -1185,6 +1274,7 @@ class DeviceBLEVC: UIViewController {
         let alert = UIAlertController(title: webServices.AppName, message: "Are you sure, you want to leave this page.", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
             self.navigationController?.popToRootViewController(animated: true)
+            self.timer.invalidate()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
            

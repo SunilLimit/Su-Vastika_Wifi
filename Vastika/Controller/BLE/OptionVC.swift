@@ -8,8 +8,9 @@
 import UIKit
 import SystemConfiguration.CaptiveNetwork
 import AVFoundation
+import CoreBluetooth
 
-class OptionVC: UIViewController {
+class OptionVC: UIViewController,CBCentralManagerDelegate {
 
     @IBOutlet weak var connectView: UIView!
     @IBOutlet weak var innerView: UIView!
@@ -22,7 +23,7 @@ class OptionVC: UIViewController {
     @IBOutlet weak var lblWifi: UILabel!
     @IBOutlet weak var lblBluethooth: UILabel!
     
-    
+    var manager:CBCentralManager!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,11 +53,37 @@ class OptionVC: UIViewController {
         
         let ssid = self.getAllWiFiNameList()
         
-        
+        manager  = CBCentralManager()
+        manager.delegate = self
         
         
         // Do any additional setup after loading the view.
     }
+    
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        switch central.state {
+        case .poweredOn:
+            break
+        case .poweredOff:
+            print("Bluetooth is Off.")
+            
+            break
+        case .resetting:
+            break
+        case .unauthorized:
+            break
+        case .unsupported:
+            break
+        case .unknown:
+            break
+        default:
+            break
+        }
+    }
+
+
+    
     
     func getAllWiFiNameList() -> String? {
                 var ssid: String?

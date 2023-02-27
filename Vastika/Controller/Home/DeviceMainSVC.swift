@@ -24,6 +24,7 @@ class DeviceMainSVC: UIViewController {
     @IBOutlet weak var btnDiagnos: UIButton!
     @IBOutlet weak var btmView: UIView!
     
+    @IBOutlet weak var lblVoltForFreq: UILabel!
     @IBOutlet weak var inputFrequencyView: UIView!
     @IBOutlet weak var boostView: UIView!
     @IBOutlet weak var batteryTypeView: UIView!
@@ -38,15 +39,17 @@ class DeviceMainSVC: UIViewController {
     @IBOutlet weak var imgBosst: UIImageView!
     @IBOutlet weak var imgATC: UIImageView!
     @IBOutlet weak var lblBoost: UILabel!
+    @IBOutlet weak var lblHeaderTitle: UILabel!
     @IBOutlet weak var lblATC: UILabel!
     var priousError : String = "0"
     var errorCounter : Int = 0
     @IBOutlet weak var btmHeight: NSLayoutConstraint!
-    
+    var arrayCAl = [String]()
     var counterBatterypercent : Int = 0
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     fileprivate var services : [CBService]?
     var properties : CBCharacteristicProperties?
+    @IBOutlet weak var lblTextATC: UILabel!
     let bluetoothManager = BluetoothManager.getInstance()
     var peripheral: CBPeripheral!
     
@@ -67,7 +70,8 @@ class DeviceMainSVC: UIViewController {
 
     var firstView : GaugeVWP!
     var secView : GaugeView!
-    
+    var highAlert : Bool = false
+
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -83,7 +87,6 @@ class DeviceMainSVC: UIViewController {
         self.gaugeView.backgroundColor = .clear
         self.secGuageView.backgroundColor = .clear
         
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
 
         let statusUPS = self.dicrDta.object(forKey: "status_ups") as? String
         let statusMains = self.dicrDta.object(forKey: "status_mains") as? String
@@ -102,8 +105,18 @@ class DeviceMainSVC: UIViewController {
 
         }
        
+        //"months":"23","Days":"29","hours":"22","minutes":"46"
 
-
+        let mon = self.dicrDta.object(forKey: "months") as? String
+        let day = self.dicrDta.object(forKey: "Days") as? String
+        let hr = self.dicrDta.object(forKey: "hours") as? String
+        let min = self.dicrDta.object(forKey: "minutes") as? String
+        var strHeader = String()
+        strHeader = "M:" + mon! + "D:" + day!
+        strHeader = strHeader + " | " + hr!
+        strHeader = strHeader + ":" + min!
+        self.lblHeaderTitle.text = strHeader
+        
         
         if statusUPS == "1" && statusMains == "0"
         {
@@ -152,7 +165,7 @@ class DeviceMainSVC: UIViewController {
         self.gaugeView.addSubview(self.firstView)
        
        
-        self.secView = GaugeView(frame: CGRect(x: 0, y: 50, width: 160, height: 80))
+        self.secView = GaugeView(frame: CGRect(x: 0, y: 35, width: 160, height: 80))
         self.secGuageView.addSubview(self.secView)
         
         self.secView
@@ -199,7 +212,37 @@ class DeviceMainSVC: UIViewController {
         self.makeRounded(vw: self.batteryTypeView)
         self.makeRounded(vw: self.gridView)
         self.makeRounded(vw: self.boostView)
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         self.timerforMode = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateMode), userInfo: nil, repeats: true)
+        self.setUpBatteryAndBoostVoltage()
+    }
+    
+    func setUpBatteryAndBoostVoltage()
+    {
+        
+        if self.appDelegate.batteryName == "Tubular"
+        {
+            self.imgBatteryType.image = UIImage(named: "tubular")
+            self.imgATC.isHidden = false
+            self.lblATC.isHidden = false
+            self.lblTextATC.isHidden = false
+        }
+        else if self.appDelegate.batteryName == "Lithium Ion"
+        {
+            self.imgATC.isHidden = true
+            self.lblATC.isHidden = true
+            self.lblTextATC.isHidden = true
+            self.imgBatteryType.image = UIImage(named: "lithium_Ion")
+        }
+        else
+        {
+            self.imgBatteryType.image = UIImage(named: "sealed_maintenance_free")
+            self.imgATC.isHidden = false
+            self.lblATC.isHidden = false
+            self.lblTextATC.isHidden = false
+        }
+        
+        self.lblBatteryType.text =  self.appDelegate.batteryName
     }
     
     @objc func updateMode() {
@@ -278,34 +321,67 @@ class DeviceMainSVC: UIViewController {
     
     func createErrorString(error : String) -> String
     {
+        let statusUPS = self.dicrDta.object(forKey: "status_ups") as? String
+        let statusMains = self.dicrDta.object(forKey: "status_mains") as? String
+        
             if (error == "0"){
                 self.getErrorString = ""
                 }else if (error == "1"){
-                    self.getErrorString = "Short Circuit Warning"
+                    self.getErrorString = "UPS sense Short-cicuit happened please check the wiring"
+                    // coming
+                    self.highAlert = true
                 }else if (error == "2"){
-                    self.getErrorString = "Short Circuit Shutdown"
+                    self.getErrorString = "Short-circuit shutdown please reset the reset switch"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "3"){
-                    self.getErrorString = "Battery Low Warning"
+                    self.getErrorString = "Battery low warning, Please reduce the Load"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "4"){
-                    self.getErrorString = "Battery Low Shutdown"
+                    self.getErrorString = "Battery low cutoff warning, please wait for the Mains Grid to come back"
+                    
                 }else if (error == "5"){
-                    self.getErrorString = "Battery High Warning"
+                    self.getErrorString = "Battery High Warning, the UPS will switch off automatically"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "6"){
-                    self.getErrorString = "Battery High Shutdown"
+                    self.getErrorString = "Battery high shutdown please turn on UPS after 2 minutes."
                 }else if (error == "7"){
-                    self.getErrorString = "Overload Warning"
+                    self.getErrorString = "Overload status, please reduce the load"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "8"){
-                    self.getErrorString = "Overload Shutdown"
+                    self.getErrorString = "Overload shutdown status, please reset the front switch"
+                    //coming
+                    self.highAlert = true
                 }else if (error == "9"){
-                    self.getErrorString = "Mains Fuse Blown"
-                }else if (error == "10"){
-                    self.getErrorString = "Mains Low Voltage Cut"
-                }else if (error == "11"){
-                    self.getErrorString = "Mains High Voltage Cut"
+                    self.getErrorString = "Mains MCB trip please reduce the load & lift the MCB from the back panel."
+                    //coming
+                    self.highAlert = true
+                }else if statusMains == "1" && error == "10" && statusUPS == "1"
+                {
+                    self.getErrorString = "Mains Voltage is very low shifted to UPS Mode, pls check the Mains power"
+                }
+                else if statusMains == "0" && error == "10" && statusUPS == "1"
+                {
+                    self.getErrorString = "Mains grid Failed  "
+                }
+                else if statusMains == "0" && error == "10" && statusUPS == "0"
+                {
+                    self.getErrorString = "Mains Grid Failed & Front switch is off mode,Pls switch on the front switch"
+                }
+                else if (error == "11"){
+                    self.getErrorString = "Mains Grid voltage is very high shifted to UPS Mode."
                 }else if (error == "12"){
                     self.getErrorString = "Solar High Voltage"
                 }else if (error == "13"){
                     self.getErrorString = "Solar High Current"
+                }
+                else if (error == "14"){
+                    self.getErrorString = "The Input and Output wiring connections are reversed pls correct the wiring"
+                    //coming
+                    self.highAlert = true
                 }
         return self.getErrorString
        
@@ -318,8 +394,8 @@ class DeviceMainSVC: UIViewController {
         {
             return
         }
-        let enrrnr = error?.contains(",")
-        if enrrnr == false
+        let ernp = error?.contains(",")
+        if ernp == false
         {
             if error == "0"
             {
@@ -327,6 +403,20 @@ class DeviceMainSVC: UIViewController {
             }
             print("single")
             self.priousError = error!
+            var completeError = String()
+            let statusFrontOff = self.dicrDta.object(forKey: "status_front_switch") as? String
+//            if statusFrontOff == "0"
+//            {
+//                completeError = completeError + "Front switch is off so please turn ON switch to get the power." + "\n"
+//                completeError = completeError + self.createErrorString(error: error!)
+//                self.view.makeToast(completeError)
+//            }
+//            else
+//            {
+//                self.view.makeToast(self.createErrorString(error: error!))
+//            }
+           
+            
             self.view.makeToast(self.createErrorString(error: error!))
             if self.appDelegate.audioActive == 1
             {
@@ -350,13 +440,30 @@ class DeviceMainSVC: UIViewController {
             }
             print(newCodeError)
             print(newCodeErrorString)
+   
+            self.priousError = String(newCodeError)
+            var completeError = String()
+            let statusFrontOff = self.dicrDta.object(forKey: "status_front_switch") as? String
+//            if statusFrontOff == "0"
+//            {
+//                completeError = completeError + "Front switch is off so please turn ON switch to get the power." + "\n"
+//                completeError = completeError + String(newCodeErrorString)
+//                self.view.makeToast(completeError)
+//            }
+//            else
+//            {
+//                self.view.makeToast(self.createErrorString(error: error!))
+//            }
+            
+            self.view.makeToast(self.createErrorString(error: error!))
+            
+            self.view.makeToast(String(newCodeErrorString))
             
             if self.appDelegate.audioActive == 1
             {
-                self.priousError = String(newCodeError)
-                self.view.makeToast(String(newCodeErrorString))
+                let systemSoundID: SystemSoundID = 1315
+                AudioServicesPlaySystemSound (systemSoundID)
             }
-           
             
         }
     }
@@ -430,36 +537,71 @@ class DeviceMainSVC: UIViewController {
     
     func updateDataForMainsMode()
     {
+        let mon = self.dicrDta.object(forKey: "months") as? String
+        let day = self.dicrDta.object(forKey: "Days") as? String
+        let hr = self.dicrDta.object(forKey: "hours") as? String
+        let min = self.dicrDta.object(forKey: "minutes") as? String
+        var strHeader = String()
+        strHeader = "M:" + mon! + "D:" + day!
+        strHeader = strHeader + " | " + hr!
+        strHeader = strHeader + ":" + min!
+        self.lblHeaderTitle.text = strHeader
+        
+        
         let battery_percent = self.dicrDta.object(forKey: "battery_percent") as? String
         let bw = self.dicrDta.object(forKey: "bw") as? String
         
         if self.counterBatterypercent == 5
         {
-            self.counterBatterypercent = 0
+            
+            var ind = 0
+            for item in self.arrayCAl
+            {
+                if ind == 4
+                {
+                    continue
+                }
+                self.arrayCAl[ind] =  self.arrayCAl[ind + 1]
+                ind = ind + 1
+            }
+            self.arrayCAl.removeLast()
+            self.arrayCAl.append(battery_percent!)
+            print(self.arrayCAl)
+            var avgValue : Double = 0
+            for item in self.arrayCAl
+            {
+                avgValue = avgValue + Double(item)!
+            }
+            
+            avgValue = avgValue / Double(self.arrayCAl.count)
+            print(avgValue)
             // battery setup
-          
-           
             if (battery_percent == "100.00" && bw == "0.00") {
-                    self.lblBattery.text = "Battery: " + battery_percent! + "%"
+                    self.lblBattery.text =  battery_percent! + "%"
             } else if    (battery_percent?.toDouble() == 100.00 && (bw?.toDouble())! > 0.00) {
-                       self.lblBattery.text = "Battery: 99 %"
+                       self.lblBattery.text = "99 %"
             } else if (battery_percent != "100.00" && (bw?.toDouble())! > 0.00) {
-                        self.lblBattery.text = " Battery:" + battery_percent! + "%"
+                        self.lblBattery.text =  battery_percent! + "%"
                    }
             else
             {
-                self.lblBattery.text = " Battery:" + battery_percent! + "%"
+                self.lblBattery.text =  battery_percent! + "%"
             }
         }
         else
         {
+            self.arrayCAl.append(battery_percent!)
+            print(self.arrayCAl)
             self.counterBatterypercent = self.counterBatterypercent + 1
             self.lblBattery.text = "Updating"
         }
       
         
-        
-        if (battery_percent?.toDouble())! > 80.00
+        if (battery_percent?.toDouble())! == 100.00
+        {
+            self.imgBattery.image = UIImage(named: "battery_full")
+        }
+        else if (battery_percent?.toDouble())! > 80.00
         {
             self.imgBattery.loadGif(name: "battery")
         }
@@ -514,47 +656,87 @@ class DeviceMainSVC: UIViewController {
         
         let batteryType = self.dicrDta.object(forKey: "setting_battery_type") as? String
         var strBattryType = String()
-        switch (batteryType) {
-              case "1":
-                strBattryType = "Tubular"
-                self.imgBatteryType.image = UIImage(named: "tubalr_CR")
-                break;
-              case "2":
-                strBattryType = "Sealed Maintenance Free"
-                self.imgBatteryType.image = UIImage(named: "sealed_maintenance_free")
-                  break;
-              case "3":
-                strBattryType = "Lithium Ion"
-                self.imgBatteryType.image = UIImage(named: "lithium_Ion")
-                break;
-              case "4":
-                strBattryType = ""
-                self.imgBatteryType.image = UIImage(named: "tubalr_CR")
-                break;
-              case "5":
-                strBattryType = "Tubular"
-                self.imgBatteryType.image = UIImage(named: "tubalr_CR")
-                break;
-              case "6":
-                strBattryType = "Sealed Maintenance Free"
-                self.imgBatteryType.image = UIImage(named: "sealed_maintenance_free")
-                break;
-              case "7":
-                strBattryType = "Lithium Ion"
-                self.imgBatteryType.image = UIImage(named: "lithium_Ion")
-                break;
-              default:
-                strBattryType = "Tubular"
-                self.imgBatteryType.image = UIImage(named: "tubalr_CR")
-                break;
-            }
-        
-        self.lblBatteryType.text =  strBattryType
+        strBattryType = self.appDelegate.batteryName
+//        switch (batteryType) {
+//              case "1":
+//                strBattryType = "Tubular"
+//                self.imgBatteryType.image = UIImage(named: "tubular")
+//                self.imgATC.isHidden = false
+//                self.lblATC.isHidden = false
+//                self.lblTextATC.isHidden = false
+//                break;
+//              case "2":
+//                strBattryType = "Sealed Maintenance Free"
+//                self.imgBatteryType.image = UIImage(named: "sealed_maintenance_free")
+//                self.imgATC.isHidden = false
+//                self.lblATC.isHidden = false
+//                self.lblTextATC.isHidden = false
+//                  break;
+//              case "3":
+//                strBattryType = "Lithium Ion"
+//                self.imgBatteryType.image = UIImage(named: "lithium_Ion")
+//                self.imgATC.isHidden = true
+//                self.lblATC.isHidden = true
+//                self.lblTextATC.isHidden = true
+//                break;
+//              case "4":
+//                strBattryType = ""
+//                self.imgBatteryType.image = UIImage(named: "tubular")
+//                self.imgATC.isHidden = false
+//                self.lblATC.isHidden = false
+//                self.lblTextATC.isHidden = false
+//                break;
+//              case "5":
+//                strBattryType = "Tubular"
+//                self.imgBatteryType.image = UIImage(named: "tubular")
+//                self.imgATC.isHidden = false
+//                self.lblATC.isHidden = false
+//                self.lblTextATC.isHidden = false
+//                break;
+//              case "6":
+//                strBattryType = "Sealed Maintenance Free"
+//                self.imgBatteryType.image = UIImage(named: "sealed_maintenance_free")
+//                self.imgATC.isHidden = false
+//                self.lblATC.isHidden = false
+//                self.lblTextATC.isHidden = false
+//                break;
+//              case "7":
+//                self.imgATC.isHidden = true
+//                self.lblATC.isHidden = true
+//                self.lblTextATC.isHidden = true
+//                strBattryType = "Lithium Ion"
+//                self.imgBatteryType.image = UIImage(named: "lithium_Ion")
+//                break;
+//              default:
+//            self.imgATC.isHidden = true
+//            self.lblATC.isHidden = true
+//            self.lblTextATC.isHidden = true
+//            strBattryType = "Lithium Ion"
+//            self.imgBatteryType.image = UIImage(named: "lithium_Ion")
+//                break;
+//            }
+//
+//        self.lblBatteryType.text =  strBattryType
+//
+//
         
         let atcValue = self.dicrDta.object(forKey: "at") as? String
-
+        let cmpV = Int((atcValue?.toDouble())!)
+        let secV = Double(cmpV / 10)
+        let ftValue = Double(cmpV % 10)
+        
+        let boostValue =  14.85 - Float(secV * 0.18) - Float(ftValue * 0.018)
+        if strBattryType == "Lithium Ion"
+        {
+            self.lblBoost.text = String(14.44) + " V"
+        }
+        else
+        {
+            self.lblBoost.text = String(format: "%.2f", (boostValue)) + " V"
+        }
+        
         self.imgATC.image = UIImage(named: "169367")
-        self.lblATC.text = String(atcValue!)
+        self.lblATC.text = String(atcValue!) + "℃"
         
         let mipv = self.dicrDta.object(forKey: "mipv") as? String
         let voltageInt = Float((mipv?.floatValue.rounded())!)
@@ -562,9 +744,26 @@ class DeviceMainSVC: UIViewController {
         let inputfre = self.dicrDta.object(forKey: "Input_Frequency_Value") as? String
         var freVoltage = Float((inputfre?.floatValue.rounded())!)
         freVoltage = freVoltage - 15.0
+
+        if Int((inputfre?.floatValue.rounded())!) < 50
+        {
+            self.lblVoltForFreq.text = "50 Hz"
+        }
+        else if Int((inputfre?.floatValue.rounded())!) > 60
+        {
+            self.lblVoltForFreq.text = "60 Hz"
+        }
+        else
+        {
+            self.lblVoltForFreq.text = (inputfre!) + " Hz"
+        }
+        
+        
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     UIView.animate(withDuration: 1) {
                         self.secView.updateValueTo(CGFloat((freVoltage ?? 0.0)))
+                        
 //                        self.secView.value = Int(freVoltage)
                     }
                 }
@@ -600,17 +799,17 @@ class DeviceMainSVC: UIViewController {
         let name = ""
         
         if (inverter_type == "1"){
-            self.lblSerialNumber.text = "S/No.:" +  dvcId!
+            self.lblSerialNumber.text = "S/No.:" +  (dvcId ?? "")
         }else  if (inverter_type == "2"){
-            self.lblSerialNumber.text = "S/No.:" + dvcId!
+            self.lblSerialNumber.text = "S/No.:" + (dvcId ?? "")
         }else  if (inverter_type == "3"){
-            self.lblSerialNumber.text =  "S/No.:" + dvcId!
+            self.lblSerialNumber.text =  "S/No.:" + (dvcId ?? "")
         }else  if (inverter_type == "4"){
-            self.lblSerialNumber.text  =  "S/No.:" + dvcId!
+            self.lblSerialNumber.text  =  "S/No.:" + (dvcId ?? "")
         }else if (inverter_type == "5"){
-            self.lblSerialNumber.text  = "S/No.:" + dvcId!
+            self.lblSerialNumber.text  = "S/No.:" + (dvcId ?? "")
         }else{
-            self.lblSerialNumber.text = "S/No.:" + dvcId!
+            self.lblSerialNumber.text = "S/No.:" + (dvcId ?? "")
         }
     }
     
@@ -618,6 +817,7 @@ class DeviceMainSVC: UIViewController {
         let alert = UIAlertController(title: webServices.AppName, message: "Are you sure, you want to leave this page.", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
             self.navigationController?.popToRootViewController(animated: true)
+            self.timer.invalidate()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
            

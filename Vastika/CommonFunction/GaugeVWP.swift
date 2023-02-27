@@ -17,7 +17,7 @@ class GaugeVWP : UIView
     var innerBezelWidth: CGFloat = 5
     var insideColor = UIColor.white
     var segmentWidth: CGFloat = 20
-    var segmentColors = [UIColor.systemBlue, UIColor.green, UIColor.yellow, UIColor.red]
+    var segmentColors = [UIColor.init(red: 255.0/255.0, green: 0, blue: 0, alpha: 1.0), UIColor.init(red: 255.0/255.0, green: 129.0/255.0, blue: 0, alpha: 1.0), UIColor.init(red: 2.0/255.0, green: 102.0/255.0, blue: 0, alpha: 1.0), UIColor.init(red: 255.0/255.0, green: 0, blue: 0, alpha: 1.0)]
     var totalAngle: CGFloat = 180
     var rotation: CGFloat = -90
     
